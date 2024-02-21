@@ -1,0 +1,40 @@
+# frozen_string_literal: true
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#===============================
+# ---- DISK-DERIVATIONS -----
+#===============================
+
+logger.info('Starting Disk Derivations')
+
+disk_exc = wgn.join(wgn_clad).join(heater)
+
+# === disk ===
+disk_ports_a = disk_mk.edges.and(wg)
+disk_ports_b = disk_mk.edges.inside_part(wg)
+disk_ports_ = disk_ports_a.join(disk_ports_b).interacting(port)
+disk_ports = disk_ports_.extended(in: 10.nm)
+disk_core = wg.and(disk_mk).not_interacting(disk_ports).not(disk_exc)
+disk_bus = wg.and(disk_mk).not(disk_core)

@@ -1,0 +1,37 @@
+** test_coupler_broadband circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_coupler_broadband pin1 pin2 pin3 pin4
+*.PININFO pin1:B pin2:B pin3:B pin4:B
+Pcoupler_broadband1 pin1 pin2 net2 net1 coupler_broadband w_sc=0.5u gap_sc=0.2u w_top=0.6u gap_pc=0.3u
++ length_taper=1.0u length_coupler_straight=12.4u length_coupler_big_gap=4.7u radius=10.0u
+Pcoupler_broadband3 net3 net4 net5 net6 coupler_broadband w_sc=0.5u gap_sc=0.2u w_top=0.6u gap_pc=0.3u
++ length_taper=1.0u length_coupler_straight=12.4u length_coupler_big_gap=4.7u radius=10.0u
+Pcoupler_broadband4 net5 net6 pin3 pin4 coupler_broadband w_sc=0.5u gap_sc=0.2u w_top=0.6u gap_pc=0.3u
++ length_taper=1.0u length_coupler_straight=12.4u length_coupler_big_gap=4.7u radius=10.0u
+Pcoupler_broadband2 net2 net1 net3 net4 coupler_broadband w_sc=0.5u gap_sc=0.2u w_top=0.6u gap_pc=0.3u
++ length_taper=1.0u length_coupler_straight=12.4u length_coupler_big_gap=4.7u radius=10.0u
+.ends
+.end
+

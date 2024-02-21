@@ -1,0 +1,179 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- GEOM ---------------------
+#================================================ 
+
+if OFFGRID
+logger.info('OFFGRID-ANGLES section') 
+
+  logger.info('Executing rule wafer_OFFGRID')
+  wafer_layer.ongrid(0.005.um).output('wafer_OFFGRID', 'OFFGRID : OFFGRID vertex on wafer')
+
+  logger.info('Executing rule wg_OFFGRID')
+  wg_layer.ongrid(0.005.um).output('wg_OFFGRID', 'OFFGRID : OFFGRID vertex on wg')
+
+  logger.info('Executing rule wgclad_OFFGRID')
+  wgclad_layer.ongrid(0.005.um).output('wgclad_OFFGRID', 'OFFGRID : OFFGRID vertex on wgclad')
+
+  logger.info('Executing rule slab150_OFFGRID')
+  slab150_layer.ongrid(0.005.um).output('slab150_OFFGRID', 'OFFGRID : OFFGRID vertex on slab150') 
+
+  logger.info('Executing rule slab90_OFFGRID')
+  slab90_layer.ongrid(0.005.um).output('slab90_OFFGRID', 'OFFGRID : OFFGRID vertex on slab90') 
+
+  logger.info('Executing rule deeptrench_OFFGRID')
+  deeptrench_layer.ongrid(0.005.um).output('deeptrench_OFFGRID', 'OFFGRID : OFFGRID vertex on deeptrench') 
+
+  logger.info('Executing rule ge_OFFGRID')
+  ge_layer.ongrid(0.005.um).output('ge_OFFGRID', 'OFFGRID : OFFGRID vertex on ge') 
+
+  logger.info('Executing rule undercut_OFFGRID')
+  undercut_layer.ongrid(0.005.um).output('undercut_OFFGRID', 'OFFGRID : OFFGRID vertex on undercut')
+
+  logger.info('Executing rule wgn_OFFGRID')
+  wgn_layer.ongrid(0.005.um).output('wgn_OFFGRID', 'OFFGRID : OFFGRID vertex on wgn')
+
+  logger.info('Executing rule wgn_clad_OFFGRID')
+  wgn_clad_layer.ongrid(0.005.um).output('wgn_clad_OFFGRID', 'OFFGRID : OFFGRID vertex on wgn_clad')
+
+  logger.info('Executing rule n_OFFGRID')
+  n_layer.ongrid(0.005.um).output('n_OFFGRID', 'OFFGRID : OFFGRID vertex on n')
+
+  logger.info('Executing rule np_OFFGRID')
+  np_layer.ongrid(0.005.um).output('np_OFFGRID', 'OFFGRID : OFFGRID vertex on np')
+
+  logger.info('Executing rule npp_OFFGRID')
+  npp_layer.ongrid(0.005.um).output('npp_OFFGRID', 'OFFGRID : OFFGRID vertex on npp')
+
+  logger.info('Executing rule p_OFFGRID')
+  p_layer.ongrid(0.005.um).output('p_OFFGRID', 'OFFGRID : OFFGRID vertex on p')
+
+  logger.info('Executing rule pp_OFFGRID')
+  pp_layer.ongrid(0.005.um).output('pp_OFFGRID', 'OFFGRID : OFFGRID vertex on pp')
+
+  logger.info('Executing rule ppp_OFFGRID')
+  ppp_layer.ongrid(0.005.um).output('ppp_OFFGRID', 'OFFGRID : OFFGRID vertex on ppp')
+
+  logger.info('Executing rule gen_OFFGRID')
+  gen_layer.ongrid(0.005.um).output('gen_OFFGRID', 'OFFGRID : OFFGRID vertex on gen')
+
+  logger.info('Executing rule gep_OFFGRID')
+  gep_layer.ongrid(0.005.um).output('gep_OFFGRID', 'OFFGRID : OFFGRID vertex on gep')
+
+  logger.info('Executing rule mh_OFFGRID')
+  mh_layer.ongrid(0.005.um).output('mh_OFFGRID', 'OFFGRID : OFFGRID vertex on mh')
+
+  logger.info('Executing rule heater_mk_OFFGRID')
+  heater_mk_layer.ongrid(0.005.um).output('heater_mk_OFFGRID', 'OFFGRID : OFFGRID vertex on heater_mk')
+
+  logger.info('Executing rule m1_OFFGRID')
+  m1_layer.ongrid(0.005.um).output('m1_OFFGRID', 'OFFGRID : OFFGRID vertex on m1')
+
+  logger.info('Executing rule m2_OFFGRID')
+  m2_layer.ongrid(0.005.um).output('m2_OFFGRID', 'OFFGRID : OFFGRID vertex on m2')
+
+  logger.info('Executing rule m3_OFFGRID')
+  m3_layer.ongrid(0.005.um).output('m3_OFFGRID', 'OFFGRID : OFFGRID vertex on m3')
+
+  logger.info('Executing rule viac_OFFGRID')
+  viac_layer.ongrid(0.005.um).output('viac_OFFGRID', 'OFFGRID : OFFGRID vertex on viac')
+
+  logger.info('Executing rule via1_OFFGRID')
+  via1_layer.ongrid(0.005.um).output('via1_OFFGRID', 'OFFGRID : OFFGRID vertex on via1')
+
+  logger.info('Executing rule via2_OFFGRID')
+  via2_layer.ongrid(0.005.um).output('via2_OFFGRID', 'OFFGRID : OFFGRID vertex on via2')
+
+  logger.info('Executing rule padopen_OFFGRID')
+  padopen_layer.ongrid(0.005.um).output('padopen_OFFGRID', 'OFFGRID : OFFGRID vertex on padopen')
+
+  logger.info('Executing rule dicing_OFFGRID')
+  dicing_layer.ongrid(0.005.um).output('dicing_OFFGRID', 'OFFGRID : OFFGRID vertex on dicing')
+
+  logger.info('Executing rule no_tile_si_OFFGRID')
+  no_tile_si_layer.ongrid(0.005.um).output('no_tile_si_OFFGRID', 'OFFGRID : OFFGRID vertex on no_tile_si')
+
+  logger.info('Executing rule padding_OFFGRID')
+  padding_layer.ongrid(0.005.um).output('padding_OFFGRID', 'OFFGRID : OFFGRID vertex on padding')
+
+  logger.info('Executing rule devrec_OFFGRID')
+  devrec_layer.ongrid(0.005.um).output('devrec_OFFGRID', 'OFFGRID : OFFGRID vertex on devrec')
+
+  logger.info('Executing rule floorplan_OFFGRID')
+  floorplan_layer.ongrid(0.005.um).output('floorplan_OFFGRID', 'OFFGRID : OFFGRID vertex on floorplan')
+
+  logger.info('Executing rule text_OFFGRID')
+  text_layer.ongrid(0.005.um).output('text_OFFGRID', 'OFFGRID : OFFGRID vertex on text')
+
+  logger.info('Executing rule port_OFFGRID')
+  port_layer.ongrid(0.005.um).output('port_OFFGRID', 'OFFGRID : OFFGRID vertex on port')
+
+  logger.info('Executing rule porte_OFFGRID')
+  porte_layer.ongrid(0.005.um).output('porte_OFFGRID', 'OFFGRID : OFFGRID vertex on porte')
+
+  logger.info('Executing rule porth_OFFGRID')
+  porth_layer.ongrid(0.005.um).output('porth_OFFGRID', 'OFFGRID : OFFGRID vertex on porth')
+
+  logger.info('Executing rule show_ports_OFFGRID')
+  show_ports_layer.ongrid(0.005.um).output('show_ports_OFFGRID', 'OFFGRID : OFFGRID vertex on show_ports')
+
+  logger.info('Executing rule label_optical_io_OFFGRID')
+  label_optical_io_layer.ongrid(0.005.um).output('label_optical_io_OFFGRID', 'OFFGRID : OFFGRID vertex on label_optical_io')
+
+  logger.info('Executing rule optical_lbl_OFFGRID')
+  optical_lbl_layer.ongrid(0.005.um).output('optical_lbl_OFFGRID', 'OFFGRID : OFFGRID vertex on optical_lbl') 
+
+  logger.info('Executing rule label_settings_OFFGRID')
+  label_settings_layer.ongrid(0.005.um).output('label_settings_OFFGRID', 'OFFGRID : OFFGRID vertex on label_settings')
+
+  logger.info('Executing rule te_OFFGRID')
+  te_layer.ongrid(0.005.um).output('te_OFFGRID', 'OFFGRID : OFFGRID vertex on te')
+
+  logger.info('Executing rule tm_OFFGRID')
+  tm_layer.ongrid(0.005.um).output('tm_OFFGRID', 'OFFGRID : OFFGRID vertex on tm') 
+
+  logger.info('Executing rule drc_marker_OFFGRID')
+  drc_marker_layer.ongrid(0.005.um).output('drc_marker_OFFGRID', 'OFFGRID : OFFGRID vertex on drc_marker')
+
+  logger.info('Executing rule label_instance_OFFGRID')
+  label_instance_layer.ongrid(0.005.um).output('label_instance_OFFGRID', 'OFFGRID : OFFGRID vertex on label_instance')
+
+  logger.info('Executing rule error_marker_OFFGRID')
+  error_marker_layer.ongrid(0.005.um).output('error_marker_OFFGRID', 'OFFGRID : OFFGRID vertex on error_marker')
+
+  logger.info('Executing rule error_path_OFFGRID')
+  error_path_layer.ongrid(0.005.um).output('error_path_OFFGRID', 'OFFGRID : OFFGRID vertex on error_path') 
+
+  logger.info('Executing rule source_OFFGRID')
+  source_layer.ongrid(0.005.um).output('source_OFFGRID', 'OFFGRID : OFFGRID vertex on source')
+
+  logger.info('Executing rule monitor_OFFGRID')
+  monitor_layer.ongrid(0.005.um).output('monitor_OFFGRID', 'OFFGRID : OFFGRID vertex on monitor')
+
+  logger.info('Executing rule mzi_len_mk_OFFGRID')
+  mzi_len_mk_layer.ongrid(0.005.um).output('mzi_len_mk_OFFGRID', 'OFFGRID : OFFGRID vertex on mzi_len_mk') 
+
+end #OFFGRID-ANGLES 
+

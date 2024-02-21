@@ -1,0 +1,60 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model w1=@w1 l1=@l1 w2=@w2 l2=@l2 n=@n"
+template="name=dbr1
+w1=0.475u
+w2=0.525u
+l1=0.159u
+l2=0.159u
+n=10
+model=dbr
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 -50 -10 -20 -10 {}
+L 4 180 -10 210 -10 {}
+B 4 -20 -40 0 20 {}
+B 4 0 -50 20 30 {}
+B 4 20 -40 40 20 {}
+B 4 40 -50 60 30 {}
+B 4 60 -40 80 20 {}
+B 4 80 -50 100 30 {}
+B 4 100 -40 120 20 {}
+B 4 120 -50 140 30 {}
+B 4 140 -40 160 20 {}
+B 4 160 -50 180 30 {}
+B 5 -52.5 -12.5 -47.5 -7.5 {name=o1 dir=inout}
+B 5 207.5 -12.5 212.5 -7.5 {name=o2 dir=inout}
+T {o1} -53 -29 0 1 0.15 0.15 {layer=7}
+T {o2} 217 -29 0 1 0.15 0.15 {layer=7}
+T {@name} -20 -113.75 0 0 0.2 0.2 {}
+T {@w1 * @l1 / @w2 * @l2} -20 -78.75 0 0 0.2 0.2 {layer=13}
+T {@model} -20 -96.25 0 0 0.2 0.2 {}

@@ -1,0 +1,68 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model gap=@gap radius=@radius angle_inner=@angle_inner angle_outer=@angle_outer length_x=@length_x length_y=@length_y"
+template="name=ring1
+gap=0.2u
+radius=5.0u
+angle_inner=90
+angle_outer=90
+length_x=0.6u
+length_y=0.6u
+model=ring_single_bend_coupler
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 -146.25 -521.25 -146.25 -511.25 {}
+L 4 378.75 -521.25 378.75 -511.25 {}
+L 4 378.75 -521.25 378.75 -511.25 {}
+L 4 366.25 -521.25 378.75 -521.25 {}
+L 4 100 -240 130 -240 {}
+L 4 92.5 -232.5 138.75 -232.5 {}
+L 4 -146.25 -520 -140 -520 {}
+L 4 -180 -520 -140 -520 {}
+L 4 380 -520 410 -520 {}
+B 5 -182.5 -522.5 -177.5 -517.5 {name=o1 dir=inout}
+B 5 407.5 -522.5 412.5 -517.5 {name=o2 dir=inout}
+A 4 116.731843575419 -371.7039106145251 114.736315727082 50.31408888236653 360 {}
+A 4 115.0743494423792 -373.1412639405204 125.1137899177321 3.142529107543722 360 {}
+A 4 125.8333333333333 -365 125.0694251650303 271.9091524329964 94.9791058439983 {}
+A 4 373.3333333333333 -396.25 125.0694251650303 91.90915243299639 94.9791058439983 {}
+A 4 134.5833333333333 -357.5 125.0694251650303 271.9091524329964 94.9791058439983 {}
+A 4 383.3333333333333 -386.25 125.0694251650303 91.90915243299639 94.9791058439983 {}
+A 4 104.5833333333333 -365 125.0694251650303 173.1117417230053 94.9791058439983 {}
+A 4 98.33333333333329 -357.5 125.0694251650303 173.1117417230053 94.9791058439983 {}
+A 4 -150.4166666666667 -387.5 125.0694251650303 353.1117417230053 94.9791058439983 {}
+A 4 -144.1666666666667 -395 125.0694251650303 353.1117417230053 94.9791058439983 {}
+T {@name} 290 -423.75 0 0 0.2 0.2 {}
+T {@length_x * @length_y / @gap} 290 -388.75 0 0 0.2 0.2 {layer=13}
+T {@model} 290 -406.25 0 0 0.2 0.2 {}
+T {o1} -179.25 -535.25 0 1 0.15 0.15 {layer=7}
+T {o2} 420.75 -535.25 0 1 0.15 0.15 {layer=7}

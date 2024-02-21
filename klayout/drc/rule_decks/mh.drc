@@ -1,0 +1,51 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- MH ----------------------
+#================================================ 
+
+# Rule mh.w.1: MH minimum width is 0.7µm.
+logger.info('Executing rule mh.w.1')
+mh_w_1_l1  = mh_layer.width(0.7.um, euclidian)
+mh_w_1_l1.output('mh.w.1', 'mh.w.1 : MH minimum width : 0.7µm.')
+mh_w_1_l1.forget 
+
+# Rule mh.s.1: MH minimum space is 1µm.
+logger.info('Executing rule mh.s.1')
+mh_s_1_l1  = mh_layer.space(1.um, euclidian)
+mh_s_1_l1.output('mh.s.1', 'mh.s.1 : MH minimum space : 1µm.')
+mh_s_1_l1.forget 
+
+# Rule mh.A.1: MH minimum area is 0.5µm².
+logger.info('Executing rule mh.A.1')
+mh_a_1_l1  = mh_layer.with_area(nil, 0.5.um)
+mh_a_1_l1.output('mh.a.1', 'mh.a.1 : MH minimum area : 0.5µm².')
+mh_a_1_l1.forget 
+
+# Rule mh.en.1: straight_heater_metal device should be covered by heater_mk (47/1) layer.
+logger.info('Executing rule mh.en.1')
+mh_en_1_l1  = mh_layer.and(wg_layer).not_interacting(heater_mk_layer)
+mh_en_1_l1.output('mh.en.1', 'mh.en.1 : straight_heater_metal device should be covered by heater_mk (47/1) layer.')
+mh_en_1_l1.forget 
+

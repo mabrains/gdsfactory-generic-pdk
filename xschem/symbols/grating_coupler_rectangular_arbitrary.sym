@@ -1,0 +1,77 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model gaps=@gaps widths=@widths width_grating=@width_grating length_taper=@length_taper wavelength=@wavelength slab_xmin=@slab_xmin slab_offset=@slab_offset fiber_angle=@fiber_angle"
+template="name=grating_coupler_rectangular_arbitrary1
+gaps="[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u]"
+widths="[0.5u, 0.5u, 0.5u, 0.5u, 0.5u, 0.5u, 0.5u, 0.5u, 0.5u, 0.5u]"
+width_grating=11.0u
+length_taper=150.0u
+wavelength=1.55u
+slab_xmin=-1.0u
+slab_offset=1.0u
+fiber_angle=15
+model=grating_coupler_rectangular_arbitrary
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 -10 -20 -10 -10 {}
+L 4 150 -100 150 70 {}
+L 4 270 -100 270 70 {}
+L 4 150 -100 270 -100 {}
+L 4 150 70 270 70 {}
+L 4 160 -70 170 -70 {}
+L 4 180 -70 190 -70 {}
+L 4 200 -70 210 -70 {}
+L 4 220 -70 230 -70 {}
+L 4 240 -70 250 -70 {}
+L 4 240 40 250 40 {}
+L 4 220 40 230 40 {}
+L 4 200 40 210 40 {}
+L 4 180 40 190 40 {}
+L 4 160 40 170 40 {}
+L 4 -10 -20 160 -70 {}
+L 4 -10 -10 160 40 {}
+L 4 160 -70 160 40 {}
+L 4 170 -70 170 40 {}
+L 4 180 -70 180 40 {}
+L 4 190 -70 190 40 {}
+L 4 200 -70 200 40 {}
+L 4 210 -70 210 40 {}
+L 4 220 -70 220 40 {}
+L 4 230 -70 230 40 {}
+L 4 240 -70 240 40 {}
+L 4 250 -70 250 40 {}
+L 4 -30 -10 -10 -10 {}
+B 5 -32.5 -12.5 -27.5 -7.5 {name=o1 dir=inout}
+T {o1} -28 -29 0 1 0.15 0.15 {layer=7}
+T {@name} -5 -168.75 0 0 0.2 0.2 {}
+T { @wavelength} -5 -133.75 0 0 0.2 0.2 {layer=13}
+T {@model} -5 -151.25 0 0 0.2 0.2 {}

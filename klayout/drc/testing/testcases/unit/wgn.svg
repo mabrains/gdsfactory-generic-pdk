@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2467.872" height="1167.132" viewBox="-1444.196 -1042.616 2467.872 1167.132">
+<defs>
+<style type="text/css">
+.l3d222 {fill:none;stroke:red;stroke-dasharray:8,8;}
+.l2d222 {fill:none;stroke:green;stroke-dasharray:8,8;}
+.l34d0 {stroke: #8DB600; fill: #8DB600; fill-opacity: 0.5;}
+.l11t222 {fill:none;stroke:blue;font-size:16px;}
+</style>
+</defs>
+<rect x="-1444.196" y="-1042.616" width="2467.872" height="1167.132" fill="#222222" stroke="none"/>
+<g id="WGN" transform="scale(1 -1)">
+<polygon id="0x1130310" class="l34d0" points="0,0 0,3 3,3 3,0"/>
+<polygon id="0x116c130" class="l2d222" points="-5,-5 -5,8 8,8 8,-5"/>
+<polygon id="0x11580d0" class="l34d0" points="-212.9,0.05 -212.9,2.95 -210,2.95 -210,0.05"/>
+<polygon id="0x1158140" class="l3d222" points="-217.9,-4.95 -217.9,7.95 -205,7.95 -205,-4.95"/>
+<polygon id="0x11581b0" class="l34d0" points="213,-6.33 221.83,-6.33 228.66,0.5 228.66,9.33 224.66,9.33 224.66,2.16 220.17,-2.33 213,-2.33"/>
+<polygon id="0x1158220" class="l2d222" points="208,-11.33 208,14.33 233.66,14.33 233.66,-11.33"/>
+<polygon id="0x1158290" class="l34d0" points="-434.26,-4.18 -427.86,-4.18 -422.91,0.77 -422.91,7.17 -425.81,7.17 -425.81,1.97 -429.06,-1.28 -434.26,-1.28"/>
+<polygon id="0x1158300" class="l3d222" points="-439.26,-9.18 -439.26,12.18 -417.9,12.18 -417.9,-9.18"/>
+<polygon id="0x1158370" class="l34d0" points="459.82,2.92 450.65,2.92 450.65,8.09 438.65,8.09 438.65,0.09 447.82,0.09 447.82,-5.08 459.82,-5.08"/>
+<polygon id="0x11583e0" class="l2d222" points="433.66,-10.08 433.66,13.08 464.82,13.08 464.82,-10.08"/>
+<polygon id="0x1158450" class="l34d0" points="-644.26,2.39 -649.99,2.39 -649.99,5.62 -657.49,5.62 -657.49,0.62 -651.76,0.62 -651.76,-2.61 -644.26,-2.61"/>
+<polygon id="0x11584c0" class="l3d222" points="-662.51,-7.62 -662.51,10.62 -639.27,10.62 -639.27,-7.62"/>
+<polygon id="0x11585a0" class="l34d0" points="675.5,10.34 669.82,10.34 669.82,-1.66 675.5,-1.66"/>
+<polygon id="0x1158610" class="l34d0" points="687.5,-1.66 675.5,-1.66 675.5,-7.33 687.5,-7.33"/>
+<polygon id="0x1158680" class="l34d0" points="675.5,-1.66 669.82,-1.66 669.82,-1.7 669.83,-1.69 675.49,-7.34 675.5,-7.34"/>
+<polygon id="0x1158770" class="l2d222" points="664.82,-12.34 664.82,15.34 692.5,15.34 692.5,-12.34"/>
+<polygon id="0x1158870" class="l34d0" points="-876.2,7.91 -880.32,7.91 -880.32,-0.79 -876.2,-0.79"/>
+<polygon id="0x11588e0" class="l34d0" points="-867.5,-0.79 -876.2,-0.79 -876.2,-4.91 -867.5,-4.91"/>
+<polygon id="0x1158950" class="l34d0" points="-876.2,-0.79 -880.32,-0.79 -880.32,-0.82 -880.31,-0.81 -876.21,-4.91 -876.21,-4.91 -876.2,-4.91"/>
+<polygon id="0x1158a60" class="l3d222" points="-885.32,-9.91 -885.32,12.91 -862.5,12.91 -862.5,-9.91"/>
+<polygon id="0x1158b80" class="l34d0" points="906.5,4.5 900.5,4.5 897.5,1.5 897.5,-1.5 906.5,-1.5"/>
+<polygon id="0x1158bf0" class="l2d222" points="892.5,-6.5 892.5,9.5 911.5,9.5 911.5,-6.5"/>
+<polygon id="0x1158ad0" class="l34d0" points="-1090.32,4.4 -1096.12,4.4 -1099.02,1.5 -1099.02,-1.4 -1090.32,-1.4"/>
+<polygon id="0x1158d20" class="l3d222" points="-1104.02,-6.4 -1104.02,9.4 -1085.32,9.4 -1085.32,-6.4"/>
+<polygon id="0x1158c60" class="l34d0" points="-1309.02,4.5 -1315.02,4.5 -1315.02,4.5 -1318.02,1.5 -1315.02,-1.5 -1315.02,-1.5 -1309.02,-1.5"/>
+<polygon id="0x1158e60" class="l34d0" points="-1327.02,-1.5 -1321.02,-1.5 -1321.02,-1.5 -1318.02,1.5 -1321.02,4.5 -1321.02,4.5 -1327.02,4.5"/>
+<polygon id="0x1158fb0" class="l3d222" points="-1332.02,-6.5 -1332.02,9.5 -1304.02,9.5 -1304.02,-6.5"/>
+<polygon id="0x1154c40" class="l34d0" points="-135.26,916.94 -35.26,918.44 -35.26,912.44 -135.26,913.94"/>
+<polygon id="0x1154cb0" class="l2d222" points="-140.26,907.44 -140.26,923.44 -30.26,923.44 -30.26,907.44"/>
+<polygon id="0x1154d70" class="l34d0" points="-385.26,905.44 -385.26,925.44 -345.26,925.44 -345.26,905.44"/>
+<polygon id="0x1154e30" class="l3d222" points="-390.26,900.44 -390.26,930.44 -340.26,930.44 -340.26,900.44"/>
+<polygon id="0x11550f0" class="l34d0" points="-80.23,695.44 -107.05,695.44 -107.05,677.56 -98.11,677.56 -98.11,686.5 -89.17,686.5 -89.17,677.56 -98.11,677.56 -107.05,677.56 -107.05,668.62 -80.23,668.62"/>
+<polygon id="0x1155160" class="l2d222" points="-112.05,663.62 -112.05,700.44 -75.23,700.44 -75.23,663.62"/>
+<polygon id="0x11551d0" class="l34d0" points="-317.05,693.65 -340.29,693.65 -340.29,678.17 -332.53,678.17 -332.53,685.93 -324.77,685.93 -324.77,678.17 -332.53,678.17 -340.29,678.17 -340.29,670.41 -317.05,670.41"/>
+<polygon id="0x1155240" class="l3d222" points="-345.29,665.41 -345.29,698.65 -312.05,698.65 -312.05,665.41"/>
+<polygon id="0x11555c0" class="l34d0" points="-105.28,446.34 -105.28,458.62 -93,458.62 -93,446.34"/>
+<polygon id="0x1155680" class="l2d222" points="-110.28,441.34 -110.28,463.62 -88,463.62 -88,441.34"/>
+<polygon id="0x1155740" class="l34d0" points="-327.52,446.36 -327.52,458.6 -315.28,458.6 -315.28,446.36"/>
+<polygon id="0x1155800" class="l3d222" points="-332.52,441.36 -332.52,463.6 -310.28,463.6 -310.28,441.36"/>
+<polygon id="0x1155c00" class="l34d0" points="8.29,231.34 8.29,225.34 5.29,225.34 5.29,231.34"/>
+<polygon id="0x1155cc0" class="l34d0" points="11.29,226.84 11.29,229.84 17.29,229.84 17.29,226.84"/>
+<polygon id="0x1155d80" class="l2d222" points="0.29,220.34 0.29,236.34 22.29,236.34 22.29,220.34"/>
+<polygon id="0x1155e40" class="l34d0" points="-213.61,231.34 -213.61,225.34 -216.61,225.34 -216.61,231.34"/>
+<polygon id="0x1152090" class="l34d0" points="-210.71,226.84 -210.71,229.84 -204.71,229.84 -204.71,226.84"/>
+<polygon id="0x1152150" class="l3d222" points="-221.61,220.34 -221.61,236.34 -199.71,236.34 -199.71,220.34"/>
+<polygon id="0x1152210" class="l34d0" points="251.29,228.34 242.13,228.34 239.29,225.5 239.29,220.34 251.29,220.34"/>
+<polygon id="0x1152280" class="l34d0" points="227.29,228.34 236.45,228.34 239.29,231.18 239.29,236.34 227.29,236.34"/>
+<polygon id="0x1152340" class="l2d222" points="222.29,215.34 222.29,241.34 256.29,241.34 256.29,215.34"/>
+<polygon id="0x1152400" class="l34d0" points="-426.61,228.34 -433.25,228.34 -435.31,226.28 -435.31,222.54 -426.61,222.54"/>
+<polygon id="0x1152470" class="l34d0" points="-444.01,228.34 -437.37,228.34 -435.31,230.4 -435.31,234.14 -444.01,234.14"/>
+<polygon id="0x11525a0" class="l3d222" points="-449.01,217.54 -449.01,239.14 -421.61,239.14 -421.61,217.54"/>
+<polygon id="0x1152680" class="l34d0" points="482.29,231.34 476.29,231.34 476.29,231.34 473.29,228.34 476.29,225.34 476.29,225.34 482.29,225.34"/>
+<polygon id="0x11526f0" class="l34d0" points="461.29,225.34 467.29,225.34 467.29,225.34 470.29,228.34 467.29,231.34 467.29,231.34 461.29,231.34"/>
+<polygon id="0x11527e0" class="l2d222" points="456.29,220.34 456.29,236.34 487.29,236.34 487.29,220.34"/>
+<polygon id="0x11528a0" class="l34d0" points="-654.01,231.34 -660.01,231.34 -660.01,231.34 -663.01,228.34 -660.01,225.34 -660.01,225.34 -654.01,225.34"/>
+<polygon id="0x1152910" class="l34d0" points="-674.91,225.34 -668.91,225.34 -668.91,225.34 -665.91,228.34 -668.91,231.34 -668.91,231.34 -674.91,231.34"/>
+<polygon id="0x1152a10" class="l3d222" points="-679.91,220.34 -679.91,236.34 -649.01,236.34 -649.01,220.34"/>
+<polygon id="0x1152b70" class="l34d0" points="692.29,223.84 692.29,232.84 695.29,232.84 695.29,223.84"/>
+<polygon id="0x1152c30" class="l34d0" points="707.29,231.34 701.29,231.34 701.29,231.34 698.29,228.34 701.29,225.34 701.29,225.34 707.29,225.34"/>
+<polygon id="0x1152d50" class="l2d222" points="687.29,218.84 687.29,237.84 712.29,237.84 712.29,218.84"/>
+<polygon id="0x1152e10" class="l34d0" points="-899.81,223.84 -899.81,232.84 -896.81,232.84 -896.81,223.84"/>
+<polygon id="0x1152ed0" class="l34d0" points="-884.91,231.34 -890.91,231.34 -890.91,231.34 -893.91,228.34 -890.91,225.34 -890.91,225.34 -884.91,225.34"/>
+<polygon id="0x1152ca0" class="l3d222" points="-904.81,218.84 -904.81,237.84 -879.91,237.84 -879.91,218.84"/>
+<polygon id="0x1153120" class="l34d0" points="-1109.81,231.34 -1115.81,231.34 -1115.81,231.34 -1118.81,228.34 -1115.81,225.34 -1115.81,225.34 -1109.81,225.34"/>
+<polygon id="0x1153210" class="l34d0" points="-1127.81,225.34 -1121.81,225.34 -1121.81,225.34 -1118.81,228.34 -1121.81,231.34 -1121.81,231.34 -1127.81,231.34"/>
+<polygon id="0x11533e0" class="l3d222" points="-1132.81,220.34 -1132.81,236.34 -1104.81,236.34 -1104.81,220.34"/>
+<text id="0x1159020" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-2.5 -2.5) scale(1 -1)">WGN.W.1</text>
+<text id="0x1154590" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-215.4 -2.45) scale(1 -1)">WGN.W.1</text>
+<text id="0x1154620" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(210.5 -8.83) scale(1 -1)">WGN.W.1</text>
+<text id="0x11546b0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-436.76 -6.68) scale(1 -1)">WGN.W.1</text>
+<text id="0x1154740" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(436.17 -7.58) scale(1 -1)">WGN.W.1</text>
+<text id="0x11547d0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-660.01 -5.12) scale(1 -1)">WGN.W.1</text>
+<text id="0x1154860" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(667.32 -9.84) scale(1 -1)">WGN.W.1</text>
+<text id="0x11548f0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-882.82 -7.41) scale(1 -1)">WGN.W.1</text>
+<text id="0x11549d0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(895 -4) scale(1 -1)">WGN.W.1</text>
+<text id="0x1154a60" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-1101.52 -3.9) scale(1 -1)">WGN.W.1</text>
+<text id="0x1154b50" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-1329.52 -4) scale(1 -1)">WGN.W.1</text>
+<text id="0xeef2a0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-137.76 909.94) scale(1 -1)">WGN.AN.1</text>
+<text id="0x1154ff0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-387.76 902.94) scale(1 -1)">WGN.AN.1</text>
+<text id="0x1155420" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-109.55 666.12) scale(1 -1)">WGN.A.2</text>
+<text id="0x11554b0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-342.79 667.91) scale(1 -1)">WGN.A.2</text>
+<text id="0x1155a00" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-107.78 443.84) scale(1 -1)">WGN.A.1</text>
+<text id="0x1155a90" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-330.02 443.86) scale(1 -1)">WGN.A.1</text>
+<text id="0x1153300" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(2.79 222.84) scale(1 -1)">WGN.S.1</text>
+<text id="0x11536c0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-219.11 222.84) scale(1 -1)">WGN.S.1</text>
+<text id="0x1153750" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(224.79 217.84) scale(1 -1)">WGN.S.1</text>
+<text id="0x11537e0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-446.51 220.04) scale(1 -1)">WGN.S.1</text>
+<text id="0x1153870" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(458.79 222.84) scale(1 -1)">WGN.S.1</text>
+<text id="0x1153900" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-677.41 222.84) scale(1 -1)">WGN.S.1</text>
+<text id="0x1153990" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(689.79 221.34) scale(1 -1)">WGN.S.1</text>
+<text id="0x1153a20" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-902.31 221.34) scale(1 -1)">WGN.S.1</text>
+<text id="0x1153ab0" class="l11t222" text-anchor="middle" dominant-baseline="central" transform="translate(-1130.31 222.84) scale(1 -1)">WGN.S.1</text>
+</g>
+</svg>

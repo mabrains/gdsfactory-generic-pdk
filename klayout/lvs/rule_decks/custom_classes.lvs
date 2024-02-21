@@ -1,0 +1,180 @@
+# frozen_string_literal: true
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+# ==== Global Variables ====
+$logger = logger
+$unit = dbu * 1e-6
+
+#================================================
+# --------------- CUSTOM CLASSES ----------------
+#================================================
+
+# ======== CUSTOM READER ========
+# Custom reader for subcircuit models
+class SubcircuitModelsReader < RBA::NetlistSpiceReaderDelegate
+  # Override parse_element method to handle exceptions gracefully
+  def parse_element(sup, element)
+    super
+  rescue StandardError
+    super
+  end
+
+  # Override the element method to handle different types of elements
+  def element(circuit, ele, name, model, value, nets, params)
+    # duplicate single port for one terminal
+    nets *= 2 if nets.size == 1 && model.downcase.include?('grating_coupler')
+    case ele
+    when 'P'
+      process_device(circuit, name, model, nets, params)
+    else
+      super
+    end
+    true
+  end
+
+  private
+
+  # Process device element
+  def process_device(circuit, name, model, nets, params)
+    cls = circuit.netlist.device_class_by_name(model)
+    cls ||= create_device_class(circuit, model, nets.size)
+
+    device = circuit.create_device(cls, name)
+    connect_terminals(device, model, nets)
+    map_params(device, model, params)
+  end
+
+  # Create or retrieve the device class based on the model name
+  def create_device_class(circuit, model, num_nets)
+    # duplicate nets in case of single port
+    cls = DeviceClassNTerminal.new(model, num_nets)
+    cls.name = model
+    circuit.netlist.add(cls)
+    cls
+  end
+
+  # Connect device terminals
+  def connect_terminals(device, model, nets)
+    terminal_list = (1..nets.size).to_a
+    terminal_list.each_with_index do |t, index|
+      device.connect_terminal("#{model}_#{t}", nets[index])
+    end
+  end
+
+  # Map parameters based on the model type
+  def map_params(device, model, params)
+    if model.downcase.start_with?('coupler')
+      map_dev_params(device, params, 'gap', 'length', 'dx', 'dy')
+    elsif model.downcase.start_with?('straight_heater_meander')
+      map_dev_params(device, params, 'heater_width')
+    elsif model.downcase.start_with?('mmi')
+      map_dev_params(device, params, 'length_mmi', 'width_mmi', 'gap_mmi', 'width_taper', 'length_taper')
+    elsif model.downcase.start_with?('dbr')
+      map_dev_params(device, params, 'w1', 'w2', 'l1', 'l2', 'n')
+    elsif model.downcase.start_with?('disk')
+      map_dev_params(device, params, 'raduis', 'gap')
+    elsif model.downcase.start_with?('grating_coupler')
+      map_dev_params(device, params, 'taper_length')
+    end
+  end
+
+  # Helper method to map parameters for a device
+  def map_dev_params(device, params, *keys)
+    keys.each do |key|
+      key_up = key.upcase
+      param = params[key_up]
+      device.set_parameter(key, (params[key_up] || 0.0).round(9))
+    end
+  end
+end
+
+#=============== CUSTOM WRITER ===================
+
+# Custom writer for SPICE netlists
+class SubcircuitModelsWriter < RBA::NetlistSpiceWriterDelegate
+  # Write device to SPICE format
+  # @param device [RBA::Device] The device to be written
+  def write_device(device)
+    device_class = device.device_class
+    str = generate_device_prefix(device, device_class)
+    str += generate_device_terminals(device, device_class)
+    str += "#{device_class.name} "
+    str += generate_device_parameters(device, device_class)
+    emit_line(str)
+  end
+
+  private
+
+  # Generate device prefix
+  def generate_device_prefix(device, device_class)
+    prefix = device_class.name.include?('res') ? 'R' : 'P'
+    "#{prefix}#{device.expanded_name} "
+  end
+
+  # Generate device terminals
+  def generate_device_terminals(device, device_class)
+    terminals = device_class.terminal_definitions.map do |td|
+      net_to_string(device.net_for_terminal(td.id))
+    end
+    "#{terminals.join(' ')} "
+  end
+
+  # Generate device parameters based on device class
+  def generate_device_parameters(device, device_class)
+    if device_class.name.start_with?('coupler')
+      generate_parameters(device, 'gap', 'length', 'dx', 'dy')
+    elsif device_class.name.start_with?('mmi')
+      generate_parameters(device, 'length_mmi', 'width_mmi', 'gap_mmi', 'width_taper', 'length_taper')
+    elsif device_class.name.start_with?('straight_heater_meander')
+      generate_parameters(device, 'heater_width')
+    elsif device_class.name.start_with?('disk')
+      generate_parameters(device, 'raduis', 'gap')
+    elsif device_class.name.start_with?('dbr')
+      generate_parameters(device, 'w1', 'w2', 'l1', 'l2', 'n')
+    elsif device_class.name.start_with?('grating_coupler')
+      generate_parameters(device, 'taper_length')
+    else
+      generate_default_parameters(device, device_class)
+    end
+  end
+
+  # Generate parameters with given keys
+  def generate_parameters(device, *keys)
+    parameters = keys.map { |key| "#{key}=#{device.parameter(key)}" }
+    parameters.join(' ')
+  end
+
+  # Generate default parameters for the device
+  def generate_default_parameters(device, device_class)
+    parameters = device_class.parameter_definitions.map do |pd|
+      format('%<name>s=%<value>.12g', name: pd.name, value: device.parameter(pd.id))
+    end
+    parameters.join(' ')
+  end
+end
+
+#=============== CUSTOM DEVICE ===================
+
+# %include custom_devices.lvs

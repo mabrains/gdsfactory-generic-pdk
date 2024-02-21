@@ -1,0 +1,69 @@
+# ==================================================================================
+# SPDX-FileCopyrightText: 2024 Mabrains Company
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ==================================================================================
+
+# The behavior of RuboCop can be controlled via the .rubocop.yml
+# configuration file. It makes it possible to enable/disable
+# certain cops (checks) and to alter their behavior if they accept
+# any parameters. The file can be placed either in your home
+# directory or in some project directory.
+#
+# RuboCop will start looking for the configuration file in the directory
+# where the inspected file is and continue its way up to the root directory.
+#
+# See https://docs.rubocop.org/rubocop/configuration
+
+GlobalVars:
+  Description: Do not introduce global variables.
+  Enabled: false
+
+UselessAssignment:
+  Description: Useless assignment to variable.
+  Enabled: false
+
+Metrics/ParameterLists:
+  Description: Avoid parameter lists longer than [max] parameters.
+  Max: 8
+
+Metrics/AbcSize:
+  Description: Assignment Branch Condition size.
+  Enabled: false
+
+Metrics/ClassLength:
+  Description: Class has too many lines.
+  Enabled: false
+
+Metrics/MethodLength:
+  Description: Method has too many lines.
+  Enabled: false
+
+Lint/MissingSuper: 
+  Description: Call super to initialize state of the parent class.
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'env/**/*'
+  Include:
+    - '**/*.rb'
+    - '**/*.drc'
+    - '**/*.lvs'

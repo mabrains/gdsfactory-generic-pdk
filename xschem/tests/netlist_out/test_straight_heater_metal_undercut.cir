@@ -1,0 +1,38 @@
+** test_straight_heater_metal_undercut circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_straight_heater_metal_undercut hp_pin hn_pin pin1 pin2
+*.PININFO hp_pin:B hn_pin:B pin1:B pin2:B
+Pheater1 hn_pin pin1 net1 hp_pin straight_heater_metal_undercut length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Pheater2 hn_pin net1 net2 hp_pin straight_heater_metal_undercut length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Pheater3 hn_pin net2 net3 hp_pin straight_heater_metal_undercut length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Pheater4 hp_pin net4 net3 hn_pin straight_heater_metal_undercut length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Pheater5 hn_pin net4 pin2 hp_pin straight_heater_metal_undercut length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+.ends
+.end

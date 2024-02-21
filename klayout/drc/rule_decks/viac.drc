@@ -1,0 +1,69 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- VIAC ---------------------
+#================================================ 
+
+# Rule viac.w.1: min/max viac size is 0.7µm.
+logger.info('Executing rule viac.w.1')
+viac_w_1_l1 = viac_layer.edges.without_length(0.7.um)
+viac_w_1_l1.output('viac.w.1', 'viac.w.1 : min/max viac size : 0.7µm.')
+viac_w_1_l1.forget
+
+# Rule viac.s.1: viac minimum space is 0.7µm.
+logger.info('Executing rule viac.s.1')
+viac_s_1_l1  = viac_layer.space(0.7.um, euclidian)
+viac_s_1_l1.output('viac.s.1', 'viac.s.1 : viac minimum space : 0.7µm.')
+viac_s_1_l1.forget 
+
+# Rule viac.en.1: npp minimum overlap of viac is 0.1µm.
+logger.info('Executing rule viac.en.1')
+viac_en_1_l1 = viac_layer.enclosed(npp_layer, 0.1.um, euclidian).polygons(0.001.um)
+viac_en_1_l2 = viac_layer.not_outside(npp_layer).not(npp_layer)
+viac_en_1_l  = viac_en_1_l1.join(viac_en_1_l2)
+viac_en_1_l.output('viac.en.1', 'viac.en.1 : npp minimum overlap of viac : 0.1µm.')
+viac_en_1_l1.forget
+viac_en_1_l2.forget
+viac_en_1_l.forget
+
+# Rule viac.en.2: ppp minimum overlap of viac is 0.1µm.
+logger.info('Executing rule viac.en.2')
+viac_en_2_l1 = viac_layer.enclosed(ppp_layer, 0.1.um, euclidian).polygons(0.001.um)
+viac_en_2_l2 = viac_layer.not_outside(ppp_layer).not(ppp_layer)
+viac_en_2_l  = viac_en_2_l1.join(viac_en_2_l2)
+viac_en_2_l.output('viac.en.2', 'viac.en.2 : ppp minimum overlap of viac : 0.1µm.')
+viac_en_2_l1.forget
+viac_en_2_l2.forget
+viac_en_2_l.forget
+
+# Rule viac.en.3: m1 minimum overlap of viac is 0.2µm.
+logger.info('Executing rule viac.en.3')
+viac_en_3_l1 = viac_layer.enclosed(m1_layer, 0.2.um, euclidian).polygons(0.001.um)
+viac_en_3_l2 = viac_layer.not_outside(m1_layer).not(m1_layer)
+viac_en_3_l  = viac_en_3_l1.join(viac_en_3_l2)
+viac_en_3_l.output('viac.en.3', 'viac.en.3 : m1 minimum overlap of viac : 0.2µm.')
+viac_en_3_l1.forget
+viac_en_3_l2.forget
+viac_en_3_l.forget
+

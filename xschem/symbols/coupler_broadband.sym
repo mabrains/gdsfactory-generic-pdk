@@ -1,0 +1,83 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model w_sc=@w_sc gap_sc=@gap_sc w_top=@w_top gap_pc=@gap_pc length_taper=@length_taper length_coupler_straight=@length_coupler_straight length_coupler_big_gap=@length_coupler_big_gap radius=@radius"
+template="name=coupler_broadband1
+w_sc=0.5u
+gap_sc=0.2u
+w_top=0.6u
+gap_pc=0.3u
+length_taper=1.0u
+length_coupler_straight=12.4u
+length_coupler_big_gap=4.7u
+radius=10.0u
+model=coupler_broadband
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 280 -460 330 -460 {}
+L 4 180 -480 180 -470 {}
+L 4 280 -430 330 -430 {}
+L 4 180 -420 180 -410 {}
+L 4 430 -420 430 -410 {}
+L 4 280 -450 330 -450 {}
+L 4 280 -440 330 -440 {}
+L 4 430 -480 430 -470 {}
+L 4 160 -480 180 -480 {}
+L 4 160 -420 180 -420 {}
+L 4 430 -480 450 -480 {}
+L 4 430 -420 450 -420 {}
+B 5 157.5 -482.5 162.5 -477.5 {name=o2 dir=inout}
+B 5 157.5 -422.5 162.5 -417.5 {name=o1 dir=inout}
+B 5 447.5 -482.5 452.5 -477.5 {name=o3 dir=inout}
+B 5 447.5 -422.5 452.5 -417.5 {name=o4 dir=inout}
+A 4 275 -565 105.1189802081432 244.6538240580533 28.07248693585299 {}
+A 4 185 -375 105.1189802081432 64.65382405805326 28.07248693585299 {}
+A 4 275 -555 105.1189802081432 244.6538240580533 28.07248693585299 {}
+A 4 185 -365 105.1189802081432 64.65382405805326 28.07248693585299 {}
+A 4 335 -565 105.1189802081432 267.2736890060937 28.07248693585299 {}
+A 4 425 -375 105.1189802081432 87.27368900609375 28.07248693585299 {}
+A 4 335 -555 105.1189802081432 267.2736890060937 28.07248693585299 {}
+A 4 425 -365 105.1189802081432 87.27368900609375 28.07248693585299 {}
+A 4 275 -335 105.1189802081432 87.27368900609375 28.07248693585299 {}
+A 4 275 -325 105.1189802081432 87.27368900609375 28.07248693585299 {}
+A 4 185 -515 105.1189802081432 267.2736890060937 28.07248693585299 {}
+A 4 185 -525 105.1189802081432 267.2736890060937 28.07248693585299 {}
+A 4 335 -335 105.1189802081432 64.65382405805326 28.07248693585299 {}
+A 4 335 -325 105.1189802081432 64.65382405805326 28.07248693585299 {}
+A 4 425 -515 105.1189802081432 244.6538240580533 28.07248693585299 {}
+A 4 425 -525 105.1189802081432 244.6538240580533 28.07248693585299 {}
+T {o1} 170.75 -420.25 0 1 0.15 0.15 {layer=7}
+T {o2} 178.25 -472.75 0 1 0.15 0.15 {layer=7}
+T {o3} 443.25 -477.75 0 1 0.15 0.15 {layer=7}
+T {o4} 443.25 -417.75 0 1 0.15 0.15 {layer=7}
+T {@name} 210 -543.75 0 0 0.2 0.2 {}
+T {@w_sc * @w_top / @gap_sc * @gap_pc} 210 -508.75 0 0 0.2 0.2 {layer=13}
+T {@model} 210 -526.25 0 0 0.2 0.2 {}

@@ -1,0 +1,47 @@
+** test_grating_coupler_rectangular_arbitrary_slab circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_grating_coupler_rectangular_arbitrary_slab pin1 pin2
+*.PININFO pin1:B pin2:B
+Pgrating_coupler_rectangular_arbitrary_slab1 pin1 grating_coupler_rectangular_arbitrary_slab gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u]
++ widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u 
++ wavelength=1.55u slab_offset=2.0u fiber_angle=15
+Pgrating_coupler_rectangular_arbitrary_slab2 pin1 grating_coupler_rectangular_arbitrary_slab gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u]
++ widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u 
++ wavelength=1.55u slab_offset=2.0u fiber_angle=15
+Pgrating_coupler_rectangular_arbitrary_slab3 pin1 grating_coupler_rectangular_arbitrary_slab gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u]
++ widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u 
++ wavelength=1.55u slab_offset=2.0u fiber_angle=15
+Pgrating_coupler_rectangular_arbitrary_slab4 pin2 grating_coupler_rectangular_arbitrary_slab gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u]
++ widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u 
++ wavelength=1.55u slab_offset=2.0u fiber_angle=15
+Pgrating_coupler_rectangular_arbitrary_slab5 pin2 grating_coupler_rectangular_arbitrary_slab gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u]
++ widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u 
++ wavelength=1.55u slab_offset=2.0u fiber_angle=15
+Pgrating_coupler_rectangular_arbitrary_slab6 pin2 grating_coupler_rectangular_arbitrary_slab gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u]
++ widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u 
++ wavelength=1.55u slab_offset=2.0u fiber_angle=15
+.ends
+.end
+

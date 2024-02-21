@@ -1,0 +1,79 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model n_periods=@n_periods period=@period fill_factor=@fill_factor taper_length=@taper_length taper_angle=@taper_angle wavelength=@wavelength fiber_angle=@fiber_angle taper_to_slab_offset=@taper_to_slab_offset bias_gap=@bias_gap"
+template="name=grating_coupler_elliptical_uniform1
+n_periods=20
+period=0.75
+fill_factor=0.5
+taper_length=16.6u
+taper_angle=60.0
+wavelength=1.554u
+fiber_angle=15.0
+taper_to_slab_offset=-3.0u
+bias_gap=0.0u
+model=grating_coupler_elliptical_uniform
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 -10 -20 150 -70 {}
+L 4 -10 -10 150 40 {}
+L 4 -10 -20 -10 -10 {}
+L 4 150 -100 150 70 {}
+L 4 270 -100 270 70 {}
+L 4 150 -100 270 -100 {}
+L 4 150 70 270 70 {}
+L 4 160 -70 170 -70 {}
+L 4 180 -70 190 -70 {}
+L 4 200 -70 210 -70 {}
+L 4 220 -70 230 -70 {}
+L 4 240 -70 250 -70 {}
+L 4 240 40 250 40 {}
+L 4 220 40 230 40 {}
+L 4 200 40 210 40 {}
+L 4 180 40 190 40 {}
+L 4 160 40 170 40 {}
+L 4 -30 -10 -10 -10 {}
+B 5 -32.5 -12.5 -27.5 -7.5 {name=o1 dir=inout}
+A 4 5 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 15 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 25 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 45 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 55 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 65 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 75 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 85 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 95 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 105 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+A 4 35 -15 155.0806241927082 339.2277453179541 41.54450936409171 {}
+T {o1} -28 -29 0 1 0.15 0.15 {layer=7}
+T {@name} -5 -168.75 0 0 0.2 0.2 {}
+T { @wavelength} -5 -133.75 0 0 0.2 0.2 {layer=13}
+T {@model} -5 -151.25 0 0 0.2 0.2 {}

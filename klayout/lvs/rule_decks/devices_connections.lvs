@@ -1,0 +1,84 @@
+# frozen_string_literal: true
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#------------ DEVICES CONNECTIVITY --------------
+#================================================
+
+#================================
+# ----- GENERAL CONNECTIONS -----
+#================================
+
+logger.info('Starting General LVS Connectivity Setup')
+
+# %include general_connections.lvs
+
+#================================
+# ----- COUPLER CONNECTIONS -----
+#================================
+
+logger.info('Starting Coupler LVS Connectivity Setup')
+
+# %include coupler_connections.lvs
+
+#===============================
+# ----- HEATER CONNECTIONS -----
+#===============================
+
+logger.info('Starting Heater LVS Connectivity Setup')
+
+# %include heater_connections.lvs
+
+#============================
+# ----- MMI CONNECTIONS -----
+#============================
+
+logger.info('Starting MMI LVS Connectivity Setup')
+
+# %include mmi_connections.lvs
+
+#============================
+# ----- DBR CONNECTIONS -----
+#============================
+
+logger.info('Starting DBR LVS Connectivity Setup')
+
+# %include dbr_connections.lvs
+
+#============================
+# ----- Disk CONNECTIONS -----
+#============================
+
+logger.info('Starting disk LVS Connectivity Setup')
+
+# %include disk_connections.lvs
+
+#========================================
+# ----- Grating-Coupler CONNECTIONS -----
+#========================================
+
+logger.info('Starting Grating-Coupler LVS Connectivity Setup')
+
+# %include gcoupler_connections.lvs

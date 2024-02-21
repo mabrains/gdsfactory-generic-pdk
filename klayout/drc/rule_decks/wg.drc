@@ -1,0 +1,63 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- WG ----------------------
+#================================================ 
+
+# Rule wg.w.1: wg minimum width is 0.2µm.
+logger.info('Executing rule wg.w.1')
+wg_w_1_l1  = wg_layer.width(0.2.um, euclidian)
+wg_w_1_l1.output('wg.w.1', 'wg.w.1 : wg minimum width : 0.2µm.')
+wg_w_1_l1.forget 
+
+# Rule wg.s.1: wg minimum space is 0.2µm.
+logger.info('Executing rule wg.s.1')
+wg_s_1_l1  = wg_layer.space(0.2.um, euclidian)
+wg_s_1_l1.output('wg.s.1', 'wg.s.1 : wg minimum space : 0.2µm.')
+wg_s_1_l1.forget 
+
+# Rule wg.a.1: wg minimum area is 1µm².
+logger.info('Executing rule wg.a.1')
+wg_a_1_l1  = wg_layer.with_area(nil, 1.um)
+wg_a_1_l1.output('wg.a.1', 'wg.a.1 : wg minimum area : 1µm².')
+wg_a_1_l1.forget 
+
+# Rule wg.a.2: wg minimum enclosed area is 0.5µm².
+logger.info('Executing rule wg.a.2')
+wg_a_2_l1  = wg_layer.holes.with_area(nil, 0.5.um)
+wg_a_2_l1.output('wg.a.2', 'wg.a.2 : wg minimum enclosed area : 0.5µm².')
+wg_a_2_l1.forget 
+
+# Rule wg.s.wgn.1: wg minimum space to WGN is 0.2µm.
+logger.info('Executing rule wg.s.wgn.1')
+wg_s_wgn_1_l1  = wg_layer.separation(wgn_layer, 0.2.um, euclidian)
+wg_s_wgn_1_l1.output('wg.s.wgn.1', 'wg.s.wgn.1 : wg minimum space to WGN : 0.2µm.')
+wg_s_wgn_1_l1.forget 
+
+# Rule wg.I.1: wg should not overlap wgn layer.
+logger.info('Executing rule wg.I.1')
+wg_i_1_l1 = wg_layer.overlapping(wgn_layer)
+wg_i_1_l1.output('wg.i.1', 'wg.I.1 : wg should not overlap wgn layer.')
+wg_i_1_l1.forget
+

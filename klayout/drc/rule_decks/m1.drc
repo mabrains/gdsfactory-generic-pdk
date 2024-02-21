@@ -1,0 +1,56 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- M1 ----------------------
+#================================================ 
+
+# Rule m1.w.1: m1 minimum width is 0.3µm.
+logger.info('Executing rule m1.w.1')
+m1_w_1_l1  = m1_layer.width(0.3.um, euclidian)
+m1_w_1_l1.output('m1.w.1', 'm1.w.1 : m1 minimum width : 0.3µm.')
+m1_w_1_l1.forget 
+
+# Rule m1.s.1: m1 minimum space is 0.3µm.
+logger.info('Executing rule m1.s.1')
+m1_s_1_l1  = m1_layer.space(0.3.um, euclidian)
+m1_s_1_l1.output('m1.s.1', 'm1.s.1 : m1 minimum space : 0.3µm.')
+m1_s_1_l1.forget 
+
+wide_m1 = m1_layer.not_interacting(m1_layer.edges.with_length(nil, 10.um))
+# Rule m1.s.2: Space to wide metal1 (length & width > 10um) is 0.4µm.
+logger.info('Executing rule m1.s.2')
+m1_s_2_l1  = m1_layer.separation(wide_m1, 0.4.um, euclidian).polygons(0.005.um)
+m1_s_2_l2  = wide_m1.space(0.4.um, euclidian).polygons(0.005.um)
+m1_s_2_l = m1_s_2_l1.join(m1_s_2_l2)
+m1_s_2_l.output('m1.s.2', 'm1.s.2 : Space to wide metal1 (length & width > 10um) : 0.4µm.')
+m1_s_2_l.forget
+m1_s_2_l1.forget
+m1_s_2_l2.forget
+
+# Rule m1.A.1: m1 minimum area is 0.1µm².
+logger.info('Executing rule m1.A.1')
+m1_a_1_l1  = m1_layer.with_area(nil, 0.1.um)
+m1_a_1_l1.output('m1.a.1', 'm1.a.1 : m1 minimum area : 0.1µm².')
+m1_a_1_l1.forget 
+

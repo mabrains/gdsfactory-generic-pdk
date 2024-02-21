@@ -1,0 +1,34 @@
+** test_mzi2x2_2x2_phase_shifter circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_ring_double pin1 pin2 pin3 pin4
+*.PININFO pin1:B pin2:B pin3:B pin4:B
+Pring1 pin1 pin2 net1 net2 ring_double gap=0.2u radius=10.0u length_x=0.01u length_y=0.01u
+Pring3 net4 net3 net6 net5 ring_double gap=0.2u radius=10.0u length_x=0.01u length_y=0.01u
+Pring5 net8 net7 pin4 pin3 ring_double gap=0.2u radius=10.0u length_x=0.01u length_y=0.01u
+Pring2 net2 net1 net3 net4 ring_double gap=0.2u radius=10.0u length_x=0.01u length_y=0.01u
+Pring4 net7 net8 net5 net6 ring_double gap=0.2u radius=10.0u length_x=0.01u length_y=0.01u
+.ends
+.end
+

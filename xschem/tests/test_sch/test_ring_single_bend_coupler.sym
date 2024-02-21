@@ -1,0 +1,51 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=subcircuit
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 10 -50 10 10 {}
+L 4 10 10 130 10 {}
+L 4 290 -50 290 10 {}
+L 4 10 -50 130 -50 {}
+L 4 10 -30 10 -20 {}
+L 4 -40 -20 10 -20 {}
+L 4 290 -20 320 -20 {}
+L 4 130 -50 190 -50 {}
+L 4 130 10 190 10 {}
+L 4 190 -50 290 -50 {}
+L 4 190 10 290 10 {}
+B 5 -42.5 -22.5 -37.5 -17.5 {name=pin1 dir=inout propag=1 pinnumber=2}
+B 5 317.5 -22.5 322.5 -17.5 {name=pin2 dir=inout propag=1 pinnumber=2}
+T {@symname} 52.5 -36 0 0 0.3 0.3 {}
+T {@name} 295 -62 0 0 0.2 0.2 {}
+T {pin1} 35 -24 0 1 0.2 0.2 {}
+T {pin2} 285 -24 0 1 0.2 0.2 {}

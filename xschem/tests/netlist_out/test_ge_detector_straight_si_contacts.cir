@@ -1,0 +1,40 @@
+** test_ge_detector_straight_si_contacts circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_ge_detector_straight_si_contacts cathode_pin anode_pin pin1 pin2
+*.PININFO cathode_pin:B anode_pin:B pin1:B pin2:B
+Pdetector3 cathode_pin pin1 anode_pin ge_detector_straight_si_contacts length=80.0u
++ via_stack_width=10.0u via_stack_spacing=5.0u via_stack_offset=0.0u
+Pdetector1 cathode_pin pin1 anode_pin ge_detector_straight_si_contacts length=80.0u
++ via_stack_width=10.0u via_stack_spacing=5.0u via_stack_offset=0.0u
+Pdetector2 cathode_pin pin1 anode_pin ge_detector_straight_si_contacts length=80.0u
++ via_stack_width=10.0u via_stack_spacing=5.0u via_stack_offset=0.0u
+Pdetector6 cathode_pin pin2 anode_pin ge_detector_straight_si_contacts length=80.0u
++ via_stack_width=10.0u via_stack_spacing=5.0u via_stack_offset=0.0u
+Pdetector4 cathode_pin pin2 anode_pin ge_detector_straight_si_contacts length=80.0u
++ via_stack_width=10.0u via_stack_spacing=5.0u via_stack_offset=0.0u
+Pdetector5 cathode_pin pin2 anode_pin ge_detector_straight_si_contacts length=80.0u
++ via_stack_width=10.0u via_stack_spacing=5.0u via_stack_offset=0.0u
+.ends
+.end

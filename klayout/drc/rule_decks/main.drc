@@ -1,0 +1,163 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================================================================================
+#------------------------------ GlobalFoundries Generic PDK DRC RULE DECK ---------------------------------------
+#================================================================================================================
+require 'time'
+require 'logger'
+require 'etc'
+
+exec_start_time = Time.now
+
+logger = Logger.new($stdout)
+
+logger.formatter = proc do |_severity, datetime, _progname, msg|
+  "#{datetime}: Memory Usage (" + `pmap #{Process.pid} | tail -1`[10, 40].strip + ") : #{msg}
+"
+end
+
+#================================================
+#----------------- FILE SETUP -------------------
+#================================================
+logger.info("Starting running GenericPDK Klayout DRC runset on #{$input}")
+logger.info("Ruby Version for klayout: #{RUBY_VERSION}")
+
+if $input
+  if $topcell
+    source($input, $topcell)
+  else
+    source($input)
+  end
+end
+
+logger.info('Loading database to memory is complete.')
+
+if $report
+  logger.info("GenericPDK Klayout DRC runset output at: #{$report}")
+  report('DRC Run Report at', $report)
+else
+  layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
+  report_path = layout_dir.join('gf180_drc.lyrdb').to_s
+  logger.info("GenericPDK Klayout DRC runset output at default location: #{report_path}")
+  report('DRC Run Report at', report_path)
+end
+
+#================================================
+#------------------ SWITCHES --------------------
+#================================================
+logger.info('Evaluate switches.')
+
+def bool_check?(obj)
+  obj.to_s.downcase == 'true'
+end
+
+TABLE_NAME = $table_name || 'main'
+
+logger.info("table_name selected  #{TABLE_NAME}")
+
+# connectivity rules
+CONNECTIVITY_EN = bool_check?($conn_drc)
+
+conn_tables = %w[dnwell dnwell_split nwell nwell_split lvpwell
+                 lvpwell_split nat nat_split ldnmos ldnmos_split ldpmos ldpmos_split main]
+
+CONNECTIVITY_RULES = if conn_tables.include?(TABLE_NAME) && CONNECTIVITY_EN
+                       true
+                     else
+                       false
+                     end
+
+logger.info("CONNECTIVITY_RULES enabled: #{CONNECTIVITY_RULES}")
+
+# OFFGRID
+OFFGRID = $offgrid != 'false'
+
+logger.info("Offgrid enabled:  #{OFFGRID}")
+
+# threads
+if $thr
+  threads($thr)
+else
+  thr ||= Etc.nprocessors
+  threads(thr)
+end
+
+logger.info("Number of threads to use #{$thr}")
+
+#=== PRINT DETAILS ===
+
+verbose(bool_check?($verbose))
+
+logger.info("Verbose mode: #{$verbose}")
+
+# === TILING MODE ===
+case $run_mode
+## Tiling mode is for testing purpose only [Not used in run_drc.py]
+when 'tiling'
+  tiles(500.um)
+  tile_borders(10.um)
+  logger.info('Tiling  mode is enabled.')
+
+when 'deep'
+  #=== HIER MODE ===
+  deep
+  logger.info("deep  mode is enabled for #{TABLE_NAME} table")
+else
+  #=== FLAT MODE ===
+  flat
+  logger.info("flat  mode is enabled for #{TABLE_NAME} table")
+end
+
+#================================================
+#------------- LAYERS DEFINITIONS ---------------
+#================================================
+
+logger.info("Starting layers definitions")
+
+# %include layers_def.drc
+
+#================================================
+#------------- LAYERS DERIVATIONS ---------------
+#================================================
+
+logger.info("Starting deriving base layers.")
+
+#================================================
+#------------- LAYERS CONNECTIONS ---------------
+#================================================
+
+
+#================================================
+#------------ PRE-DEFINED FUNCTIONS -------------
+#================================================
+
+# === LAYOUT EXTENT ===
+CHIP = extent.sized(0.0)
+logger.info("Total area of the design is #{CHIP.area()} um^2.")
+
+#================================================
+#----------------- MAIN RUNSET ------------------
+#================================================
+
+logger.info("Starting GenericPDK DRC rules")

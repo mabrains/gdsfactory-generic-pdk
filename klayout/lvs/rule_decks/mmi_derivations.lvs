@@ -1,0 +1,44 @@
+# frozen_string_literal: true
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#==============================
+# ---- MMI DERIVATIONS -----
+#==============================
+
+logger.info('Starting MMI DERIVATIONS')
+
+# mmi general derivation
+mmi_ports = port.and(wg).and(mmi_mk)
+
+# ==============
+# --- MMI1x2 ---
+# ==============
+
+# mmi1x2
+mmi1x2_malformed = mmi_mk.edges.not_interacting(mmi_len_mk.edges).not_interacting(mmi_ports)
+mmi1x2_crct = mmi_mk.not_interacting(mmi1x2_malformed)
+mmi1x2_full = wg.and(mmi1x2_crct).interacting(mmi_ports, 3..3)
+mmi1x2_core = mmi1x2_full.and(mmi_len_mk)
+mmi1x2_meas = mmi1x2_full.not(mmi1x2_core)

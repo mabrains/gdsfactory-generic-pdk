@@ -1,0 +1,33 @@
+** test_coupler circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_coupler pin1 pin2 pin3 pin4
+*.PININFO pin1:B pin2:B pin3:B pin4:B
+Pcoupler1 pin1 pin2 net2 net1 coupler length=20.0u gap=0.236u dx=10u dy=4.0u
+Pcoupler3 net3 net4 net5 net6 coupler length=20.0u gap=0.236u dx=10u dy=4.0u
+Pcoupler4 net5 net6 pin3 pin4 coupler length=20.0u gap=0.236u dx=10u dy=4.0u
+Pcdc1 net2 net1 net3 net4 cdc length=30.0u gap=0.5u period=0.22 duty_cycle=0.5 width_top=2.0u
++ width_bot=0.75u dx=10u dy=1.8u
+.ends
+.end

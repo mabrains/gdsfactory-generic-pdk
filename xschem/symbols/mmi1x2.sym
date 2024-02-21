@@ -1,0 +1,58 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model width=@width width_taper=@width_taper length_taper=@length_taper length_mmi=@length_mmi width_mmi=@width_mmi gap_mmi=@gap_mmi"
+template="name=mmi1
+width_mmi=2.5u
+length_mmi=5.5u
+gap_mmi=0.25u
+width=0.5u
+width_taper=1u
+length_taper=10u
+model=mmi1x2
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 170 -560 170 -540 {}
+L 4 130 -220 130 -200 {}
+L 4 210 -220 210 -200 {}
+B 4 100 -400 240 -360 {}
+B 5 167.5 -562.5 172.5 -557.5 {name=o1 dir=inout}
+B 5 127.5 -202.5 132.5 -197.5 {name=o2 dir=inout}
+B 5 207.5 -202.5 212.5 -197.5 {name=o3 dir=inout}
+P 4 5 160 -540 180 -540 200 -400 140 -400 160 -540 {}
+P 4 5 140 -220 120 -220 100 -360 160 -360 140 -220 {}
+P 4 5 220 -220 200 -220 180 -360 240 -360 220 -220 {}
+T {o1} 187 -559 0 1 0.15 0.15 {layer=7}
+T {@name} 290 -423.75 0 0 0.2 0.2 {}
+T {@width_mmi * @length_mmi / @gap_mmi} 290 -388.75 0 0 0.2 0.2 {layer=13}
+T {@model} 290 -406.25 0 0 0.2 0.2 {}
+T {o2} 117 -215.5 0 1 0.15 0.15 {layer=7}
+T {o3} 237.5 -214.5 0 1 0.15 0.15 {layer=7}

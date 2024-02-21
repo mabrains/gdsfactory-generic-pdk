@@ -1,0 +1,60 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model gap=@gap radius=@radius doping_angle=@doping_angle length_x=@length_x length_y=@length_y"
+template="name=ring1
+gap=0.3u
+radius=5.0u
+doping_angle=250
+length_x=0.1u
+length_y=0.1u
+model=ring_single_pn
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 -50 -520 270 -520 {}
+L 4 -50 -520 -50 -510 {}
+L 4 270 -520 270 -510 {}
+L 4 -50 -230 270 -230 {}
+L 4 -50 -240 -50 -230 {}
+L 4 270 -240 270 -230 {}
+L 4 -50 -510 -50 -240 {}
+L 4 270 -510 270 -240 {}
+L 4 -80 -230 -50 -230 {}
+L 4 270 -230 300 -230 {}
+B 5 -82.5 -232.5 -77.5 -227.5 {name=o1 dir=inout}
+B 5 297.5 -232.5 302.5 -227.5 {name=o2 dir=inout}
+A 4 116.731843575419 -371.7039106145251 114.736315727082 50.31408888236653 360 {}
+A 4 115.0743494423792 -373.1412639405204 125.1137899177321 3.142529107543722 360 {}
+T {@name} 290 -423.75 0 0 0.2 0.2 {}
+T {@length_x * @length_y / @gap} 290 -388.75 0 0 0.2 0.2 {layer=13}
+T {@model} 290 -406.25 0 0 0.2 0.2 {}
+T {o1} -63 -244 0 1 0.15 0.15 {layer=7}
+T {o2} 292 -244 0 1 0.15 0.15 {layer=7}

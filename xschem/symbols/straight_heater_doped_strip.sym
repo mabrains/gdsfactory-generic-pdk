@@ -1,0 +1,76 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model length=@length nsections=@nsections heater_width=@heater_width heater_gap=@heater_gap via_stack_gap=@via_stack_gap width=@width xoffset_tip1=@xoffset_tip1 xoffset_tip2=@xoffset_tip2"
+template="name=heater1
+length=320.0u
+nsections=3
+heater_width=2.0u
+heater_gap=0.8u
+via_stack_gap=0.0u
+width=0.5u
+xoffset_tip1=0.2u
+xoffset_tip2=0.4u
+model=straight_heater_doped_strip
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 140 -450 650 -450 {}
+L 4 650 -450 650 -420 {}
+L 4 170 -420 650 -420 {}
+L 4 140 -350 170 -350 {}
+L 4 140 -340 140 -310 {}
+L 4 650 -390 650 -310 {}
+L 4 620 -410 650 -410 {}
+L 4 620 -390 620 -340 {}
+L 4 170 -420 170 -370 {}
+L 4 140 -450 140 -370 {}
+L 4 140 -340 620 -340 {}
+L 4 140 -310 650 -310 {}
+L 4 620 -410 620 -390 {}
+L 4 650 -410 650 -390 {}
+L 4 170 -370 170 -350 {}
+L 4 140 -370 140 -350 {}
+L 4 670 -380 690 -380 {}
+L 4 100 -380 120 -380 {}
+L 4 650 -440 670 -440 {}
+L 4 120 -320 140 -320 {}
+B 4 120 -390 670 -370 {}
+B 5 97.5 -382.5 102.5 -377.5 {name=o1 dir=inout}
+B 5 687.5 -382.5 692.5 -377.5 {name=o2 dir=inout}
+B 5 117.5 -322.5 122.5 -317.5 {name=e1 dir=inout}
+B 5 667.5 -442.5 672.5 -437.5 {name=e2 dir=inout}
+T {o1} 97 -394 0 1 0.15 0.15 {layer=7}
+T {o2} 692 -394 0 0 0.15 0.15 {layer=7}
+T {e1} 117 -339 0 1 0.15 0.15 {layer=7}
+T {e2} 682 -454 0 1 0.15 0.15 {layer=7}
+T {@name} 240 -523.75 0 0 0.2 0.2 {}
+T {@width * @length / @nsections} 240 -488.75 0 0 0.2 0.2 {layer=13}
+T {@model} 240 -506.25 0 0 0.2 0.2 {}

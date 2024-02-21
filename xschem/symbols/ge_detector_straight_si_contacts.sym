@@ -1,0 +1,62 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model length=@length via_stack_width=@via_stack_width via_stack_spacing=@via_stack_spacing via_stack_offset=@via_stack_offset"
+template="name=detector1
+length=80.0u
+via_stack_width=10.0u
+via_stack_spacing=5.0u
+via_stack_offset=0.0u
+model=ge_detector_straight_si_contacts
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 650 -390 650 -310 {}
+L 4 650 -410 650 -390 {}
+L 4 650 -450 650 -410 {}
+L 4 360 -450 650 -450 {}
+L 4 360 -450 360 -310 {}
+L 4 360 -310 650 -310 {}
+L 4 250 -380 360 -390 {}
+L 4 250 -370 360 -360 {}
+L 4 250 -380 250 -370 {}
+L 4 230 -380 250 -380 {}
+L 4 650 -330 670 -330 {}
+L 4 650 -430 670 -430 {}
+B 4 360 -410 650 -350 {}
+B 5 667.5 -332.5 672.5 -327.5 {name=e1 dir=inout}
+B 5 227.5 -382.5 232.5 -377.5 {name=o1 dir=inout}
+B 5 667.5 -432.5 672.5 -427.5 {name=e2 dir=inout}
+T {o1} 227 -389 0 1 0.15 0.15 {layer=7}
+T {e1} 682 -349 0 1 0.15 0.15 {layer=7}
+T {e2} 682 -444 0 1 0.15 0.15 {layer=7}
+T {@name} 240 -523.75 0 0 0.2 0.2 {}
+T {@length * @via_stack_width / @via_stack_spacing} 240 -488.75 0 0 0.2 0.2 {layer=13}
+T {@model} 240 -506.25 0 0 0.2 0.2 {}

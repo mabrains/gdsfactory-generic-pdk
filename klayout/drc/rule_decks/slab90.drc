@@ -1,0 +1,45 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#-------------------- SLAB90 --------------------
+#================================================ 
+
+# Rule slab90.w.1: slab90 minimum width is 0.09µm.
+logger.info('Executing rule slab90.w.1')
+slab90_w_1_l1  = slab90_layer.width(0.09.um, euclidian)
+slab90_w_1_l1.output('slab90.w.1', 'slab90.w.1 : slab90 minimum width : 0.09µm.')
+slab90_w_1_l1.forget 
+
+# Rule slab90.s.1: slab90 minimum space is 0.09µm.
+logger.info('Executing rule slab90.s.1')
+slab90_s_1_l1  = slab90_layer.space(0.09.um, euclidian)
+slab90_s_1_l1.output('slab90.s.1', 'slab90.s.1 : slab90 minimum space : 0.09µm.')
+slab90_s_1_l1.forget 
+
+# Rule slab90.a.1: slab90 minimum area is 0.01µm².
+logger.info('Executing rule slab90.a.1')
+slab90_a_1_l1  = slab90_layer.with_area(nil, 0.01.um)
+slab90_a_1_l1.output('slab90.a.1', 'slab90.a.1 : slab90 minimum area : 0.01µm².')
+slab90_a_1_l1.forget 
+

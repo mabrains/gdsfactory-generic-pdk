@@ -1,0 +1,123 @@
+** general test for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_general3 pin_o2 pin_o1 pin_e1 pin_e1
+*.iopin pin_o2
+*.iopin pin_o1
+*.iopin pin_e1
+*.iopin pin_e1
+Pcdc1 pin_o1 pin_o2 net2 net1 cdc length=30.0u gap=0.5u period=0.22 duty_cycle=0.5 width_top=2.0u
++ width_bot=0.75u dx=10u dy=1.8u
+Pcoupler1 net1 pin_o2 net4 net3 coupler length=20.0u gap=0.236u dx=10u dy=4.0u
+Poupler_adiabatic1 pin_o1 net2 net7 net8 coupler_adiabatic length1=20.0u length2=50.0u length3=30.0u
++ wg_sep=1.0u input_wg_sep=3.0u output_wg_sep=3.0u dw=0.1u
+Poupler_bent1 net9 net7 net10 net13 coupler_bent gap=0.2u radius=26u length=8.6u width1=0.4u width2=0.4u
++ length_straight=10u
+Pcoupler_broadband1 net8 net9 net14 net10 coupler_broadband w_sc=0.5u gap_sc=0.2u w_top=0.6u gap_pc=0.3u
++ length_taper=1.0u length_coupler_straight=12.4u length_coupler_big_gap=4.7u radius=10.0u
+Pcoupler_full1 net4 net5 net12 net6 coupler_full coupling_length=40.0u dx=10.0u dy=4.8u gap=0.5u dw=0.1u
+Pcoupler_ring1 net3 net11 net6 net5 coupler_ring gap=0.2u radius=5.0u length_x=4.0u
++ length_extension=3.0u
+Pdbr1 net11 net15 dbr w1=0.475u l1=0.159u w2=0.525u l2=0.159u n=10
+Pdbr_tapered1 net12 net17 dbr_tapered length=10.0u period=0.85 duty_cycle=0.5 w1=0.4u w2=1.0u
++ taper_length=20.0u
+Pdisk1 net15 net20 disk radius=10.0u gap=0.2u wrap_angle_deg=180.0 parity=1
+Pdisk2 net28 net16 disk_heater radius=10.0u gap=0.2u wrap_angle_deg=180.0 parity=1 heater_width=5.0u
++ heater_extent=2.0u
+Pinterdigital_capacitor1 net14 net16 interdigital_capacitor fingers=4 finger_length=20.0u
++ finger_gap=2.0u thickness=5.0u
+Pmmi1 net13 net18 net19 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u width_mmi=2.5u
++ gap_mmi=0.25u
+Pmmi2 net20 net22 net21 mmi1x2_with_sbend
+Pmmi3 net17 net18 net24 net23 mmi2x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u
++ width_mmi=2.5u gap_mmi=0.25u
+Pmmi4 net24 net30 net29 net23 mmi2x2_with_sbend
+Pmmi5 net63 net32 net35 net41 net40 net39 mmi_90degree_hybrid width=0.5u width_taper=1u
++ length_taper=10u length_mmi=5.5u width_mmi=2.5u gap_mmi=0.25u
+Pmode_converter1 net22 net21 net36 net37 mode_converter gap=0.3u length=10.0u mm_width=1.2u
++ mc_mm_width=1.0u sm_width=0.5u
+Pmzi1 net33 net25 mzi delta_length=10.0u length_y=2.0u length_x=0.1u
+Pmzi2 net19 net26 net27 mzi1x2_2x2 delta_length=10.0u length_y=2.0u length_x=0.1u
+Pmzi3 net26 net27 net63 net32 mzi2x2_2x2_phase_shifter delta_length=10.0u length_y=2.0u length_x=0.1u
+Pmzi4 net25 net31 mzi_phase_shifter delta_length=10.0u length_y=2.0u length_x=0.1u
+Pmzi5 net29 net30 net31 net33 mzit w0=0.5u w1=0.45u w2=0.55u dy=2.0u delta_length=10.0u length=1.0u
++ coupler_length1=5.0u coupler_length2=10.0u coupler_gap1=0.2u coupler_gap2=0.3u taper_length=5.0u
+Pmzm1 net28 net34 mzm length_x=500u length_y=2.0u delta_length=0.0u
+Protator1 net62 net34 net35 polarization_splitter_rotator width_taper_in1=0.54u width_taper_in2=0.69u
++ width_taper_in3=0.83u length_taper_in1=4.0u length_taper_in2=44.0u length_taper_in3=44.0u width_coupler_top=0.9u
++ width_coupler_bottom=0.405u length_coupler=7.0u gap=0.15u width_out=0.54u length_out=14.33u dy=5.0u
+Presistance_sheet1 pin_e1 pin_e1 resistance_sheet width=10u pad_pitch=100u
+Pring1 net39 net38 net44 net45 ring_double gap=0.2u radius=10.0u length_x=0.01u length_y=0.01u
+Pring2 net37 net36 net43 net42 ring_double_heater gap=0.2u gap_top=0.2u radius=10.0u length_x=1.0u
++ length_y=0.01u
+Pring3 net40 net38 net46 net47 ring_double_pn add_gap=0.3u drop_gap=0.3u radius=5.0u doping_angle=85
++ length_x=0.1u length_y=0.1u
+Pring4 net41 net48 ring_single gap=0.2u radius=10.0u length_x=4.0u length_y=0.6u
+Pring5 net48 net48 net49 ring_single_heater gap=0.2u radius=10.0u length_x=4.0u length_y=0.6u
+Pring6 net49 net55 ring_single_pn gap=0.3u radius=5.0u doping_angle=250 length_x=0.1u length_y=0.1u
+Pheater1 net46 net54 pin_e2 pin_e1 straight_heater_doped_rib length=320.0u nsections=3
++ heater_width=2.0u heater_gap=0.8u via_stack_gap=0.0u width=0.5u xoffset_tip1=0.2u xoffset_tip2=0.4u
+Pheater2 net54 net57 pin_e1 pin_e2 straight_heater_doped_strip length=320.0u nsections=3
++ heater_width=2.0u heater_gap=0.8u via_stack_gap=0.0u width=0.5u xoffset_tip1=0.2u xoffset_tip2=0.4u
+Pheater3 pin_e1 net44 net52 pin_e2 straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pheater4 pin_e1 net52 net64 pin_e2 straight_heater_meander_doped length=300.0u spacing=2.0u
++ heater_width=1.5u extension_length=15.0u radius=90u taper_length=10.0u
+Pheater5 pin_e1 pin_e2 net45 net53 straight_heater_metal length=320.0u length_undercut_spacing=6.0u
++ length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Pheater6 pin_e1 net53 net58 pin_e2 straight_heater_metal_90_90 length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Pheater7 pin_e1 net47 net61 pin_e2 straight_heater_metal_simple length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u heater_taper_length=5.0u
+Pheater8 pin_e1 net43 net51 pin_e2 straight_heater_metal_undercut length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Pheater9 pin_e1 net51 net59 pin_e2 straight_heater_metal_undercut_90_90 length=320.0u
++ length_undercut_spacing=6.0u length_undercut=30.0u length_straight_input=15.0u heater_taper_length=5.0u
+Ppin1 net42 net50 pin_e1 pin_e2 straight_pin length=500.0u via_stack_width=10.0u via_stack_spacing=2u
+Ppin2 net50 net60 pin_e2 pin_e1 straight_pin_slot length=500.0u via_stack_width=10.0u
++ via_stack_slab_width=10.0u via_stack_spacing=2u via_stack_slab_spacing=2.0u
+Ppn1 net55 net56 pin_e1 pin_e2 straight_pn length=1000.0u via_stack_width=10.0u via_stack_spacing=2u
+Pgrating_coupler_elliptical1 net56 grating_coupler_elliptical taper_length=16.6u taper_angle=40.0
++ wavelength=1.554u fiber_angle=15.0 grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+Pgrating_coupler_elliptical_arbitrary1 net57 grating_coupler_elliptical_arbitrary
++ gaps=[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1] widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] taper_length=16.6u taper_angle=60.0
++ wavelength=1.554u fiber_angle=15.0 taper_to_slab_offset=-3.0u
+Pgrating_coupler_elliptical_lumerical1 net58 grating_coupler_elliptical_lumerical
++ parameters=[-2.43u, 0.1u, 0.48u] taper_angle=55.0 taper_length=12.6u fiber_angle=5.0 bias_gap=0.0u wavelength=1.554u
+Pgrating_coupler_elliptical_trenches1 net64 grating_coupler_elliptical_trenches taper_length=16.6u
++ taper_angle=30.0 wavelength=1.53u fiber_angle=15.0 grating_line_width=0.343u p_start=26 n_periods=30
++ end_straight_length=0.2u
+Pgrating_coupler_elliptical_uniform1 net59 grating_coupler_elliptical_uniform n_periods=20
++ period=0.75 fill_factor=0.5 taper_length=16.6u taper_angle=60.0 wavelength=1.554u fiber_angle=15.0
++ taper_to_slab_offset=-3.0u bias_gap=0.0u
+Pgrating_coupler_rectangular1 net60 grating_coupler_rectangular n_periods=20 period=0.75
++ fill_factor=0.5 width_grating=11.0u length_taper=150.0u wavelength=1.55u fiber_angle=15 slab_xmin=-1.0u slab_offset=1.0u
+Pgrating_coupler_rectangular_arbitrary1 net61 grating_coupler_rectangular_arbitrary
++ gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u] widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u
++ wavelength=1.55u slab_xmin=-1.0u slab_offset=1.0u fiber_angle=15
+Pgrating_coupler_rectangular_arbitrary_slab1 net62 grating_coupler_rectangular_arbitrary_slab
++ gaps=[0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u, 0.2u] widths=[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5] width_grating=11.0u length_taper=150.0u
++ wavelength=1.55u slab_offset=2.0u fiber_angle=15
+.ends
+.end

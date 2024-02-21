@@ -1,0 +1,40 @@
+** general test for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_general1 pin1 pin2 pin4 pin3
+*.PININFO pin1:B pin2:B pin4:B pin3:B
+Pheater1 pin1 pin2 net1 net2 straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pgrating_coupler_elliptical_lumerical1 net1 grating_coupler_elliptical_lumerical parameters=[-2.43,
++ 0.1, 0.48] taper_angle=55.0 taper_length=12.6u fiber_angle=5.0 bias_gap=0.0u wavelength=1.554u
+Protator1 net2 net3 net4 polarization_splitter_rotator width_taper_in1=0.54u width_taper_in2=0.69u
++ width_taper_in3=0.83u length_taper_in1=4.0u length_taper_in2=44.0u length_taper_in3=44.0u width_coupler_top=0.9u
++ width_coupler_bottom=0.405u length_coupler=7.0u gap=0.15u width_out=0.54u length_out=14.33u dy=5.0u
+Pmode_converter1 net3 net4 net2 net5 mode_converter gap=0.3u length=10.0u mm_width=1.2u mc_mm_width=1.0u
++ sm_width=0.5u
+Pdisk1 net5 net6 disk_heater radius=10.0u gap=0.2u wrap_angle_deg=180.0 parity=1 heater_width=5.0u
++ heater_extent=2.0u
+Pmzi1 net6 pin3 pin4 mzi1x2_2x2 delta_length=10.0u length_y=2.0u length_x=0.1u
+.ends
+.end

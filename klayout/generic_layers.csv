@@ -1,0 +1,62 @@
+Layer Name,GDS #,Data type,Description
+wafer,99999,0,
+wg,1,0,         220 nm Silicon core
+wgclad,111,0,
+slab150,2,0,150nm Silicon slab (70nm shallow Etch for grating couplers)
+slab90,3,0,90nm Silicon slab (for modulators)
+deeptrench,4,0,Silicon deep etch; trench for edge coupling or cleaving
+ge,5,0,Ge growth for detector
+undercut,6,0,
+wgn,34,0,Silicon Nitride Waveguide
+wgn_clad,35,0,
+n,20,0,n-type implant
+np,22,0,n+ implant
+npp,24,0,n++ implant
+p,21,0,p-type implant 
+pp,23,0,p+ implant
+ppp,25,0,p++ implant
+gen,26,0,Germanium N doping; for Ge detectors
+gep,27,0,Germanium P doping; for Ge detectors
+MH,47,0,heater
+heater_mk,47,1,Marker for core of heater device
+m1,41,0,First-level metal line
+m2,45,0,Second-level metal line
+m3,49,0,Third-level metal line
+viac,40,0,Metal contact via between N++/P++ layers and Metal1
+via1,44,0,Via for connecting M1 to M2
+via2,43,0,Via for connecting M2 to M3
+padopen,46,0,Bond pad opening
+dicing,100,0,Dicing lanes
+no_tile_si,71,0,
+padding,67,0,
+devrec,68,0,
+floorplan,64,0,Mask floorplan
+text,66,0,"Text comments, will not be printed; used for automated measurements"
+port,1,10,Optical port
+porte,1,11,Electrical port
+porth,70,0,
+show_ports,1,12,
+label_optical_io,201,0,Label for optical input/ouput
+optical_lbl,2000,0,Label for optical ports
+label_settings,202,0,
+te,203,0,
+tm,204,0,
+drc_marker,205,0,
+label_instance,206,0,
+error_marker,207,0,
+error_path,208,0,
+source,110,0,
+monitor,101,0,
+pinrec,69,0,LVS: pin recognition layer
+mzi_len_mk,500,0,LVS marker for  mzi measurements
+heater_len_mk,47,2,LVS marker for heater length
+res_sheet_mk,47,3,LVS marker for resistance sheet 
+h_meander_mk,47,4,LVS marker for straight heater meander 
+mzi_mk,1000,0,LVS marker for MZI device
+ring_mk,1,3,LVS marker for ring device
+ring_len_mk,1,4,LVS marker for  ring measurements
+dbr_mk,1,5,LVS marker for dbr device
+coupler_mk,1,6,LVS marker for coupler device
+coupler_len_mk,1,7,LVS marker for  coupler measurements
+disk_mk,1,8,LVS marker for disk device
+gcoupler_mk,1,9,LVS marker for grating coupler device

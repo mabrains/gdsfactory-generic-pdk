@@ -1,0 +1,51 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model width=@width pad_pitch=@pad_pitch"
+template="name=resistance_sheet1
+width=10u
+pad_pitch=100u
+model=resistance_sheet
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 -50 -10 -20 -10 {}
+L 4 180 -10 210 -10 {}
+L 4 40 -20 120 -20 {}
+L 4 40 0 120 0 {}
+B 4 120 -40 180 20 {}
+B 4 -20 -40 40 20 {}
+B 5 -52.5 -12.5 -47.5 -7.5 {name=pad1 dir=inout}
+B 5 207.5 -12.5 212.5 -7.5 {name=pad2 dir=inout}
+T {pad1} -53 -29 0 1 0.15 0.15 {layer=7}
+T {pad2} 217 -29 0 1 0.15 0.15 {layer=7}
+T {@name} -20 -113.75 0 0 0.2 0.2 {}
+T {@width * @pad_pitch} -20 -78.75 0 0 0.2 0.2 {layer=13}
+T {@model} -20 -96.25 0 0 0.2 0.2 {}

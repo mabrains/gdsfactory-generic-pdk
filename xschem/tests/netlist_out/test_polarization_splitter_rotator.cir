@@ -1,0 +1,40 @@
+** test_polarization_splitter_rotator circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_polarization_splitter_rotator pin1 pin2
+*.PININFO pin1:B pin2:B
+Protator1 pin1 net2 net1 polarization_splitter_rotator width_taper_in1=0.54u width_taper_in2=0.69u
++ width_taper_in3=0.83u length_taper_in1=4.0u length_taper_in2=44.0u length_taper_in3=44.0u width_coupler_top=0.9u
++ width_coupler_bottom=0.405u length_coupler=7.0u gap=0.15u width_out=0.54u length_out=14.33u dy=5.0u
+Protator3 net3 net4 net5 polarization_splitter_rotator width_taper_in1=0.54u width_taper_in2=0.69u
++ width_taper_in3=0.83u length_taper_in1=4.0u length_taper_in2=44.0u length_taper_in3=44.0u width_coupler_top=0.9u
++ width_coupler_bottom=0.405u length_coupler=7.0u gap=0.15u width_out=0.54u length_out=14.33u dy=5.0u
+Protator2 net3 net1 net2 polarization_splitter_rotator width_taper_in1=0.54u width_taper_in2=0.69u
++ width_taper_in3=0.83u length_taper_in1=4.0u length_taper_in2=44.0u length_taper_in3=44.0u width_coupler_top=0.9u
++ width_coupler_bottom=0.405u length_coupler=7.0u gap=0.15u width_out=0.54u length_out=14.33u dy=5.0u
+Protator4 pin2 net4 net5 polarization_splitter_rotator width_taper_in1=0.54u width_taper_in2=0.69u
++ width_taper_in3=0.83u length_taper_in1=4.0u length_taper_in2=44.0u length_taper_in3=44.0u width_coupler_top=0.9u
++ width_coupler_bottom=0.405u length_coupler=7.0u gap=0.15u width_out=0.54u length_out=14.33u dy=5.0u
+.ends
+.end

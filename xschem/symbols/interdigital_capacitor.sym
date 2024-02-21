@@ -1,0 +1,53 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model fingers=@fingers finger_length=@finger_length finger_gap=@finger_gap thickness=@thickness"
+template="name=interdigital_capacitor1
+fingers=4
+finger_length=20.0u
+finger_gap=2.0u
+thickness=5.0u
+model=interdigital_capacitor
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 280 -20 330 -20 {}
+L 4 -60 -20 -10 -20 {}
+B 4 -10 -70 30 30 {}
+B 4 -10 -70 220 -30 {}
+B 4 50 -10 280 30 {}
+B 4 240 -70 280 30 {}
+B 5 -62.5 -22.5 -57.5 -17.5 {name=o1 dir=inout}
+B 5 327.5 -22.5 332.5 -17.5 {name=o2 dir=inout}
+T {o1} -53 -39 0 1 0.15 0.15 {layer=7}
+T {o2} 337 -39 0 1 0.15 0.15 {layer=7}
+T {@name} 10 -143.75 0 0 0.2 0.2 {}
+T {@finger_length * @finger_gap / @fingers} 10 -108.75 0 0 0.2 0.2 {layer=13}
+T {@model} 10 -126.25 0 0 0.2 0.2 {}

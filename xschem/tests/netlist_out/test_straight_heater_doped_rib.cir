@@ -1,0 +1,38 @@
+** test_straight_heater_doped_rib circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_straight_heater_doped_rib hp_pin hn_pin pin1 pin2
+*.PININFO hp_pin:B hn_pin:B pin1:B pin2:B
+Pheater1 pin1 net1 hp_pin hn_pin straight_heater_doped_rib length=320.0u nsections=3 heater_width=2.0u
++ heater_gap=0.8u via_stack_gap=0.0u width=0.5u xoffset_tip1=0.2u xoffset_tip2=0.4u
+Pheater2 net1 net2 hp_pin hn_pin straight_heater_doped_rib length=320.0u nsections=3 heater_width=2.0u
++ heater_gap=0.8u via_stack_gap=0.0u width=0.5u xoffset_tip1=0.2u xoffset_tip2=0.4u
+Pheater3 net2 net3 hp_pin hn_pin straight_heater_doped_rib length=320.0u nsections=3 heater_width=2.0u
++ heater_gap=0.8u via_stack_gap=0.0u width=0.5u xoffset_tip1=0.2u xoffset_tip2=0.4u
+Pheater4 net3 net4 hp_pin hn_pin straight_heater_doped_rib length=320.0u nsections=3 heater_width=2.0u
++ heater_gap=0.8u via_stack_gap=0.0u width=0.5u xoffset_tip1=0.2u xoffset_tip2=0.4u
+Pheater5 net4 pin2 hn_pin hp_pin straight_heater_doped_rib length=320.0u nsections=3 heater_width=2.0u
++ heater_gap=0.8u via_stack_gap=0.0u width=0.5u xoffset_tip1=0.2u xoffset_tip2=0.4u
+.ends
+.end

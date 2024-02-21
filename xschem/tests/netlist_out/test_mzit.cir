@@ -1,0 +1,36 @@
+** test_mzit circuit for GenericPDK
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+.subckt test_mzit pin1 pin2 pin3 pin4
+*.PININFO pin1:B pin2:B pin3:B pin4:B
+Pmzi1 pin1 pin2 net1 net2 mzit w0=0.5u w1=0.45u w2=0.55u dy=2.0u delta_length=10.0u length=1.0u
++ coupler_length1=5.0u coupler_length2=10.0u coupler_gap1=0.2u coupler_gap2=0.3u taper_length=5.0u
+Pmzi4 net5 net6 pin4 pin3 mzit w0=0.5u w1=0.45u w2=0.55u dy=2.0u delta_length=10.0u length=1.0u
++ coupler_length1=5.0u coupler_length2=10.0u coupler_gap1=0.2u coupler_gap2=0.3u taper_length=5.0u
+Pmzi2 net1 net2 net3 net4 mzit w0=0.5u w1=0.45u w2=0.55u dy=2.0u delta_length=10.0u length=1.0u
++ coupler_length1=5.0u coupler_length2=10.0u coupler_gap1=0.2u coupler_gap2=0.3u taper_length=5.0u
+Pmzi3 net4 net3 net5 net6 mzit w0=0.5u w1=0.45u w2=0.55u dy=2.0u delta_length=10.0u length=1.0u
++ coupler_length1=5.0u coupler_length2=10.0u coupler_gap1=0.2u coupler_gap2=0.3u taper_length=5.0u
+.ends
+.end

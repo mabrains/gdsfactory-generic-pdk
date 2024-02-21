@@ -1,0 +1,84 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model delta_length=@delta_length length_y=@length_y length_x=@length_x"
+template="name=mzi1
+delta_length=10.0u
+length_x=0.1u
+length_y=2.0u
+model=mzi
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 50 -60 70 -60 {}
+L 4 25 -35 25 -20 {}
+L 4 95 -35 95 -20 {}
+L 4 25 35 25 50 {}
+L 4 50 75 70 75 {}
+L 4 95 35 95 50 {}
+L 4 -70 5 -45 0 {}
+L 4 -70 5 -70 10 {}
+L 4 -70 10 -45 15 {}
+L 4 165 0 190 5 {}
+L 4 165 15 190 10 {}
+L 4 190 5 190 10 {}
+L 4 20 -40 20 -20 {}
+L 4 50 -65 75 -65 {}
+L 4 100 -35 100 -15 {}
+L 4 20 35 20 55 {}
+L 4 45 80 75 80 {}
+L 4 100 30 100 50 {}
+L 4 -90 10 -70 10 {}
+L 4 190 10 210 10 {}
+B 4 -45 -0 -0 15 {}
+B 4 120 0 165 15 {}
+B 5 -92.5 7.5 -87.5 12.5 {name=o1 dir=inout}
+B 5 207.5 7.5 212.5 12.5 {name=o2 dir=inout}
+A 4 47.5 -37.5 22.63846284534354 83.65980825409009 102.6803834918198 {}
+A 4 72.5 -37.5 22.63846284534354 353.6598082540901 102.6803834918198 {}
+A 4 2.5 -17.5 22.63846284534354 263.6598082540901 102.6803834918198 {}
+A 4 117.5 -17.5 22.63846284534354 173.6598082540901 102.6803834918198 {}
+A 4 2.5 32.5 22.63846284534354 353.6598082540901 102.6803834918198 {}
+A 4 47.5 52.5 22.63846284534354 173.6598082540901 102.6803834918198 {}
+A 4 72.5 52.5 22.63846284534354 263.6598082540901 102.6803834918198 {}
+A 4 117.5 32.5 22.63846284534354 83.65980825409008 102.6803834918198 {}
+A 4 2.5 -17.5 17.67766952966369 261.869897645844 106.260204708312 {}
+A 4 45 -40.5 25.00499950009997 78.46537934635529 102.6803834918198 {}
+A 4 72.5 -37.5 27.61340254296815 354.8055710922652 90 {}
+A 4 117.5 -17.5 17.67766952966369 188.130102354156 89.99999999999997 {}
+A 4 2.5 32.5 17.67766952966369 351.869897645844 106.260204708312 {}
+A 4 42.5 57.5 22.63846284534354 173.6598082540901 102.6803834918198 {}
+A 4 75.5 55 25.00499950009997 268.8542371618249 102.6803834918198 {}
+A 4 117.5 32.5 17.67766952966369 81.86989764584403 89.99999999999999 {}
+T {@name} 110 -73.75 0 0 0.2 0.2 {}
+T {@length_x * @length_y / @delta_length} 110 -38.75 0 0 0.2 0.2 {layer=13}
+T {@model} 110 -56.25 0 0 0.2 0.2 {}
+T {o1} -89.25 -7.75 0 1 0.15 0.15 {layer=7}
+T {o2} 214.5 -10.25 0 1 0.15 0.15 {layer=7}

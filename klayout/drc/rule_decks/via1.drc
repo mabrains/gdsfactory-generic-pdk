@@ -1,0 +1,59 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- VIA1 ---------------------
+#================================================ 
+
+# Rule via1.w.1: min/max via1 size is 0.7µm.
+logger.info('Executing rule via1.w.1')
+via1_w_1_l1 = via1_layer.edges.without_length(0.7.um)
+via1_w_1_l1.output('via1.w.1', 'via1.w.1 : min/max via1 size : 0.7µm.')
+via1_w_1_l1.forget
+
+# Rule via1.s.1: via1 minimum space is 0.7µm.
+logger.info('Executing rule via1.s.1')
+via1_s_1_l1  = via1_layer.space(0.7.um, euclidian)
+via1_s_1_l1.output('via1.s.1', 'via1.s.1 : via1 minimum space : 0.7µm.')
+via1_s_1_l1.forget 
+
+# Rule via1.en.1: m1 minimum overlap of via1 is 0.2µm.
+logger.info('Executing rule via1.en.1')
+via1_en_1_l1 = via1_layer.enclosed(m1_layer, 0.2.um, euclidian).polygons(0.001.um)
+via1_en_1_l2 = via1_layer.not_outside(m1_layer).not(m1_layer)
+via1_en_1_l  = via1_en_1_l1.join(via1_en_1_l2)
+via1_en_1_l.output('via1.en.1', 'via1.en.1 : m1 minimum overlap of via1 : 0.2µm.')
+via1_en_1_l1.forget
+via1_en_1_l2.forget
+via1_en_1_l.forget
+
+# Rule via1.en.2: m2 minimum overlap of via1 is 0.2µm.
+logger.info('Executing rule via1.en.2')
+via1_en_2_l1 = via1_layer.enclosed(m2_layer, 0.2.um, euclidian).polygons(0.001.um)
+via1_en_2_l2 = via1_layer.not_outside(m2_layer).not(m2_layer)
+via1_en_2_l  = via1_en_2_l1.join(via1_en_2_l2)
+via1_en_2_l.output('via1.en.2', 'via1.en.2 : m2 minimum overlap of via1 : 0.2µm.')
+via1_en_2_l1.forget
+via1_en_2_l2.forget
+via1_en_2_l.forget
+

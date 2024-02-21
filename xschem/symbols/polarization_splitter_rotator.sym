@@ -1,0 +1,75 @@
+v {xschem version=3.1.0 file_version=1.2 
+
+* ===================================================================================
+* Copyright (c) 2024, Mabrains LLC
+* Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+* you may not use this file except in compliance with the License.
+*
+*                    GNU Lesser General Public License
+*                       Version 3, 29 June 2007
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+* SPDX-License-Identifier: LGPL-3.0
+* ===================================================================================
+
+}
+G {}
+K {type=photonic
+format="@spiceprefix@name @pinlist @model width_taper_in1=@width_taper_in1 width_taper_in2=@width_taper_in2 width_taper_in3=@width_taper_in3 length_taper_in1=@length_taper_in1 length_taper_in2=@length_taper_in2 length_taper_in3=@length_taper_in3 width_coupler_top=@width_coupler_top width_coupler_bottom=@width_coupler_bottom length_coupler=@length_coupler gap=@gap width_out=@width_out length_out=@length_out dy=@dy"
+template="name=rotator1
+width_taper_in1=0.54u
+width_taper_in2=0.69u
+width_taper_in3=0.83u
+length_taper_in1=4.0u
+length_taper_in2=44.0u
+length_taper_in3=44.0u
+width_coupler_top=0.9u
+width_coupler_bottom=0.405u
+length_coupler=7.0u
+gap=0.15u
+width_out=0.54u
+length_out=14.33u
+dy=5.0u
+model=polarization_splitter_rotator
+spiceprefix=P"
+}
+V {}
+S {}
+E {}
+L 4 280 -460 330 -460 {}
+L 4 280 -450 330 -450 {}
+L 4 180 -430 430 -430 {}
+L 4 180 -440 430 -440 {}
+L 4 120 -440 180 -440 {}
+L 4 120 -430 180 -430 {}
+L 4 280 -460 280 -450 {}
+L 4 430 -480 430 -470 {}
+L 4 430 -440 430 -430 {}
+L 4 120 -440 120 -430 {}
+L 4 100 -430 120 -430 {}
+L 4 430 -430 460 -430 {}
+L 4 430 -470 460 -470 {}
+B 5 97.5 -432.5 102.5 -427.5 {name=o1 dir=inout}
+B 5 457.5 -472.5 462.5 -467.5 {name=o2 dir=inout}
+B 5 457.5 -432.5 462.5 -427.5 {name=o3 dir=inout}
+A 4 335 -565 105.1189802081432 267.2736890060937 28.07248693585299 {}
+A 4 425 -375 105.1189802081432 87.27368900609375 28.07248693585299 {}
+A 4 335 -555 105.1189802081432 267.2736890060937 28.07248693585299 {}
+A 4 425 -365 105.1189802081432 87.27368900609375 28.07248693585299 {}
+T {@name} 250 -543.75 0 0 0.2 0.2 {}
+T {@length_coupler / @gap} 250 -508.75 0 0 0.2 0.2 {layer=13}
+T {@model} 250 -526.25 0 0 0.2 0.2 {}
+T {o1} 107 -449 0 1 0.15 0.15 {layer=7}
+T {o2} 467 -489 0 1 0.15 0.15 {layer=7}
+T {o3} 467 -449 0 1 0.15 0.15 {layer=7}

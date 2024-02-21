@@ -1,0 +1,284 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#------------- LAYERS DEFINITIONS ---------------
+#================================================
+polygons_count = 0
+logger.info("Read in polygons from layers.")
+
+def get_polygons(l, d)
+  if $run_mode == "deep"
+    polygons(l, d)
+  else
+    polygons(l, d).merged
+  end
+end
+
+wafer_layer = get_polygons(999, 0)
+count = wafer_layer.count()
+logger.info("wafer_layer has #{count} polygons")
+polygons_count += count
+
+wg_layer   = get_polygons(1, 0)
+count = wg_layer.count()
+logger.info("wg_layer has #{count} polygons")
+polygons_count += count
+
+wgclad_layer = get_polygons(111, 0)
+count = wgclad_layer.count()
+logger.info("wgclad_layer has #{count} polygons")
+polygons_count += count
+
+slab150_layer = get_polygons(2, 0)
+count = slab150_layer.count()
+logger.info("slab150_layer has #{count} polygons")
+polygons_count += count
+
+slab90_layer = get_polygons(3, 0)
+count = slab90_layer.count()
+logger.info("slab90_layer has #{count} polygons")
+polygons_count += count
+
+deeptrench_layer = get_polygons(4, 0)
+count = deeptrench_layer.count()
+logger.info("deeptrench_layer has #{count} polygons")
+polygons_count += count
+
+ge_layer   = get_polygons(5, 0)
+count = ge_layer.count()
+logger.info("ge_layer has #{count} polygons")
+polygons_count += count
+
+undercut_layer = get_polygons(6, 0)
+count = undercut_layer.count()
+logger.info("undercut_layer has #{count} polygons")
+polygons_count += count
+
+wgn_layer  = get_polygons(34, 0)
+count = wgn_layer.count()
+logger.info("wgn_layer has #{count} polygons")
+polygons_count += count
+
+wgn_clad_layer = get_polygons(35, 0)
+count = wgn_clad_layer.count()
+logger.info("wgn_clad_layer has #{count} polygons")
+polygons_count += count
+
+n_layer    = get_polygons(20, 0)
+count = n_layer.count()
+logger.info("n_layer has #{count} polygons")
+polygons_count += count
+
+np_layer   = get_polygons(22, 0)
+count = np_layer.count()
+logger.info("np_layer has #{count} polygons")
+polygons_count += count
+
+npp_layer  = get_polygons(24, 0)
+count = npp_layer.count()
+logger.info("npp_layer has #{count} polygons")
+polygons_count += count
+
+p_layer    = get_polygons(21, 0)
+count = p_layer.count()
+logger.info("p_layer has #{count} polygons")
+polygons_count += count
+
+pp_layer   = get_polygons(23, 0)
+count = pp_layer.count()
+logger.info("pp_layer has #{count} polygons")
+polygons_count += count
+
+ppp_layer  = get_polygons(25, 0)
+count = ppp_layer.count()
+logger.info("ppp_layer has #{count} polygons")
+polygons_count += count
+
+gen_layer  = get_polygons(26, 0)
+count = gen_layer.count()
+logger.info("gen_layer has #{count} polygons")
+polygons_count += count
+
+gep_layer  = get_polygons(27, 0)
+count = gep_layer.count()
+logger.info("gep_layer has #{count} polygons")
+polygons_count += count
+
+mh_layer   = get_polygons(47, 0)
+count = mh_layer.count()
+logger.info("mh_layer has #{count} polygons")
+polygons_count += count
+
+heater_mk_layer = get_polygons(47, 1)
+count = heater_mk_layer.count()
+logger.info("heater_mk_layer has #{count} polygons")
+polygons_count += count
+
+m1_layer   = get_polygons(41, 0)
+count = m1_layer.count()
+logger.info("m1_layer has #{count} polygons")
+polygons_count += count
+
+m2_layer   = get_polygons(45, 0)
+count = m2_layer.count()
+logger.info("m2_layer has #{count} polygons")
+polygons_count += count
+
+m3_layer   = get_polygons(49, 0)
+count = m3_layer.count()
+logger.info("m3_layer has #{count} polygons")
+polygons_count += count
+
+viac_layer = get_polygons(40, 0)
+count = viac_layer.count()
+logger.info("viac_layer has #{count} polygons")
+polygons_count += count
+
+via1_layer = get_polygons(44, 0)
+count = via1_layer.count()
+logger.info("via1_layer has #{count} polygons")
+polygons_count += count
+
+via2_layer = get_polygons(43, 0)
+count = via2_layer.count()
+logger.info("via2_layer has #{count} polygons")
+polygons_count += count
+
+padopen_layer = get_polygons(46, 0)
+count = padopen_layer.count()
+logger.info("padopen_layer has #{count} polygons")
+polygons_count += count
+
+dicing_layer = get_polygons(100, 0)
+count = dicing_layer.count()
+logger.info("dicing_layer has #{count} polygons")
+polygons_count += count
+
+no_tile_si_layer = get_polygons(71, 0)
+count = no_tile_si_layer.count()
+logger.info("no_tile_si_layer has #{count} polygons")
+polygons_count += count
+
+padding_layer = get_polygons(67, 0)
+count = padding_layer.count()
+logger.info("padding_layer has #{count} polygons")
+polygons_count += count
+
+devrec_layer = get_polygons(68, 0)
+count = devrec_layer.count()
+logger.info("devrec_layer has #{count} polygons")
+polygons_count += count
+
+floorplan_layer = get_polygons(64, 0)
+count = floorplan_layer.count()
+logger.info("floorplan_layer has #{count} polygons")
+polygons_count += count
+
+text_layer = get_polygons(66, 0)
+count = text_layer.count()
+logger.info("text_layer has #{count} polygons")
+polygons_count += count
+
+port_layer = get_polygons(1, 10)
+count = port_layer.count()
+logger.info("port_layer has #{count} polygons")
+polygons_count += count
+
+porte_layer = get_polygons(1, 11)
+count = porte_layer.count()
+logger.info("porte_layer has #{count} polygons")
+polygons_count += count
+
+porth_layer = get_polygons(70, 0)
+count = porth_layer.count()
+logger.info("porth_layer has #{count} polygons")
+polygons_count += count
+
+show_ports_layer = get_polygons(1, 12)
+count = show_ports_layer.count()
+logger.info("show_ports_layer has #{count} polygons")
+polygons_count += count
+
+label_optical_io_layer = get_polygons(201, 0)
+count = label_optical_io_layer.count()
+logger.info("label_optical_io_layer has #{count} polygons")
+polygons_count += count
+
+optical_lbl_layer = get_polygons(2000, 0)
+count = optical_lbl_layer.count()
+logger.info("optical_lbl_layer has #{count} polygons")
+polygons_count += count
+
+label_settings_layer = get_polygons(202, 0)
+count = label_settings_layer.count()
+logger.info("label_settings_layer has #{count} polygons")
+polygons_count += count
+
+te_layer   = get_polygons(203, 0)
+count = te_layer.count()
+logger.info("te_layer has #{count} polygons")
+polygons_count += count
+
+tm_layer   = get_polygons(204, 0)
+count = tm_layer.count()
+logger.info("tm_layer has #{count} polygons")
+polygons_count += count
+
+drc_marker_layer = get_polygons(205, 0)
+count = drc_marker_layer.count()
+logger.info("drc_marker_layer has #{count} polygons")
+polygons_count += count
+
+label_instance_layer = get_polygons(206, 0)
+count = label_instance_layer.count()
+logger.info("label_instance_layer has #{count} polygons")
+polygons_count += count
+
+error_marker_layer = get_polygons(207, 0)
+count = error_marker_layer.count()
+logger.info("error_marker_layer has #{count} polygons")
+polygons_count += count
+
+error_path_layer = get_polygons(208, 0)
+count = error_path_layer.count()
+logger.info("error_path_layer has #{count} polygons")
+polygons_count += count
+
+source_layer = get_polygons(110, 0)
+count = source_layer.count()
+logger.info("source_layer has #{count} polygons")
+polygons_count += count
+
+monitor_layer = get_polygons(101, 0)
+count = monitor_layer.count()
+logger.info("monitor_layer has #{count} polygons")
+polygons_count += count
+
+mzi_len_mk_layer = get_polygons(500, 0)
+count = mzi_len_mk_layer.count()
+logger.info("mzi_len_mk_layer has #{count} polygons")
+polygons_count += count
+
+
+logger.info("Total no. of polygons in the design is #{polygons_count}")

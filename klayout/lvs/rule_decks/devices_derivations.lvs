@@ -1,0 +1,80 @@
+# frozen_string_literal: true
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#==================================
+# ------ GENERAL DERIVATIONS ------
+#==================================
+
+logger.info('Starting General LVS derivations Setup')
+
+# %include general_derivations.lvs
+
+#================================
+# ----- COUPLER DERIVATIONS ------
+#================================
+
+logger.info('Starting Coupler LVS Derivations Setup')
+
+# %include coupler_derivations.lvs
+
+#================================
+# ----- HEATER DERIVATIONS ------
+#================================
+
+logger.info('Starting Heater LVS Derivations Setup')
+
+# %include heater_derivations.lvs
+
+#=============================
+# ----- MMI DERIVATIONS ------
+#=============================
+
+logger.info('Starting MMI LVS Derivations Setup')
+
+# %include mmi_derivations.lvs
+
+#=============================
+# ----- DBR DERIVATIONS ------
+#=============================
+
+logger.info('Starting DBR LVS Derivations Setup')
+
+# %include dbr_derivations.lvs
+
+#=============================
+# ----- DISK DERIVATIONS ------
+#=============================
+
+logger.info('Starting Disk LVS Derivations Setup')
+
+# %include disk_derivations.lvs
+
+#=========================================
+# ----- Grating-Coupler DERIVATIONS ------
+#=========================================
+
+logger.info('Starting Grating-Coupler LVS Derivations Setup')
+
+# %include gcoupler_derivations.lvs
