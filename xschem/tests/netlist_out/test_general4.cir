@@ -40,9 +40,6 @@ x7 pin3 net7 test_ring_single_pn
 
 * expanding   symbol:  tests/test_sch/test_cdc.sym # of pins=4
 ** sym_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_cdc.sym
-** sch_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_cdc.sch
 .subckt test_cdc pin1 pin2 pin3 pin4
 *.iopin pin2
 *.iopin pin3
@@ -61,9 +58,6 @@ Pcdc2 net1 net2 net3 net4 cdc length=30.0u gap=0.5u period=0.22 duty_cycle=0.5 w
 
 * expanding   symbol:  tests/test_sch/test_coupler_adiabatic.sym # of pins=4
 ** sym_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_coupler_adiabatic.sym
-** sch_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_coupler_adiabatic.sch
 .subckt test_coupler_adiabatic pin1 pin2 pin3 pin4
 *.iopin pin1
 *.iopin pin2
@@ -81,9 +75,6 @@ Pcdc1 pin4 pin3 net6 net5 cdc length=30.0u gap=0.5u period=0.22 duty_cycle=0.5 w
 
 * expanding   symbol:  tests/test_sch/test_coupler_broadband.sym # of pins=4
 ** sym_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_coupler_broadband.sym
-** sch_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_coupler_broadband.sch
 .subckt test_coupler_broadband pin1 pin2 pin3 pin4
 *.iopin pin1
 *.iopin pin2
@@ -102,9 +93,6 @@ Pcoupler_broadband2 net2 net1 net3 net4 coupler_broadband w_sc=0.5u gap_sc=0.2u 
 
 * expanding   symbol:  tests/test_sch/test_dbr_tapered.sym # of pins=3
 ** sym_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_dbr_tapered.sym
-** sch_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_dbr_tapered.sch
 .subckt test_dbr_tapered pin1 pin2 pin3
 *.iopin pin2
 *.iopin pin1
@@ -124,9 +112,6 @@ Pdbr_tapered5 net3 pin3 dbr_tapered length=10.0u period=0.85 duty_cycle=0.5 w1=0
 
 * expanding   symbol:  tests/test_sch/test_grating_coupler_elliptical_lumerical.sym # of pins=2
 ** sym_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_grating_coupler_elliptical_lumerical.sym
-** sch_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_grating_coupler_elliptical_lumerical.sch
 .subckt test_grating_coupler_elliptical_lumerical pin1 pin2
 *.iopin pin1
 *.iopin pin2
@@ -147,9 +132,6 @@ Pgrating_coupler_elliptical_lumerical6 pin2 grating_coupler_elliptical_lumerical
 
 * expanding   symbol:  tests/test_sch/test_mmi2x2.sym # of pins=4
 ** sym_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_mmi2x2.sym
-** sch_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_mmi2x2.sch
 .subckt test_mmi2x2 pin1 pin2 pin3 pin4
 *.iopin pin1
 *.iopin pin2
@@ -168,9 +150,6 @@ Pmmi4 net5 net6 pin3 pin4 mmi2x2 width=0.5u width_taper=1u length_taper=10u leng
 
 * expanding   symbol:  tests/test_sch/test_ring_single_pn.sym # of pins=2
 ** sym_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_ring_single_pn.sym
-** sch_path:
-*+ /home/rehab/Documents/repos/generic_pdk/gdsfactory-generic_pdk/cells/xschem/tests/test_sch/test_ring_single_pn.sch
 .subckt test_ring_single_pn pin1 pin2
 *.iopin pin1
 *.iopin pin2
