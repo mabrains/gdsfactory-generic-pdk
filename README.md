@@ -45,7 +45,7 @@ This includes:
  Currently it supports;
 
   * For Schematic:
-     - xschem
+     - Xschem
   * For DRC/LVS/Pcells:
      - Klayout
 

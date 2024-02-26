@@ -13,7 +13,6 @@ Explains how to use the Generic-PDK LVS.
     - [CLI](#cli)
       - [Options](#options)
       - [LVS Outputs](#lvs-outputs)
-        - [Folder Structure of run results](#folder-structure-of-run-results)
     - [GUI](#gui)
   - [Demo-Example](#demo-example)
     - [Schematic](#schematic)
@@ -106,7 +105,7 @@ The `run_lvs.py` script takes your gds and netlist files to run LVS rule decks w
 
 You could find the run results at your run directory if you previously specified it through `--run_dir=<run_dir_path>`. Default path of run directory is `lvs_run_<date>_<time>` in current directory.
 
-##### Folder Structure of run results
+**Folder Structure of run results**
 
 ```text
 📁 lvs_run_<date>_<time>
@@ -141,7 +140,7 @@ You can also locate the extracted netlist generated from your design at `<your_d
 The GenericPDK also facilitates LVS execution via Klayout menus, integrated with Klayout through the PDK [installation](../../README.md#installation) as depicted below:
 
 <p align="center">
-  <img src="../../images/lvs_menus.png" width="100%" >
+  <img src="../../images/lvs_menus.png" width="60%" >
 </p>
 <p align="center">
   Fig. 3. Visualization of LVS results on Klayout-GUI
