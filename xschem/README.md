@@ -90,10 +90,10 @@ xschem -o .
   Fig. 1. Available xschem tests for added symbols.
 </p>
 
-Simple Generic-PDK schematic is depicted in Fig. 2.
+Simple Generic-PDK schematic for Lidar device is depicted in Fig. 2.
 
 <p align="center">
-  <img src="../images/xschem_example.png" width="110%" >
+  <img src="../images/lidar_sch.png" width="110%" >
 </p>
 <p align="center">
   Fig. 2. Example for Generic-PDK schematic.
@@ -102,20 +102,39 @@ Simple Generic-PDK schematic is depicted in Fig. 2.
 The following netlist is generated from xschem for the previous example:
 
 ```
-.subckt test_general2 pin1 pin2 pin3 pin4
-*.PININFO pin1:B pin2:B pin3:B pin4:B
-Pcoupler_full1 net1 net2 net4 net3 coupler_full coupling_length=40.0u dx=10.0u dy=4.8u gap=0.5u dw=0.1u
-Pdbr_tapered1 net3 net5 dbr_tapered length=10.0u period=0.85 duty_cycle=0.5 w1=0.4u w2=1.0u
-+ taper_length=20.0u
-Pinterdigital_capacitor1 pin2 pin3 interdigital_capacitor fingers=4 finger_length=20.0u
-+ finger_gap=2.0u thickness=5.0u
-Pmmi1 pin1 net2 net1 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u width_mmi=2.5u
-+ gap_mmi=0.25u
-Pring1 net4 net4 net7 ring_single_heater gap=0.2u radius=10.0u length_x=4.0u length_y=0.6u
-Ppin1 net5 net6 pin3 pin2 straight_pin_slot length=500.0u via_stack_width=10.0u
-+ via_stack_slab_width=10.0u via_stack_spacing=2u via_stack_slab_spacing=2.0u
-Pgrating_coupler_rectangular1 net6 grating_coupler_rectangular n_periods=20 period=0.75
-+ fill_factor=0.5 width_grating=11.0u length_taper=150.0u wavelength=1.55u fiber_angle=15 slab_xmin=-1.0u slab_offset=1.0u
-Pmzm1 net7 pin4 mzm length_x=500u length_y=2.0u delta_length=0.0u
+.subckt lidar o_in GND h1 h2 h3 h4
+*.iopin o_in
+*.iopin GND
+*.iopin h1
+*.iopin h2
+*.iopin h3
+*.iopin h4
+Pmmi1 o_in net2 net1 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u
++ width_mmi=2.5u gap_mmi=0.25u
+Pmmi2 net1 net3 net10 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u
++ width_mmi=2.5u gap_mmi=0.25u
+Pmmi3 net2 net5 net4 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u
++ width_mmi=2.5u gap_mmi=0.25u
+Pheater1 net10 net13 h1 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pheater2 net3 net14 h2 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pheater3 net4 net12 h3 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pheater4 net5 net11 h4 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pdbr1 net13 net7 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pdbr2 net14 net6 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pdbr3 net12 net9 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pdbr4 net11 net8 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pgrating_coupler_elliptical1 net7 grating_coupler_elliptical taper_length=15u taper_angle=40.0
++ wavelength=1.554u fiber_angle=15.0 grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+Pgrating_coupler_elliptical5 net6 grating_coupler_elliptical taper_length=15u taper_angle=40.0
++ wavelength=1.554u fiber_angle=15.0u grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+Pgrating_coupler_elliptical6 net8 grating_coupler_elliptical taper_length=15u taper_angle=40.0
++ wavelength=1.554u fiber_angle=15.0u grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+Pgrating_coupler_elliptical7 net9 grating_coupler_elliptical taper_length=15u taper_angle=40.0u
++ wavelength=1.554u fiber_angle=15.0 grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
 .ends
+.end
 ```

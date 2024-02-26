@@ -15,6 +15,12 @@ Explains how to use the Generic-PDK LVS.
       - [LVS Outputs](#lvs-outputs)
         - [Folder Structure of run results](#folder-structure-of-run-results)
     - [GUI](#gui)
+  - [Demo-Example](#demo-example)
+    - [Schematic](#schematic)
+    - [Layout](#layout)
+    - [LVS-Testing](#lvs-testing)
+      - [CLI](#cli-1)
+      - [GUI](#gui-1)
 
 
 ## Folder Structure
@@ -46,7 +52,7 @@ The following table explains the list of available Generic-PDK device we have su
 
 ## Usage
 
-You have the option to execute the GenericPDK-LVS through either a Python script via the command-line interface (CLI) or by the Klayout graphical user interface (GUI), as detailed in the subsequent usage sections.
+You have the option to execute the GenericPDK-LVS through either a Python script via the command-line interface [CLI](#cli) or by the Klayout graphical user interface [GUI](#gui), as detailed in the subsequent usage sections.
 
 ### CLI
 
@@ -55,11 +61,6 @@ The `run_lvs.py` script takes your gds and netlist files to run LVS rule decks w
 ```bash
     run_lvs.py (--help| -h)
     run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>) [--thr=<thr>] [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>] [--verbose] [--lvs_sub=<sub_name>] [--no_net_names] [--spice_comments] [--scale] [--schematic_simplify] [--net_only] [--top_lvl_pins] [--combine] [--purge] [--purge_nets]
-```
-
-Example:
-```bash
-    python3 run_lvs.py --layout=testing/testcases/unit/lidar_device/lidar.gds --netlist=testing/testcases/unit/lidar_device/lidar.cdl --run_dir=lvs_lidar_run
 ```
 
 #### Options
@@ -147,3 +148,101 @@ The GenericPDK also facilitates LVS execution via Klayout menus, integrated with
 </p>
 
 Upon executing the LVS using the `Run Klayout LVS` option, the result database will appear on your layout interface, allowing you to verify the outcome of the run similarly as shown above in Fig. 2.
+
+## Demo-Example
+
+The example shows a Lidar device implemented using GenericPDK technology. 
+
+### Schematic
+
+Figure 4 displays the device's [schematic](./testing/testcases/unit/lidar_device/lidar.sch) created using xschem.
+
+<p align="center">
+  <img src="../../images/lidar_sch.png" width="100%" >
+</p>
+<p align="center">
+  Fig. 4. Schematic for lidar device using GenericPDK
+</p>
+
+
+**Note**: The netlist will be produced in the selected output directory. It is recommended to launch the tool using the following command:
+
+```bash
+xschem lidar.sch -o .
+```
+
+This command ensures that the output netlist is generated in the current directory.
+
+Following that, you can generate the netlist from this schematic for LVS testing. This can be accomplished by using the 'netlist' option available in the xschem-GUI, as demonstrated in Figure 5.
+
+<p align="center">
+  <img src="../../images/netlist_ext.png" width="100%" >
+</p>
+<p align="center">
+  Fig. 5. Netlist extraction step from xschem for lidar device
+</p>
+
+The following netlist the generated from xschem for Lidar device.
+
+```
+.subckt lidar o_in GND h1 h2 h3 h4
+*.iopin o_in
+*.iopin GND
+*.iopin h1
+*.iopin h2
+*.iopin h3
+*.iopin h4
+Pmmi1 o_in net2 net1 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u
++ width_mmi=2.5u gap_mmi=0.25u
+Pmmi2 net1 net3 net10 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u
++ width_mmi=2.5u gap_mmi=0.25u
+Pmmi3 net2 net5 net4 mmi1x2 width=0.5u width_taper=1u length_taper=10u length_mmi=5.5u
++ width_mmi=2.5u gap_mmi=0.25u
+Pheater1 net10 net13 h1 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pheater2 net3 net14 h2 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pheater3 net4 net12 h3 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pheater4 net5 net11 h4 GND straight_heater_meander length=300.0u spacing=2.0u heater_width=2.5u
++ extension_length=15.0u radius=90u heater_taper_length=10.0u taper_length=10.0u
+Pdbr1 net13 net7 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pdbr2 net14 net6 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pdbr3 net12 net9 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pdbr4 net11 net8 dbr w1=0.476u l1=0.159u w2=0.524u l2=0.159u n=100
+Pgrating_coupler_elliptical1 net7 grating_coupler_elliptical taper_length=15u taper_angle=40.0
++ wavelength=1.554u fiber_angle=15.0 grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+Pgrating_coupler_elliptical5 net6 grating_coupler_elliptical taper_length=15u taper_angle=40.0
++ wavelength=1.554u fiber_angle=15.0u grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+Pgrating_coupler_elliptical6 net8 grating_coupler_elliptical taper_length=15u taper_angle=40.0
++ wavelength=1.554u fiber_angle=15.0u grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+Pgrating_coupler_elliptical7 net9 grating_coupler_elliptical taper_length=15u taper_angle=40.0u
++ wavelength=1.554u fiber_angle=15.0 grating_line_width=0.343u n_periods=30 slab_xmin=-1.0u slab_offset=2.0u
+.ends
+.end
+```
+
+### Layout
+
+Figure 6 displays the device's [layout](./testing/testcases/unit/lidar_device/lidar.gds) created using Klayout.
+
+<p align="center">
+  <img src="../../images/layout_lidar.png" width="100%" >
+</p>
+<p align="center">
+  Fig. 5. Layout for Lidar device implemented using GenericPDK
+</p>
+
+### LVS-Testing
+
+#### CLI
+
+```bash
+    python3 run_lvs.py --layout=testing/testcases/unit/lidar_device/lidar.gds --netlist=testing/testcases/unit/lidar_device/lidar.cdl --run_dir=lvs_lidar_run
+```
+
+Please refer to [Usage](#usage) section for more details.
+
+#### GUI
+
+You could also run the LVS using Klayout-Menus supported for GenericPDK as explained above in Fig. 3.
