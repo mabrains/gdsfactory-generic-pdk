@@ -70,6 +70,12 @@ After this, you will need to create a python virtual environment:
 ```bash
 python3 -m venv ./generic_pdk_env && source ./generic_pdk_env/bin/activate
 ```
+
+Also, you will need to execute the following command and make sure to replace `PYTHON_VERSION` with your proper python version:
+```bash
+export KLAYOUT_PYTHONPATH=$PWD/generic_pdk_env/lib/python<PYTHON_VERSION>/site-packages/
+```
+
 And then
 ```bash
 cd gdsfactory-generic-pdk
