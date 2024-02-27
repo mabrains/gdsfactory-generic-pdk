@@ -54,52 +54,69 @@ This includes:
 At a minimum:
 
 - python 3.10+
-- gdsfactory 7.11.2+
+- python3-venv
 - klayout 0.28.14+
 - xschem V3.1.0+
-- python3-venv
 
 ## Installation
 
-First, you would need to clone the project in a location where you want to keep your pdk and associated environment:
+To begin, create a new directory that will contain all GenericPDK setup files and environment configurations:
+
+```bash
+mkdir generic_pdk_setup && cd generic_pdk_setup/
+```
+
+Next, clone the project into the current directory you have created:
+
 ```bash
 git clone https://github.com/mabrains/gdsfactory-generic-pdk
 ```
 
-After this, you will need to create a python virtual environment:
+Afterward, you will need to create a python virtual environment:
+
 ```bash
 python3 -m venv ./generic_pdk_env && source ./generic_pdk_env/bin/activate
 ```
 
-Also, you will need to execute the following command and make sure to replace `PYTHON_VERSION` with your proper python version:
-```bash
-export KLAYOUT_PYTHONPATH=$PWD/generic_pdk_env/lib/python<PYTHON_VERSION>/site-packages/
-```
+And then:
 
-And then
 ```bash
 cd gdsfactory-generic-pdk
 ```
 
-To install required python packages, you need to run the following command:
+"Subsequently, to install the required Python packages, execute the following command:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-To install the Generic-PDK for klayout tool, you could run the following commands:
+Lastly, to install the Generic-PDK for the KLayout tool, execute the following commands:
 
 ```bash
-    install_tech.py (--help| -h)
-    install_tech.py (--tech_name=<tech_name>) (--tech_path=<tech_path>)
+python3 install_tech.py --tech_path=$PWD/klayout/ --klayout_home=$PWD/../generic_pdk_klayout --python_env=$PWD/../generic_pdk_env/ 
+```
+
+This will install the Generic-PDK technology in the KLayout tool. You can then open it by executing the following command:
+
+> **Note**: Open a new terminal before executing the following command.
+
+```bash
+klayout_generic_pdk
+```
+
+Alternatively, to open a pre-existing layout, you can use the following command:
+
+```bash
+klayout_generic_pdk <your_layout_file>
 ```
 
 Example:
 
 ```bash
-python3 install_tech.py --tech_name=Generic_PDK --tech_path=$PWD/klayout
+klayout_generic_pdk klayout/lvs/testing/testcases/unit/lidar_device/lidar.gds
 ```
 
-This will add the Generic-PDK technology in the Klayout tool as shown:
+You will observe that the PDK has been added to KLayout, as illustrated in Figure 1.
 
 <p align="center">
   <img src="images/pdk_klayout.png" width="100%" >

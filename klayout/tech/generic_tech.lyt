@@ -29,7 +29,7 @@
  <group/>
  <dbu>0.001</dbu>
  <base-path/>
- <original-base-path>$PDK_ROOT/klayout/tech</original-base-path>
+ <original-base-path>$KLAYOUT_HOME/</original-base-path>
  <layer-properties_file>generic_tech.lyp</layer-properties_file>
  <add-other-layers>true</add-other-layers>
  <reader-options>

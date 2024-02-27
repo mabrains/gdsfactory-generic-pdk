@@ -70,4 +70,4 @@ For more information about using Generic-PDK LVS rules, please refer to [Klayout
 
 ### Layers
 
-Please refer to [GenericPDK-Layers](generic_layers.csv) file for more details about the available layers supported in GenericPDK technology.
+Please refer to [GenericPDK-Layers](./tech/generic_layers.csv) file for more details about the available layers supported in GenericPDK technology.
