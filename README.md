@@ -57,6 +57,7 @@ At a minimum:
 - gdsfactory 7.11.2+
 - klayout 0.28.14+
 - xschem V3.1.0+
+- python3-venv
 
 ## Installation
 
@@ -67,8 +68,7 @@ git clone https://github.com/mabrains/gdsfactory-generic-pdk
 
 After this, you will need to create a python virtual environment:
 ```bash
-python3 -m venv ./generic_pdk_env
-source ./generic_pdk_env/bin/activate
+python3 -m venv ./generic_pdk_env && source ./generic_pdk_env/bin/activate
 ```
 And then
 ```bash
