@@ -77,7 +77,7 @@ cd gdsfactory-generic-pdk
 
 To install required python packages, you need to run the following command:
 ```bash
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 To install the Generic-PDK for klayout tool, you could run the following commands:
