@@ -24,6 +24,7 @@
 
 ## Here is a list of python packages required for Generic PDK
 
+gdsfactory
 flake8
 docopt
 gdstk
