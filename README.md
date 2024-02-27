@@ -58,16 +58,29 @@ At a minimum:
 - klayout 0.28.14+
 - xschem V3.1.0+
 
-To install some required python packages, you need to run the following command:
-
-```bash
-python3.10 -m pip install -r requirements.txt
-```
-
 ## Installation
 
-To install the Generic-PDK for klayout tool, you could run the following commands:
+First, you would need to clone the project in a location where you want to keep your pdk and associated environment:
+```bash
+git clone https://github.com/mabrains/gdsfactory-generic-pdk
+```
 
+After this, you will need to create a python virtual environment:
+```bash
+python3 -m venv ./generic_pdk_env
+source ./generic_pdk_env/bin/activate
+```
+And then
+```bash
+cd gdsfactory-generic-pdk
+```
+
+To install required python packages, you need to run the following command:
+```bash
+pip3 install -r requirements.txt
+```
+
+To install the Generic-PDK for klayout tool, you could run the following commands:
 
 ```bash
     install_tech.py (--help| -h)
