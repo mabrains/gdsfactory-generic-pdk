@@ -113,7 +113,7 @@ def check_drc_results(results_db_files: list):
         logging.info("Klayout DRC run is clean. GDS has no DRC violations.")
 
 
-def generate_drc_run_template(drc_dir: str, run_dir: str, run_tables_list: list = []):
+def generate_drc_run_template(drc_dir: str, run_dir: str, run_tables_list: list):
     """
     generate_drc_run_template will generate the template file to run drc in the run_dir path.
 

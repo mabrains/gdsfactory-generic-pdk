@@ -9,9 +9,10 @@ Explains how to use the Generic-PDK DRC.
 - [Table of contents](#table-of-contents)
   - [Folder Structure](#folder-structure)
   - [Usage](#usage)
-    - [Options](#options)
-    - [DRC Outputs](#drc-outputs)
-    - [Folder Structure of run results](#folder-structure-of-run-results)
+    - [CLI](#cli)
+      - [Options](#options)
+      - [DRC Outputs](#drc-outputs)
+    - [GUI](#gui)
 
 
 ## Folder Structure
@@ -26,6 +27,10 @@ Explains how to use the Generic-PDK DRC.
 
 ## Usage
 
+You have the option to execute the GenericPDK-DRC through either a Python script via the command-line interface [CLI](#cli) or by the Klayout graphical user interface [GUI](#gui), as detailed in the subsequent usage sections.
+
+### CLI
+
 The `run_drc.py` script takes a gds file to run DRC rule decks with switches to select subsets of all checks.
 
 ```bash
@@ -39,7 +44,7 @@ Example:
 python3 run_drc.py --path=testing/testcases/unit/wg.gds --run_mode=deep --run_dir=wg_drc_results
 ```
 
-### Options
+#### Options
 
 `--help -h`                          Print this help message.
 
@@ -58,11 +63,11 @@ python3 run_drc.py --path=testing/testcases/unit/wg.gds --run_mode=deep --run_di
 `--verbose`                          Detailed rule execution log for debugging.
 
 
-### DRC Outputs
+#### DRC Outputs
 
 You could find the run results at your run directory if you previously specified it through `--run_dir=<run_dir_path>`, default path of run directory is `drc_run_<date>_<time>` in current directory.
 
-### Folder Structure of run results
+**Folder Structure of run results**
 
 ```text
 📁 drc_run_<date>_<time>
@@ -89,3 +94,16 @@ After selecting Marker Browser option, you could load the database file and visu
 <p align="center">
   Fig. 2. Visualization of DRC violation on Klayout-GUI
 </p>
+
+### GUI
+
+The GenericPDK also facilitates DRC execution via Klayout menus, integrated with Klayout through the PDK [installation](../../README.md#installation) as depicted below:
+
+<p align="center">
+  <img src="../../images/drc_menus.png" width="60%" >
+</p>
+<p align="center">
+  Fig. 3. Visualization of DRC results on Klayout-GUI
+</p>
+
+Upon executing the LVS using the `Run Klayout DRC` option, the result database will appear on your layout interface, allowing you to verify the outcome of the run similarly as shown above in Fig. 2.

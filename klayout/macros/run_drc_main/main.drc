@@ -1,0 +1,1150 @@
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================================================================================
+#------------------------------ GlobalFoundries Generic PDK DRC RULE DECK ---------------------------------------
+#================================================================================================================
+require 'time'
+require 'logger'
+require 'etc'
+
+exec_start_time = Time.now
+
+logger = Logger.new($stdout)
+
+logger.formatter = proc do |_severity, datetime, _progname, msg|
+  "#{datetime}: Memory Usage (" + `pmap #{Process.pid} | tail -1`[10, 40].strip + ") : #{msg}
+"
+end
+
+#================================================
+#----------------- FILE SETUP -------------------
+#================================================
+logger.info("Starting running GenericPDK Klayout DRC runset on #{$input}")
+logger.info("Ruby Version for klayout: #{RUBY_VERSION}")
+
+if $input
+  if $topcell
+    source($input, $topcell)
+  else
+    source($input)
+  end
+end
+
+logger.info('Loading database to memory is complete.')
+
+if $report
+  logger.info("GenericPDK Klayout DRC runset output at: #{$report}")
+  report('DRC Run Report at', $report)
+else
+  layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
+  report_path = layout_dir.join('gf180_drc.lyrdb').to_s
+  logger.info("GenericPDK Klayout DRC runset output at default location: #{report_path}")
+  report('DRC Run Report at', report_path)
+end
+
+#================================================
+#------------------ SWITCHES --------------------
+#================================================
+logger.info('Evaluate switches.')
+
+def bool_check?(obj)
+  obj.to_s.downcase == 'true'
+end
+
+TABLE_NAME = $table_name || 'main'
+
+logger.info("table_name selected  #{TABLE_NAME}")
+
+# connectivity rules
+CONNECTIVITY_EN = bool_check?($conn_drc)
+
+conn_tables = %w[dnwell dnwell_split nwell nwell_split lvpwell
+                 lvpwell_split nat nat_split ldnmos ldnmos_split ldpmos ldpmos_split main]
+
+CONNECTIVITY_RULES = if conn_tables.include?(TABLE_NAME) && CONNECTIVITY_EN
+                       true
+                     else
+                       false
+                     end
+
+logger.info("CONNECTIVITY_RULES enabled: #{CONNECTIVITY_RULES}")
+
+# OFFGRID
+OFFGRID = $offgrid != 'false'
+
+logger.info("Offgrid enabled:  #{OFFGRID}")
+
+# threads
+if $thr
+  threads($thr)
+else
+  thr ||= Etc.nprocessors
+  threads(thr)
+end
+
+logger.info("Number of threads to use #{$thr}")
+
+#=== PRINT DETAILS ===
+
+verbose(bool_check?($verbose))
+
+logger.info("Verbose mode: #{$verbose}")
+
+# === TILING MODE ===
+case $run_mode
+## Tiling mode is for testing purpose only [Not used in run_drc.py]
+when 'tiling'
+  tiles(500.um)
+  tile_borders(10.um)
+  logger.info('Tiling  mode is enabled.')
+
+when 'deep'
+  #=== HIER MODE ===
+  deep
+  logger.info("deep  mode is enabled for #{TABLE_NAME} table")
+else
+  #=== FLAT MODE ===
+  flat
+  logger.info("flat  mode is enabled for #{TABLE_NAME} table")
+end
+
+#================================================
+#------------- LAYERS DEFINITIONS ---------------
+#================================================
+
+logger.info("Starting layers definitions")
+
+# %include layers_def.drc
+
+#================================================
+#------------- LAYERS DERIVATIONS ---------------
+#================================================
+
+logger.info("Starting deriving base layers.")
+
+#================================================
+#------------- LAYERS CONNECTIONS ---------------
+#================================================
+
+
+#================================================
+#------------ PRE-DEFINED FUNCTIONS -------------
+#================================================
+
+# === LAYOUT EXTENT ===
+CHIP = extent.sized(0.0)
+logger.info("Total area of the design is #{CHIP.area()} um^2.")
+
+#================================================
+#----------------- MAIN RUNSET ------------------
+#================================================
+
+logger.info("Starting GenericPDK DRC rules")
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- VIAC ---------------------
+#================================================ 
+
+# Rule viac.w.1: min/max viac size is 0.7µm.
+logger.info('Executing rule viac.w.1')
+viac_w_1_l1 = viac_layer.edges.without_length(0.7.um)
+viac_w_1_l1.output('viac.w.1', 'viac.w.1 : min/max viac size : 0.7µm.')
+viac_w_1_l1.forget
+
+# Rule viac.s.1: viac minimum space is 0.7µm.
+logger.info('Executing rule viac.s.1')
+viac_s_1_l1  = viac_layer.space(0.7.um, euclidian)
+viac_s_1_l1.output('viac.s.1', 'viac.s.1 : viac minimum space : 0.7µm.')
+viac_s_1_l1.forget 
+
+# Rule viac.en.1: npp minimum overlap of viac is 0.1µm.
+logger.info('Executing rule viac.en.1')
+viac_en_1_l1 = viac_layer.enclosed(npp_layer, 0.1.um, euclidian).polygons(0.001.um)
+viac_en_1_l2 = viac_layer.not_outside(npp_layer).not(npp_layer)
+viac_en_1_l  = viac_en_1_l1.join(viac_en_1_l2)
+viac_en_1_l.output('viac.en.1', 'viac.en.1 : npp minimum overlap of viac : 0.1µm.')
+viac_en_1_l1.forget
+viac_en_1_l2.forget
+viac_en_1_l.forget
+
+# Rule viac.en.2: ppp minimum overlap of viac is 0.1µm.
+logger.info('Executing rule viac.en.2')
+viac_en_2_l1 = viac_layer.enclosed(ppp_layer, 0.1.um, euclidian).polygons(0.001.um)
+viac_en_2_l2 = viac_layer.not_outside(ppp_layer).not(ppp_layer)
+viac_en_2_l  = viac_en_2_l1.join(viac_en_2_l2)
+viac_en_2_l.output('viac.en.2', 'viac.en.2 : ppp minimum overlap of viac : 0.1µm.')
+viac_en_2_l1.forget
+viac_en_2_l2.forget
+viac_en_2_l.forget
+
+# Rule viac.en.3: m1 minimum overlap of viac is 0.2µm.
+logger.info('Executing rule viac.en.3')
+viac_en_3_l1 = viac_layer.enclosed(m1_layer, 0.2.um, euclidian).polygons(0.001.um)
+viac_en_3_l2 = viac_layer.not_outside(m1_layer).not(m1_layer)
+viac_en_3_l  = viac_en_3_l1.join(viac_en_3_l2)
+viac_en_3_l.output('viac.en.3', 'viac.en.3 : m1 minimum overlap of viac : 0.2µm.')
+viac_en_3_l1.forget
+viac_en_3_l2.forget
+viac_en_3_l.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- M1 ----------------------
+#================================================ 
+
+# Rule m1.w.1: m1 minimum width is 0.3µm.
+logger.info('Executing rule m1.w.1')
+m1_w_1_l1  = m1_layer.width(0.3.um, euclidian)
+m1_w_1_l1.output('m1.w.1', 'm1.w.1 : m1 minimum width : 0.3µm.')
+m1_w_1_l1.forget 
+
+# Rule m1.s.1: m1 minimum space is 0.3µm.
+logger.info('Executing rule m1.s.1')
+m1_s_1_l1  = m1_layer.space(0.3.um, euclidian)
+m1_s_1_l1.output('m1.s.1', 'm1.s.1 : m1 minimum space : 0.3µm.')
+m1_s_1_l1.forget 
+
+wide_m1 = m1_layer.not_interacting(m1_layer.edges.with_length(nil, 10.um))
+# Rule m1.s.2: Space to wide metal1 (length & width > 10um) is 0.4µm.
+logger.info('Executing rule m1.s.2')
+m1_s_2_l1  = m1_layer.separation(wide_m1, 0.4.um, euclidian).polygons(0.005.um)
+m1_s_2_l2  = wide_m1.space(0.4.um, euclidian).polygons(0.005.um)
+m1_s_2_l = m1_s_2_l1.join(m1_s_2_l2)
+m1_s_2_l.output('m1.s.2', 'm1.s.2 : Space to wide metal1 (length & width > 10um) : 0.4µm.')
+m1_s_2_l.forget
+m1_s_2_l1.forget
+m1_s_2_l2.forget
+
+# Rule m1.A.1: m1 minimum area is 0.1µm².
+logger.info('Executing rule m1.A.1')
+m1_a_1_l1  = m1_layer.with_area(nil, 0.1.um)
+m1_a_1_l1.output('m1.a.1', 'm1.a.1 : m1 minimum area : 0.1µm².')
+m1_a_1_l1.forget 
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- M2 ----------------------
+#================================================ 
+
+# Rule m2.w.1: m2 minimum width is 0.4µm.
+logger.info('Executing rule m2.w.1')
+m2_w_1_l1  = m2_layer.width(0.4.um, euclidian)
+m2_w_1_l1.output('m2.w.1', 'm2.w.1 : m2 minimum width : 0.4µm.')
+m2_w_1_l1.forget 
+
+# Rule m2.s.1: m2 minimum space is 0.4µm.
+logger.info('Executing rule m2.s.1')
+m2_s_1_l1  = m2_layer.space(0.4.um, euclidian)
+m2_s_1_l1.output('m2.s.1', 'm2.s.1 : m2 minimum space : 0.4µm.')
+m2_s_1_l1.forget 
+
+wide_m2 = m2_layer.not_interacting(m2_layer.edges.with_length(nil, 10.um))
+# Rule m2.s.2: Space to wide metal1 (length & width > 10um) is 0.5µm.
+logger.info('Executing rule m2.s.2')
+m2_s_2_l1  = m2_layer.separation(wide_m2, 0.5.um, euclidian).polygons(0.005.um)
+m2_s_2_l2  = wide_m2.space(0.5.um, euclidian).polygons(0.005.um)
+m2_s_2_l = m2_s_2_l1.join(m2_s_2_l2)
+m2_s_2_l.output('m2.s.2', 'm2.s.2 : Space to wide metal2 (length & width > 10um) : 0.5µm.')
+m2_s_2_l.forget
+m2_s_2_l1.forget
+m2_s_2_l2.forget
+
+# Rule m2.A.1: m2 minimum area is 0.2µm².
+logger.info('Executing rule m2.A.1')
+m2_a_1_l1  = m2_layer.with_area(nil, 0.2.um)
+m2_a_1_l1.output('m2.a.1', 'm2.a.1 : m2 minimum area : 0.2µm².')
+m2_a_1_l1.forget 
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- VIA1 ---------------------
+#================================================ 
+
+# Rule via1.w.1: min/max via1 size is 0.7µm.
+logger.info('Executing rule via1.w.1')
+via1_w_1_l1 = via1_layer.edges.without_length(0.7.um)
+via1_w_1_l1.output('via1.w.1', 'via1.w.1 : min/max via1 size : 0.7µm.')
+via1_w_1_l1.forget
+
+# Rule via1.s.1: via1 minimum space is 0.7µm.
+logger.info('Executing rule via1.s.1')
+via1_s_1_l1  = via1_layer.space(0.7.um, euclidian)
+via1_s_1_l1.output('via1.s.1', 'via1.s.1 : via1 minimum space : 0.7µm.')
+via1_s_1_l1.forget 
+
+# Rule via1.en.1: m1 minimum overlap of via1 is 0.2µm.
+logger.info('Executing rule via1.en.1')
+via1_en_1_l1 = via1_layer.enclosed(m1_layer, 0.2.um, euclidian).polygons(0.001.um)
+via1_en_1_l2 = via1_layer.not_outside(m1_layer).not(m1_layer)
+via1_en_1_l  = via1_en_1_l1.join(via1_en_1_l2)
+via1_en_1_l.output('via1.en.1', 'via1.en.1 : m1 minimum overlap of via1 : 0.2µm.')
+via1_en_1_l1.forget
+via1_en_1_l2.forget
+via1_en_1_l.forget
+
+# Rule via1.en.2: m2 minimum overlap of via1 is 0.2µm.
+logger.info('Executing rule via1.en.2')
+via1_en_2_l1 = via1_layer.enclosed(m2_layer, 0.2.um, euclidian).polygons(0.001.um)
+via1_en_2_l2 = via1_layer.not_outside(m2_layer).not(m2_layer)
+via1_en_2_l  = via1_en_2_l1.join(via1_en_2_l2)
+via1_en_2_l.output('via1.en.2', 'via1.en.2 : m2 minimum overlap of via1 : 0.2µm.')
+via1_en_2_l1.forget
+via1_en_2_l2.forget
+via1_en_2_l.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- WGN ----------------------
+#================================================ 
+
+# Rule wgn.w.1: wgn minimum width is 0.3µm.
+logger.info('Executing rule wgn.w.1')
+wgn_w_1_l1  = wgn_layer.width(0.3.um, euclidian)
+wgn_w_1_l1.output('wgn.w.1', 'wgn.w.1 : wgn minimum width : 0.3µm.')
+wgn_w_1_l1.forget 
+
+# Rule wgn.s.1: wgn minimum space is 0.3µm.
+logger.info('Executing rule wgn.s.1')
+wgn_s_1_l1  = wgn_layer.space(0.3.um, euclidian)
+wgn_s_1_l1.output('wgn.s.1', 'wgn.s.1 : wgn minimum space : 0.3µm.')
+wgn_s_1_l1.forget 
+
+# Rule wgn.a.1: wgn minimum area is 1.5µm².
+logger.info('Executing rule wgn.a.1')
+wgn_a_1_l1  = wgn_layer.with_area(nil, 1.5.um)
+wgn_a_1_l1.output('wgn.a.1', 'wgn.a.1 : wgn minimum area : 1.5µm².')
+wgn_a_1_l1.forget 
+
+# Rule wgn.a.2: wg minimum enclosed area is 0.7µm².
+logger.info('Executing rule wgn.a.2')
+wgn_a_2_l1  = wgn_layer.holes.with_area(nil, 0.7.um)
+wgn_a_2_l1.output('wgn.a.2', 'wgn.a.2 : wg minimum enclosed area : 0.7µm².')
+wgn_a_2_l1.forget 
+
+# Rule wgn.I.1: wg should not overlap wgn layer.
+logger.info('Executing rule wgn.I.1')
+wgn_i_1_l1 = wgn_layer.overlapping(wg_layer)
+wgn_i_1_l1.output('wgn.i.1', 'wgn.I.1 : wgn should not overlap wg layer.')
+wgn_i_1_l1.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#------------------- SLAB150 --------------------
+#================================================ 
+
+# Rule slab150.w.1: slab150 minimum width is 0.15µm.
+logger.info('Executing rule slab150.w.1')
+slab150_w_1_l1  = slab150_layer.width(0.15.um, euclidian)
+slab150_w_1_l1.output('slab150.w.1', 'slab150.w.1 : slab150 minimum width : 0.15µm.')
+slab150_w_1_l1.forget 
+
+# Rule slab150.s.1: slab150 minimum space is 0.15µm.
+logger.info('Executing rule slab150.s.1')
+slab150_s_1_l1  = slab150_layer.space(0.15.um, euclidian)
+slab150_s_1_l1.output('slab150.s.1', 'slab150.s.1 : slab150 minimum space : 0.15µm.')
+slab150_s_1_l1.forget 
+
+# Rule slab150.a.1: slab150 minimum area is 0.03µm².
+logger.info('Executing rule slab150.a.1')
+slab150_a_1_l1  = slab150_layer.with_area(nil, 0.03.um)
+slab150_a_1_l1.output('slab150.a.1', 'slab150.a.1 : slab150 minimum area : 0.03µm².')
+slab150_a_1_l1.forget 
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- GEOM ---------------------
+#================================================ 
+
+if OFFGRID
+logger.info('OFFGRID-ANGLES section') 
+
+  logger.info('Executing rule wafer_OFFGRID')
+  wafer_layer.ongrid(0.005.um).output('wafer_OFFGRID', 'OFFGRID : OFFGRID vertex on wafer')
+
+  logger.info('Executing rule wg_OFFGRID')
+  wg_layer.ongrid(0.005.um).output('wg_OFFGRID', 'OFFGRID : OFFGRID vertex on wg')
+
+  logger.info('Executing rule wgclad_OFFGRID')
+  wgclad_layer.ongrid(0.005.um).output('wgclad_OFFGRID', 'OFFGRID : OFFGRID vertex on wgclad')
+
+  logger.info('Executing rule slab150_OFFGRID')
+  slab150_layer.ongrid(0.005.um).output('slab150_OFFGRID', 'OFFGRID : OFFGRID vertex on slab150') 
+
+  logger.info('Executing rule slab90_OFFGRID')
+  slab90_layer.ongrid(0.005.um).output('slab90_OFFGRID', 'OFFGRID : OFFGRID vertex on slab90') 
+
+  logger.info('Executing rule deeptrench_OFFGRID')
+  deeptrench_layer.ongrid(0.005.um).output('deeptrench_OFFGRID', 'OFFGRID : OFFGRID vertex on deeptrench') 
+
+  logger.info('Executing rule ge_OFFGRID')
+  ge_layer.ongrid(0.005.um).output('ge_OFFGRID', 'OFFGRID : OFFGRID vertex on ge') 
+
+  logger.info('Executing rule undercut_OFFGRID')
+  undercut_layer.ongrid(0.005.um).output('undercut_OFFGRID', 'OFFGRID : OFFGRID vertex on undercut')
+
+  logger.info('Executing rule wgn_OFFGRID')
+  wgn_layer.ongrid(0.005.um).output('wgn_OFFGRID', 'OFFGRID : OFFGRID vertex on wgn')
+
+  logger.info('Executing rule wgn_clad_OFFGRID')
+  wgn_clad_layer.ongrid(0.005.um).output('wgn_clad_OFFGRID', 'OFFGRID : OFFGRID vertex on wgn_clad')
+
+  logger.info('Executing rule n_OFFGRID')
+  n_layer.ongrid(0.005.um).output('n_OFFGRID', 'OFFGRID : OFFGRID vertex on n')
+
+  logger.info('Executing rule np_OFFGRID')
+  np_layer.ongrid(0.005.um).output('np_OFFGRID', 'OFFGRID : OFFGRID vertex on np')
+
+  logger.info('Executing rule npp_OFFGRID')
+  npp_layer.ongrid(0.005.um).output('npp_OFFGRID', 'OFFGRID : OFFGRID vertex on npp')
+
+  logger.info('Executing rule p_OFFGRID')
+  p_layer.ongrid(0.005.um).output('p_OFFGRID', 'OFFGRID : OFFGRID vertex on p')
+
+  logger.info('Executing rule pp_OFFGRID')
+  pp_layer.ongrid(0.005.um).output('pp_OFFGRID', 'OFFGRID : OFFGRID vertex on pp')
+
+  logger.info('Executing rule ppp_OFFGRID')
+  ppp_layer.ongrid(0.005.um).output('ppp_OFFGRID', 'OFFGRID : OFFGRID vertex on ppp')
+
+  logger.info('Executing rule gen_OFFGRID')
+  gen_layer.ongrid(0.005.um).output('gen_OFFGRID', 'OFFGRID : OFFGRID vertex on gen')
+
+  logger.info('Executing rule gep_OFFGRID')
+  gep_layer.ongrid(0.005.um).output('gep_OFFGRID', 'OFFGRID : OFFGRID vertex on gep')
+
+  logger.info('Executing rule mh_OFFGRID')
+  mh_layer.ongrid(0.005.um).output('mh_OFFGRID', 'OFFGRID : OFFGRID vertex on mh')
+
+  logger.info('Executing rule heater_mk_OFFGRID')
+  heater_mk_layer.ongrid(0.005.um).output('heater_mk_OFFGRID', 'OFFGRID : OFFGRID vertex on heater_mk')
+
+  logger.info('Executing rule m1_OFFGRID')
+  m1_layer.ongrid(0.005.um).output('m1_OFFGRID', 'OFFGRID : OFFGRID vertex on m1')
+
+  logger.info('Executing rule m2_OFFGRID')
+  m2_layer.ongrid(0.005.um).output('m2_OFFGRID', 'OFFGRID : OFFGRID vertex on m2')
+
+  logger.info('Executing rule m3_OFFGRID')
+  m3_layer.ongrid(0.005.um).output('m3_OFFGRID', 'OFFGRID : OFFGRID vertex on m3')
+
+  logger.info('Executing rule viac_OFFGRID')
+  viac_layer.ongrid(0.005.um).output('viac_OFFGRID', 'OFFGRID : OFFGRID vertex on viac')
+
+  logger.info('Executing rule via1_OFFGRID')
+  via1_layer.ongrid(0.005.um).output('via1_OFFGRID', 'OFFGRID : OFFGRID vertex on via1')
+
+  logger.info('Executing rule via2_OFFGRID')
+  via2_layer.ongrid(0.005.um).output('via2_OFFGRID', 'OFFGRID : OFFGRID vertex on via2')
+
+  logger.info('Executing rule padopen_OFFGRID')
+  padopen_layer.ongrid(0.005.um).output('padopen_OFFGRID', 'OFFGRID : OFFGRID vertex on padopen')
+
+  logger.info('Executing rule dicing_OFFGRID')
+  dicing_layer.ongrid(0.005.um).output('dicing_OFFGRID', 'OFFGRID : OFFGRID vertex on dicing')
+
+  logger.info('Executing rule no_tile_si_OFFGRID')
+  no_tile_si_layer.ongrid(0.005.um).output('no_tile_si_OFFGRID', 'OFFGRID : OFFGRID vertex on no_tile_si')
+
+  logger.info('Executing rule padding_OFFGRID')
+  padding_layer.ongrid(0.005.um).output('padding_OFFGRID', 'OFFGRID : OFFGRID vertex on padding')
+
+  logger.info('Executing rule devrec_OFFGRID')
+  devrec_layer.ongrid(0.005.um).output('devrec_OFFGRID', 'OFFGRID : OFFGRID vertex on devrec')
+
+  logger.info('Executing rule floorplan_OFFGRID')
+  floorplan_layer.ongrid(0.005.um).output('floorplan_OFFGRID', 'OFFGRID : OFFGRID vertex on floorplan')
+
+  logger.info('Executing rule text_OFFGRID')
+  text_layer.ongrid(0.005.um).output('text_OFFGRID', 'OFFGRID : OFFGRID vertex on text')
+
+  logger.info('Executing rule port_OFFGRID')
+  port_layer.ongrid(0.005.um).output('port_OFFGRID', 'OFFGRID : OFFGRID vertex on port')
+
+  logger.info('Executing rule porte_OFFGRID')
+  porte_layer.ongrid(0.005.um).output('porte_OFFGRID', 'OFFGRID : OFFGRID vertex on porte')
+
+  logger.info('Executing rule porth_OFFGRID')
+  porth_layer.ongrid(0.005.um).output('porth_OFFGRID', 'OFFGRID : OFFGRID vertex on porth')
+
+  logger.info('Executing rule show_ports_OFFGRID')
+  show_ports_layer.ongrid(0.005.um).output('show_ports_OFFGRID', 'OFFGRID : OFFGRID vertex on show_ports')
+
+  logger.info('Executing rule label_optical_io_OFFGRID')
+  label_optical_io_layer.ongrid(0.005.um).output('label_optical_io_OFFGRID', 'OFFGRID : OFFGRID vertex on label_optical_io')
+
+  logger.info('Executing rule optical_lbl_OFFGRID')
+  optical_lbl_layer.ongrid(0.005.um).output('optical_lbl_OFFGRID', 'OFFGRID : OFFGRID vertex on optical_lbl') 
+
+  logger.info('Executing rule label_settings_OFFGRID')
+  label_settings_layer.ongrid(0.005.um).output('label_settings_OFFGRID', 'OFFGRID : OFFGRID vertex on label_settings')
+
+  logger.info('Executing rule te_OFFGRID')
+  te_layer.ongrid(0.005.um).output('te_OFFGRID', 'OFFGRID : OFFGRID vertex on te')
+
+  logger.info('Executing rule tm_OFFGRID')
+  tm_layer.ongrid(0.005.um).output('tm_OFFGRID', 'OFFGRID : OFFGRID vertex on tm') 
+
+  logger.info('Executing rule drc_marker_OFFGRID')
+  drc_marker_layer.ongrid(0.005.um).output('drc_marker_OFFGRID', 'OFFGRID : OFFGRID vertex on drc_marker')
+
+  logger.info('Executing rule label_instance_OFFGRID')
+  label_instance_layer.ongrid(0.005.um).output('label_instance_OFFGRID', 'OFFGRID : OFFGRID vertex on label_instance')
+
+  logger.info('Executing rule error_marker_OFFGRID')
+  error_marker_layer.ongrid(0.005.um).output('error_marker_OFFGRID', 'OFFGRID : OFFGRID vertex on error_marker')
+
+  logger.info('Executing rule error_path_OFFGRID')
+  error_path_layer.ongrid(0.005.um).output('error_path_OFFGRID', 'OFFGRID : OFFGRID vertex on error_path') 
+
+  logger.info('Executing rule source_OFFGRID')
+  source_layer.ongrid(0.005.um).output('source_OFFGRID', 'OFFGRID : OFFGRID vertex on source')
+
+  logger.info('Executing rule monitor_OFFGRID')
+  monitor_layer.ongrid(0.005.um).output('monitor_OFFGRID', 'OFFGRID : OFFGRID vertex on monitor')
+
+  logger.info('Executing rule mzi_len_mk_OFFGRID')
+  mzi_len_mk_layer.ongrid(0.005.um).output('mzi_len_mk_OFFGRID', 'OFFGRID : OFFGRID vertex on mzi_len_mk') 
+
+end #OFFGRID-ANGLES 
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#-------------------- SLAB90 --------------------
+#================================================ 
+
+# Rule slab90.w.1: slab90 minimum width is 0.09µm.
+logger.info('Executing rule slab90.w.1')
+slab90_w_1_l1  = slab90_layer.width(0.09.um, euclidian)
+slab90_w_1_l1.output('slab90.w.1', 'slab90.w.1 : slab90 minimum width : 0.09µm.')
+slab90_w_1_l1.forget 
+
+# Rule slab90.s.1: slab90 minimum space is 0.09µm.
+logger.info('Executing rule slab90.s.1')
+slab90_s_1_l1  = slab90_layer.space(0.09.um, euclidian)
+slab90_s_1_l1.output('slab90.s.1', 'slab90.s.1 : slab90 minimum space : 0.09µm.')
+slab90_s_1_l1.forget 
+
+# Rule slab90.a.1: slab90 minimum area is 0.01µm².
+logger.info('Executing rule slab90.a.1')
+slab90_a_1_l1  = slab90_layer.with_area(nil, 0.01.um)
+slab90_a_1_l1.output('slab90.a.1', 'slab90.a.1 : slab90 minimum area : 0.01µm².')
+slab90_a_1_l1.forget 
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- GE ----------------------
+#================================================ 
+
+# Rule ge.w.1: ge minimum width is 0.4µm.
+logger.info('Executing rule ge.w.1')
+ge_w_1_l1  = ge_layer.width(0.4.um, euclidian)
+ge_w_1_l1.output('ge.w.1', 'ge.w.1 : ge minimum width : 0.4µm.')
+ge_w_1_l1.forget 
+
+# Rule ge.s.1: ge minimum space is 0.4µm.
+logger.info('Executing rule ge.s.1')
+ge_s_1_l1  = ge_layer.space(0.4.um, euclidian)
+ge_s_1_l1.output('ge.s.1', 'ge.s.1 : ge minimum space : 0.4µm.')
+ge_s_1_l1.forget 
+
+# Rule ge.a.1: ge minimum area is 1µm².
+logger.info('Executing rule ge.a.1')
+ge_a_1_l1  = ge_layer.with_area(nil, 1.um)
+ge_a_1_l1.output('ge.a.1', 'ge.a.1 : ge minimum area : 1µm².')
+ge_a_1_l1.forget 
+
+# Rule ge.en.1: gen overlap of ge is 0.3µm.
+logger.info('Executing rule ge.en.1')
+ge_en_1_l1 = ge_layer.enclosed(gen_layer, 0.3.um, euclidian).polygons(0.001.um)
+ge_en_1_l2 = ge_layer.not_outside(gen_layer).not(gen_layer)
+ge_en_1_l  = ge_en_1_l1.join(ge_en_1_l2)
+ge_en_1_l.output('ge.en.1', 'ge.en.1 : gen overlap of ge : 0.3µm.')
+ge_en_1_l1.forget
+ge_en_1_l2.forget
+ge_en_1_l.forget
+
+# Rule ge.en.2: gep overlap of ge is 0.3µm.
+logger.info('Executing rule ge.en.2')
+ge_en_2_l1 = ge_layer.enclosed(gep_layer, 0.3.um, euclidian).polygons(0.001.um)
+ge_en_2_l2 = ge_layer.not_outside(gep_layer).not(gep_layer)
+ge_en_2_l  = ge_en_2_l1.join(ge_en_2_l2)
+ge_en_2_l.output('ge.en.2', 'ge.en.2 : gep overlap of ge : 0.3µm.')
+ge_en_2_l1.forget
+ge_en_2_l2.forget
+ge_en_2_l.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#-------------------- WGCLAD --------------------
+#================================================ 
+
+# Rule wgclad.w.1: wgclad minimum width is 0.2µm.
+logger.info('Executing rule wgclad.w.1')
+wgclad_w_1_l1  = wgclad_layer.width(0.2.um, euclidian)
+wgclad_w_1_l1.output('wgclad.w.1', 'wgclad.w.1 : wgclad minimum width : 0.2µm.')
+wgclad_w_1_l1.forget 
+
+# Rule wgclad.I.1: wgclad should overlap wg layer.
+logger.info('Executing rule wgclad.I.1')
+wgclad_i_1_l1 = wgclad_layer.not_overlapping(wg_layer)
+wgclad_i_1_l1.output('wgc.i.1', 'wgc.i.1 : wgclad should overlap wg layer.')
+wgclad_i_1_l1.forget
+
+# Rule wgc.en.1: wgclad minimum overlap of wg is 0.1µm.
+logger.info('Executing rule wgc.en.1')
+wgc_en_1_l1 = wg_layer.enclosed(wgclad_layer, 0.1.um, euclidian).polygons(0.001.um)
+wgc_en_1_l2 = wg_layer.not_outside(wgclad_layer).not(wgclad_layer)
+wgc_en_1_l  = wgc_en_1_l1.join(wgc_en_1_l2)
+wgc_en_1_l.output('wgc.en.1', 'wgc.en.1 : wgclad minimum overlap of wg : 0.1µm.')
+wgc_en_1_l1.forget
+wgc_en_1_l2.forget
+wgc_en_1_l.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- WG ----------------------
+#================================================ 
+
+# Rule wg.w.1: wg minimum width is 0.2µm.
+logger.info('Executing rule wg.w.1')
+wg_w_1_l1  = wg_layer.width(0.2.um, euclidian)
+wg_w_1_l1.output('wg.w.1', 'wg.w.1 : wg minimum width : 0.2µm.')
+wg_w_1_l1.forget 
+
+# Rule wg.s.1: wg minimum space is 0.2µm.
+logger.info('Executing rule wg.s.1')
+wg_s_1_l1  = wg_layer.space(0.2.um, euclidian)
+wg_s_1_l1.output('wg.s.1', 'wg.s.1 : wg minimum space : 0.2µm.')
+wg_s_1_l1.forget 
+
+# Rule wg.a.1: wg minimum area is 1µm².
+logger.info('Executing rule wg.a.1')
+wg_a_1_l1  = wg_layer.with_area(nil, 1.um)
+wg_a_1_l1.output('wg.a.1', 'wg.a.1 : wg minimum area : 1µm².')
+wg_a_1_l1.forget 
+
+# Rule wg.a.2: wg minimum enclosed area is 0.5µm².
+logger.info('Executing rule wg.a.2')
+wg_a_2_l1  = wg_layer.holes.with_area(nil, 0.5.um)
+wg_a_2_l1.output('wg.a.2', 'wg.a.2 : wg minimum enclosed area : 0.5µm².')
+wg_a_2_l1.forget 
+
+# Rule wg.s.wgn.1: wg minimum space to WGN is 0.2µm.
+logger.info('Executing rule wg.s.wgn.1')
+wg_s_wgn_1_l1  = wg_layer.separation(wgn_layer, 0.2.um, euclidian)
+wg_s_wgn_1_l1.output('wg.s.wgn.1', 'wg.s.wgn.1 : wg minimum space to WGN : 0.2µm.')
+wg_s_wgn_1_l1.forget 
+
+# Rule wg.I.1: wg should not overlap wgn layer.
+logger.info('Executing rule wg.I.1')
+wg_i_1_l1 = wg_layer.overlapping(wgn_layer)
+wg_i_1_l1.output('wg.i.1', 'wg.I.1 : wg should not overlap wgn layer.')
+wg_i_1_l1.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- MH ----------------------
+#================================================ 
+
+mh_layer_exc = mh_layer.not_interacting(h_meander_mk)
+
+# Rule mh.w.1: MH minimum width is 0.7µm.
+logger.info('Executing rule mh.w.1')
+mh_w_1_l1  = mh_layer_exc.width(0.7.um, euclidian)
+mh_w_1_l1.output('mh.w.1', 'mh.w.1 : MH minimum width : 0.7µm.')
+mh_w_1_l1.forget 
+
+# Rule mh.s.1: MH minimum space is 1µm.
+logger.info('Executing rule mh.s.1')
+mh_s_1_l1  = mh_layer_exc.space(1.um, euclidian)
+mh_s_1_l1.output('mh.s.1', 'mh.s.1 : MH minimum space : 1µm.')
+mh_s_1_l1.forget 
+
+# Rule mh.A.1: MH minimum area is 0.5µm².
+logger.info('Executing rule mh.A.1')
+mh_a_1_l1  = mh_layer_exc.with_area(nil, 0.5.um)
+mh_a_1_l1.output('mh.a.1', 'mh.a.1 : MH minimum area : 0.5µm².')
+mh_a_1_l1.forget 
+
+# Rule mh.en.1: straight_heater_metal device should be covered by heater_mk (47/1) layer.
+logger.info('Executing rule mh.en.1')
+mh_en_1_l1  = mh_layer_exc.and(wg_layer).not_interacting(heater_mk_layer)
+mh_en_1_l1.output('mh.en.1', 'mh.en.1 : straight_heater_metal device should be covered by heater_mk (47/1) layer.')
+mh_en_1_l1.forget 
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#------------------- WGNCLAD --------------------
+#================================================ 
+
+# Rule wgnclad.w.1: wgnclad minimum width is 0.3µm.
+logger.info('Executing rule wgnclad.w.1')
+wgnclad_w_1_l1  = wgn_clad_layer.width(0.3.um, euclidian)
+wgnclad_w_1_l1.output('wgnclad.w.1', 'wgnclad.w.1 : wgnclad minimum width : 0.3µm.')
+wgnclad_w_1_l1.forget 
+
+# Rule wgnclad.I.1: wgnclad should overlap wgn layer.
+logger.info('Executing rule wgnclad.I.1')
+wgnclad_i_1_l1 = wgn_clad_layer.not_overlapping(wgn_layer)
+wgnclad_i_1_l1.output('wgnclad.i.1', 'wgnclad.I.1 : wgnclad should overlap wgn layer.')
+wgnclad_i_1_l1.forget
+
+# Rule wgnclad.en.1: wgnclad minimum overlap of wgn layer is 0.1µm.
+logger.info('Executing rule wgnclad.en.1')
+wgnclad_en_1_l1 = wgn_layer.enclosed(wgn_clad_layer, 0.1.um, euclidian).polygons(0.001.um)
+wgnclad_en_1_l2 = wgn_layer.not_outside(wgn_clad_layer).not(wgn_clad_layer)
+wgnclad_en_1_l  = wgnclad_en_1_l1.join(wgnclad_en_1_l2)
+wgnclad_en_1_l.output('wgnclad.en.1', 'wgnclad.en.1 : wgnclad minimum overlap of wgn layer : 0.1µm.')
+wgnclad_en_1_l1.forget
+wgnclad_en_1_l2.forget
+wgnclad_en_1_l.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#---------------------- M3 ----------------------
+#================================================ 
+
+# Rule m3.w.1: m3 minimum width is 0.5µm.
+logger.info('Executing rule m3.w.1')
+m3_w_1_l1  = m3_layer.width(0.5.um, euclidian)
+m3_w_1_l1.output('m3.w.1', 'm3.w.1 : m3 minimum width : 0.5µm.')
+m3_w_1_l1.forget 
+
+# Rule m3.s.1: m3 minimum space is 0.5µm.
+logger.info('Executing rule m3.s.1')
+m3_s_1_l1  = m3_layer.space(0.5.um, euclidian)
+m3_s_1_l1.output('m3.s.1', 'm3.s.1 : m3 minimum space : 0.5µm.')
+m3_s_1_l1.forget 
+
+wide_m3 = m3_layer.not_interacting(m3_layer.edges.with_length(nil, 10.um))
+# Rule m3.s.2: Space to wide metal1 (length & width > 10um) is 0.6µm.
+logger.info('Executing rule m3.s.2')
+m3_s_2_l1  = m3_layer.separation(wide_m3, 0.6.um, euclidian).polygons(0.005.um)
+m3_s_2_l2  = wide_m3.space(0.6.um, euclidian).polygons(0.005.um)
+m3_s_2_l = m3_s_2_l1.join(m3_s_2_l2)
+m3_s_2_l.output('m3.s.2', 'm3.s.2 : Space to wide metal3 (length & width > 10um) : 0.6µm.')
+m3_s_2_l.forget
+m3_s_2_l1.forget
+m3_s_2_l2.forget
+
+# Rule m3.A.1: m3 minimum area is 0.3µm².
+logger.info('Executing rule m3.A.1')
+m3_a_1_l1  = m3_layer.with_area(nil, 0.3.um)
+m3_a_1_l1.output('m3.a.1', 'm3.a.1 : m3 minimum area : 0.3µm².')
+m3_a_1_l1.forget 
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+#================================================
+#--------------------- VIA2 ---------------------
+#================================================ 
+
+# Rule via2.w.1: min/max via2 size is 0.7µm.
+logger.info('Executing rule via2.w.1')
+via2_w_1_l1 = via2_layer.edges.without_length(0.7.um)
+via2_w_1_l1.output('via2.w.1', 'via2.w.1 : min/max via2 size : 0.7µm.')
+via2_w_1_l1.forget
+
+# Rule via2.s.1: via2 minimum space is 0.7µm.
+logger.info('Executing rule via2.s.1')
+via2_s_1_l1  = via2_layer.space(0.7.um, euclidian)
+via2_s_1_l1.output('via2.s.1', 'via2.s.1 : via2 minimum space : 0.7µm.')
+via2_s_1_l1.forget 
+
+# Rule via2.en.1: m2 minimum overlap of via2 is 0.2µm.
+logger.info('Executing rule via2.en.1')
+via2_en_1_l1 = via2_layer.enclosed(m2_layer, 0.2.um, euclidian).polygons(0.001.um)
+via2_en_1_l2 = via2_layer.not_outside(m2_layer).not(m2_layer)
+via2_en_1_l  = via2_en_1_l1.join(via2_en_1_l2)
+via2_en_1_l.output('via2.en.1', 'via2.en.1 : m2 minimum overlap of via2 : 0.2µm.')
+via2_en_1_l1.forget
+via2_en_1_l2.forget
+via2_en_1_l.forget
+
+# Rule via2.en.2: m3 minimum overlap of via2 is 0.2µm.
+logger.info('Executing rule via2.en.2')
+via2_en_2_l1 = via2_layer.enclosed(m3_layer, 0.2.um, euclidian).polygons(0.001.um)
+via2_en_2_l2 = via2_layer.not_outside(m3_layer).not(m3_layer)
+via2_en_2_l  = via2_en_2_l1.join(via2_en_2_l2)
+via2_en_2_l.output('via2.en.2', 'via2.en.2 : m3 minimum overlap of via2 : 0.2µm.')
+via2_en_2_l1.forget
+via2_en_2_l2.forget
+via2_en_2_l.forget
+
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+
+exec_end_time = Time.now
+run_time = exec_end_time - exec_start_time
+logger.info("#{$table_name} DRC Total Run time #{run_time} seconds")
+

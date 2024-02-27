@@ -25,27 +25,28 @@
 #---------------------- MH ----------------------
 #================================================ 
 
+mh_layer_exc = mh_layer.not_interacting(h_meander_mk)
+
 # Rule mh.w.1: MH minimum width is 0.7µm.
 logger.info('Executing rule mh.w.1')
-mh_w_1_l1  = mh_layer.width(0.7.um, euclidian)
+mh_w_1_l1  = mh_layer_exc.width(0.7.um, euclidian)
 mh_w_1_l1.output('mh.w.1', 'mh.w.1 : MH minimum width : 0.7µm.')
 mh_w_1_l1.forget 
 
 # Rule mh.s.1: MH minimum space is 1µm.
 logger.info('Executing rule mh.s.1')
-mh_s_1_l1  = mh_layer.space(1.um, euclidian)
+mh_s_1_l1  = mh_layer_exc.space(1.um, euclidian)
 mh_s_1_l1.output('mh.s.1', 'mh.s.1 : MH minimum space : 1µm.')
 mh_s_1_l1.forget 
 
 # Rule mh.A.1: MH minimum area is 0.5µm².
 logger.info('Executing rule mh.A.1')
-mh_a_1_l1  = mh_layer.with_area(nil, 0.5.um)
+mh_a_1_l1  = mh_layer_exc.with_area(nil, 0.5.um)
 mh_a_1_l1.output('mh.a.1', 'mh.a.1 : MH minimum area : 0.5µm².')
 mh_a_1_l1.forget 
 
 # Rule mh.en.1: straight_heater_metal device should be covered by heater_mk (47/1) layer.
 logger.info('Executing rule mh.en.1')
-mh_en_1_l1  = mh_layer.and(wg_layer).not_interacting(heater_mk_layer)
+mh_en_1_l1  = mh_layer_exc.and(wg_layer).not_interacting(heater_mk_layer)
 mh_en_1_l1.output('mh.en.1', 'mh.en.1 : straight_heater_metal device should be covered by heater_mk (47/1) layer.')
 mh_en_1_l1.forget 
-

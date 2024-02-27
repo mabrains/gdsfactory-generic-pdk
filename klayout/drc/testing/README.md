@@ -13,12 +13,12 @@ Explains how to test GenericPDK DRC rule decks.
 
 ## **Prerequisites**
 You need the following set of tools installed to be able to run the regression:
-- Python 3.6+
-- KLayout 0.28.8+
+- Python 3.9+
+- KLayout 0.28.14+
 
 We have tested this using the following setup:
 - Python 3.9.12
-- KLayout 0.28.12
+- KLayout 0.28.15
 
 ## **Usage**
 

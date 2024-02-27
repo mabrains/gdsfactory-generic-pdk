@@ -51,8 +51,83 @@ require 'yaml'
   mw = RBA::MainWindow::instance
   
   # create a toolbar generic_menu
+  mw.menu.insert_menu("generic_menu.end", "drc_menu", "Klayout DRC Options")
   mw.menu.insert_menu("generic_menu.end", "lvs_menu", "Klayout LVS Options")
+  #mw.menu.insert_separator("generic_menu.drc_menu.end", "name1")
   mw.menu.insert_separator("generic_menu.lvs_menu+", "name2")
+
+  # =====================================================================
+  # ------------------------ Adding DRC Options -------------------------
+  # =====================================================================
+
+  #1 Setting run mode
+  run_mode_drc_action = RBA::Action::new
+  run_mode_drc_action.title = "Run mode"
+  run_mode_drc_action.on_triggered do
+  
+      run_mode_select = RBA::InputDialog::ask_item("Run mode", "Select run mode:", [ "tiling", "deep", "flat" ], 1)
+      options = YAML.load(File.read(__dir__ + "/drc_options.yml"))
+      if run_mode_select 
+          options["run_mode"]= run_mode_select
+          File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(options.to_yaml) }
+      else 
+          options["run_mode"]= ""
+          File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(options.to_yaml) }
+      end
+
+  end
+  mw.menu.insert_item("generic_menu.drc_menu.end", "run_mode", run_mode_drc_action)
+
+  #2 Adding Top cell name
+  top_cell_action = RBA::Action::new
+  top_cell_action.title = "Top_cell name"
+  top_cell_action.on_triggered do
+    top_cell_name = RBA::InputDialog::ask_string("Top cell name", "Please enter Top_cell name", "TOP")
+      options = YAML.load(File.read(__dir__ + "/drc_options.yml")) 
+      if top_cell_name 
+        options["top_cell_name"] = top_cell_name
+        File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(options.to_yaml) }
+      end
+    
+  end
+  mw.menu.insert_item("generic_menu.drc_menu.end", "TOP_cell_name", top_cell_action)
+  
+  #3 Setting verbose mode
+  verbose_drc_action = RBA::Action::new
+  verbose_drc_action.title = "Verbose mode"
+  verbose_drc_action.checkable=(true)
+  verbose_drc_action.checked=(false)
+  verbose_drc_action.on_triggered do
+    
+      options = YAML.load(File.read(__dir__ + "/drc_options.yml"))
+      if verbose_drc_action.is_checked?
+        options["verbose"] = "true"
+        File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(options.to_yaml) }
+      else
+        options["verbose"] = "false"
+        File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(options.to_yaml) }
+      end
+    
+  end
+  mw.menu.insert_item("generic_menu.drc_menu.end", "verbose", verbose_drc_action)
+  
+  #4 Setting offgrid rules
+  offgrid_action = RBA::Action::new
+  offgrid_action.title = "Offgrid rules"
+  offgrid_action.checkable=(true)
+  offgrid_action.checked=(true)
+  offgrid_action.on_triggered do
+    options = YAML.load(File.read(__dir__ + "/drc_options.yml"))
+      if offgrid_action.is_checked?
+        options["offgrid"] = "true"
+        File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(options.to_yaml) }
+      else 
+        options["offgrid"] = "false"
+        File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(options.to_yaml) }
+      end
+    
+  end
+  mw.menu.insert_item("generic_menu.drc_menu.end", "offgrid", offgrid_action)
 
   # =====================================================================
   # ------------------------ Adding LVS Options -------------------------
@@ -310,9 +385,14 @@ require 'yaml'
   # =================================
   # -- Return to defaults on closing
   # =================================
-  
+
   mw.on_view_closed do
-    ## write default options
+    ## write default options 
+    drc_options = {
+             "run_mode"=&gt;"flat",
+             "top_cell_name"=&gt;"",
+             "verbose"=&gt;"false",
+             "offgrid"=&gt; "false", }
     lvs_options = {"sub_name"=&gt;"GND",
             "run_mode"=&gt;"flat", 
             "netlist"=&gt;"" ,
@@ -328,6 +408,7 @@ require 'yaml'
             "purge"=&gt;false,
             "purge_nets"=&gt;false
               }
+    File.open(__dir__ + "/drc_options.yml", "w") { |file| file.write(drc_options.to_yaml) }
     File.open(__dir__ + "/lvs_options.yml", "w") { |file| file.write(lvs_options.to_yaml) }
   end
 

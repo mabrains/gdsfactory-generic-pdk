@@ -465,7 +465,7 @@ def run_all_test_cases(tc_df, drc_dir, run_dir, num_workers):
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_workers) as executor:
         future_to_run_id = dict()
-        for i, row in tc_df.iterrows():
+        for _, row in tc_df.iterrows():
             future_to_run_id[
                 executor.submit(
                     run_test_case,
