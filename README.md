@@ -84,7 +84,7 @@ And then:
 cd gdsfactory-generic-pdk
 ```
 
-"Subsequently, to install the required Python packages, execute the following command:
+Subsequently, to install the required Python packages, execute the following command:
 
 ```bash
 pip install -r requirements.txt
