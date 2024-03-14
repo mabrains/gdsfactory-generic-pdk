@@ -62,7 +62,7 @@ from subprocess import check_call
 
 def check_klayout_version():
     """
-    check_klayout_version checks klayout version and makes sure it would work with the LVS.
+    check_klayout_version checks klayout version and makes sure it would work with the DRC.
     """
     # ======= Checking Klayout version =======
     klayout_v_ = os.popen("klayout -b -v").read()
@@ -78,11 +78,13 @@ def check_klayout_version():
     if len(klayout_v_list) < 1 or len(klayout_v_list) > 3:
         logging.error("Was not able to get klayout version properly.")
         exit(1)
-    elif len(klayout_v_list) >= 2 or len(klayout_v_list) <= 3:
-        if klayout_v_list[1] < 28:
-            logging.error("Prerequisites at a minimum: KLayout 0.28.0")
+    elif len(klayout_v_list) >= 2 and len(klayout_v_list) <= 3:
+        if klayout_v_list[1] < 28 or (
+            klayout_v_list[1] == 28 and klayout_v_list[2] <= 13
+        ):
+            logging.error("Prerequisites at a minimum: KLayout 0.28.14")
             logging.error(
-                "Using this klayout version has not been assesed in this development."
+                "Using this klayout version is not supported in this development."
             )
             exit(1)
 

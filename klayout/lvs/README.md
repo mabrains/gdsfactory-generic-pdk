@@ -25,7 +25,7 @@ Explains how to use the Generic-PDK LVS.
 ## Folder Structure
 
 ```text
-📁 drc
+📁 lvs
  ┣ 📁testing                        Testing environment directory for GenericPDK LVS. 
  ┣ 📁rule_decks                     All LVS rule decks used in GenericPDK.
  ┣ generic_tech.lvs                 Main LVS runset that call all rule decks.

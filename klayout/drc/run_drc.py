@@ -318,9 +318,9 @@ def check_klayout_version():
         exit(1)
     elif len(klayout_v_list) >= 2 and len(klayout_v_list) <= 3:
         if klayout_v_list[1] < 28 or (
-            klayout_v_list[1] == 28 and klayout_v_list[2] <= 3
+            klayout_v_list[1] == 28 and klayout_v_list[2] <= 13
         ):
-            logging.error("Prerequisites at a minimum: KLayout 0.28.4")
+            logging.error("Prerequisites at a minimum: KLayout 0.28.14")
             logging.error(
                 "Using this klayout version is not supported in this development."
             )
