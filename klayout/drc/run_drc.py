@@ -27,8 +27,8 @@ Run GenericPDK DRC.
 Usage:
     run_drc.py (--help| -h)
     run_drc.py (--path=<file_path>) [--table=<table_name>]... [--run_dir=<run_dir_path>]
-    [--mp=<num_cores>] [--topcell=<topcell_name>] [--thr=<thr>] [--run_mode=<run_mode>]
-    [--verbose] [--no_offgrid] [--macro_gen]
+    [--mp=<num_cores>] [--topcell=<topcell_name>] [--run_mode=<run_mode>]
+    [--verbose] [--offgrid] [--macro_gen]
 
 Options:
     --help -h                           Print this help message.
@@ -37,9 +37,8 @@ Options:
     --table=<table_name>                Table name to use to run the rule deck.
     --mp=<num_cores>                    Run in parallel to speed up the run. [default: 1]
     --run_dir=<run_dir_path>            Run directory to save all the results [default: pwd]
-    --thr=<thr>                         The number of threads used in run.
     --run_mode=<run_mode>               Select allowed modes (flat , deep). [default: flat]
-    --no_offgrid                        Turn off OFFGRID checking rules.
+    --offgrid                           Turn on OFFGRID checking rules.
     --verbose                           Detailed rule execution log for debugging.
     --macro_gen                         Generating the full rule deck without run.
 """
@@ -279,21 +278,16 @@ def generate_klayout_switches(arguments, layout_path):
     """
     switches = dict()
 
-    # No. of threads
-    thrCount = 2 if arguments["--thr"] is None else int(arguments["--thr"])
-    switches["thr"] = str(int(thrCount))
-
     if arguments["--run_mode"] not in ["flat", "deep"]:
         logging.error("Allowed klayout modes are (flat , deep) only")
         exit(1)
 
-    if arguments["--verbose"]:
-        switches["verbose"] = "true"
-    else:
-        switches["verbose"] = "false"
-
-    switches["topcell"] = get_run_top_cell_name(arguments, layout_path)
-    switches["input"] = layout_path
+    switches = {
+        "offgrid": "true" if arguments.get("--offgrid") else "false",
+        "verbose": "true" if arguments.get("--verbose") else "false",
+        "topcell": get_run_top_cell_name(arguments, layout_path),
+        "input": os.path.abspath(layout_path),
+    }
 
     return switches
 

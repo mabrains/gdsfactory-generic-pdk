@@ -58,7 +58,7 @@ if $report
   report('DRC Run Report at', $report)
 else
   layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
-  report_path = layout_dir.join('gf180_drc.lyrdb').to_s
+  report_path = layout_dir.join('generic_pdk_drc.lyrdb').to_s
   logger.info("GenericPDK Klayout DRC runset output at default location: #{report_path}")
   report('DRC Run Report at', report_path)
 end
@@ -91,19 +91,9 @@ CONNECTIVITY_RULES = if conn_tables.include?(TABLE_NAME) && CONNECTIVITY_EN
 logger.info("CONNECTIVITY_RULES enabled: #{CONNECTIVITY_RULES}")
 
 # OFFGRID
-OFFGRID = $offgrid != 'false'
+OFFGRID = bool_check?($offgrid)
 
 logger.info("Offgrid enabled:  #{OFFGRID}")
-
-# threads
-if $thr
-  threads($thr)
-else
-  thr ||= Etc.nprocessors
-  threads(thr)
-end
-
-logger.info("Number of threads to use #{$thr}")
 
 #=== PRINT DETAILS ===
 
@@ -111,14 +101,8 @@ verbose(bool_check?($verbose))
 
 logger.info("Verbose mode: #{$verbose}")
 
-# === TILING MODE ===
+# === RUN MODE ===
 case $run_mode
-## Tiling mode is for testing purpose only [Not used in run_drc.py]
-when 'tiling'
-  tiles(500.um)
-  tile_borders(10.um)
-  logger.info('Tiling  mode is enabled.')
-
 when 'deep'
   #=== HIER MODE ===
   deep

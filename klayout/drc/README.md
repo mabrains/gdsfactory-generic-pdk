@@ -35,7 +35,9 @@ The `run_drc.py` script takes a gds file to run DRC rule decks with switches to 
 
 ```bash
     run_drc.py (--help| -h)
-    run_drc.py (--path=<file_path>) [--verbose] [--mp=<num_cores>] [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--thr=<thr>] [--run_mode=<run_mode>]
+    run_drc.py (--path=<file_path>) [--table=<table_name>]... [--run_dir=<run_dir_path>]
+    [--mp=<num_cores>] [--topcell=<topcell_name>] [--run_mode=<run_mode>]
+    [--verbose] [--offgrid] [--macro_gen]
 ```
 
 Example:
@@ -46,21 +48,25 @@ python3 run_drc.py --path=testing/testcases/unit/wg.gds --run_mode=deep --run_di
 
 #### Options
 
-`--help -h`                          Print this help message.
+- `--help -h`                           Print this help message.
 
-`--path=<file_path>`                 The input GDS file path.
+- `--path=<file_path>`                  The input GDS file path.
 
-`--topcell=<topcell_name>`           Topcell name to use.
+- `--topcell=<topcell_name>`            Topcell name to use.
 
-`--mp=<num_cores>`                   Run the rule deck in parts in parallel to speed up the run. [default: 1]
+- `--table=<table_name>`                Table name to use to run the rule deck.
 
-`--run_dir=<run_dir_path>`           Run directory to save all the results [default: pwd]
+- `--mp=<num_cores>`                    Run in parallel to speed up the run. [default: 1]
 
-`--thr=<thr>`                        The number of threads used in run.
+- `--run_dir=<run_dir_path>`            Run directory to save all the results [default: pwd]
 
-`--run_mode=<run_mode>`              Select klayout mode Allowed modes (flat , deep, tiling). [default: deep]
+- `--run_mode=<run_mode>`               Select allowed modes (flat , deep). [default: flat]
 
-`--verbose`                          Detailed rule execution log for debugging.
+- `--offgrid`                           Turn on OFFGRID checking rules.
+
+- `--verbose`                           Detailed rule execution log for debugging.
+
+- `--macro_gen`                         Generating the full rule deck without run.
 
 
 #### DRC Outputs
@@ -103,7 +109,7 @@ The GenericPDK also facilitates DRC execution via Klayout menus, integrated with
   <img src="../../images/drc_menus.png" width="60%" >
 </p>
 <p align="center">
-  Fig. 3. Visualization of DRC results on Klayout-GUI
+  Fig. 3. Run DRC Using Klayout-GUI Menus
 </p>
 
 Upon executing the LVS using the `Run Klayout DRC` option, the result database will appear on your layout interface, allowing you to verify the outcome of the run similarly as shown above in Fig. 2.

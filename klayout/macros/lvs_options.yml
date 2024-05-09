@@ -1,15 +1,13 @@
 ---
-sub_name: GND
-run_mode: flat
 netlist: ''
-spice_net: true
-top_cell_name: ''
-spice_comment: false
-scale: false
-verbose: false
-schematic_simple: false
+top_cell: ''
+run_mode: flat
+no_net_names: false
+spice_comments: false
 net_only: false
+no_simplify: false
+combine_devices: false
 top_lvl_pins: false
-combine: false
 purge: false
 purge_nets: false
+verbose: false

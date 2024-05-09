@@ -1,5 +1,5 @@
 ---
+top_cell: ''
 run_mode: flat
-top_cell_name: ''
-verbose: 'false'
-offgrid: 'false'
+offgrid: false
+verbose: false

@@ -170,3 +170,4 @@ gen_scripts/
 unit_tests_*/
 drc_run_*/
 lvs_run_*/
+klayoutrc

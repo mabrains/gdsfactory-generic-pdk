@@ -25,31 +25,27 @@
 
 Usage:
     run_lvs.py (--help| -h)
-    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>) [--thr=<thr>]
-        [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>]
-        [--verbose] [--lvs_sub=<sub_name>] [--no_net_names] [--spice_comments]
-        [--scale] [--schematic_simplify] [--net_only] [--top_lvl_pins] [--combine]
-        [--purge] [--purge_nets]
+    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>)
+    [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>]
+    [--no_net_names] [--spice_comments] [--net_only] [--no_simplify]
+    [--combine_devices] [--top_lvl_pins] [--purge] [--purge_nets] [--verbose]
 
 Options:
-    --help -h                           Print this help message.
-    --layout=<layout_path>              The input GDS file path.
-    --netlist=<netlist_path>            The input netlist file path.
-    --thr=<thr>                         The number of threads used in run.
-    --run_dir=<run_dir_path>            Run directory to save all the results [default: pwd]
-    --topcell=<topcell_name>            Topcell name to use.
-    --run_mode=<run_mode>               Allowed modes (flat , deep, tiling). [default: flat]
-    --lvs_sub=<sub_name>                Substrate name used in your design.
-    --verbose                           Detailed rule execution log for debugging.
-    --no_net_names                      Discard net names in extracted netlist.
-    --spice_comments                    Enable netlist comments in extracted netlist.
-    --scale                             Enable scale of 1e6 in extracted netlist.
-    --schematic_simplify                Enable schematic simplification in input netlist.
-    --net_only                          Enable netlist object creation only in extracted netlist.
-    --top_lvl_pins                      Enable top level pins only in extracted netlist.
-    --combine                           Enable netlist combine only in extracted netlist.
-    --purge                             Enable netlist purge all only in extracted netlist.
-    --purge_nets                        Enable netlist purge nets only in extracted netlist.
+    --help -h                           Displays this help message.
+    --layout=<layout_path>              Specifies the file path of the input GDS file.
+    --netlist=<netlist_path>            Specifies the file path of the input netlist file.
+    --run_dir=<run_dir_path>            Run directory to save all the generated results [default: pwd]
+    --topcell=<topcell_name>            Specifies the name of the top cell to be used.
+    --run_mode=<run_mode>               Selects the allowed KLayout mode. (flat, deep). [default: flat]
+    --no_net_names                      Omits net names in the extracted netlist.
+    --spice_comments                    Includes netlist comments in the extracted netlist.
+    --net_only                          Generates netlist objects only in the extracted netlist.
+    --no_simplify                       Disables simplification for both layout and schematic.
+    --combine_devices                   Enables device combination for both layout and schematic netlists.
+    --top_lvl_pins                      Creates pins for top-level circuits in both layout and schematic netlists.
+    --purge                             Removes unused nets from both layout and schematic netlists.
+    --purge_nets                        Purges floating nets from both layout and schematic netlists.
+    --verbose                           Enables detailed rule execution logs for debugging purposes.
 """
 
 from docopt import docopt
@@ -199,74 +195,26 @@ def generate_klayout_switches(arguments, layout_path, netlist_path):
     """
     switches = dict()
 
-    # No. of threads
-    thrCount = 2 if arguments["--thr"] is None else int(arguments["--thr"])
-    switches["thr"] = str(int(thrCount))
-
-    if arguments["--run_mode"] in ["flat", "deep", "tiling"]:
+    if arguments["--run_mode"] in ["flat", "deep"]:
         switches["run_mode"] = arguments["--run_mode"]
     else:
-        logging.error("Allowed klayout modes are (flat , deep , tiling) only")
+        logging.error("Allowed klayout modes are (flat , deep) only")
         exit(1)
 
-    if arguments["--lvs_sub"]:
-        switches["lvs_sub"] = arguments["--lvs_sub"]
-    else:
-        switches["lvs_sub"] = "generic_tech_gnd"
-
-    if arguments["--verbose"]:
-        switches["verbose"] = "true"
-    else:
-        switches["verbose"] = "false"
-
-    if arguments["--no_net_names"]:
-        switches["spice_net_names"] = "false"
-    else:
-        switches["spice_net_names"] = "true"
-
-    if arguments["--spice_comments"]:
-        switches["spice_comments"] = "true"
-    else:
-        switches["spice_comments"] = "false"
-
-    if arguments["--scale"]:
-        switches["scale"] = "true"
-    else:
-        switches["scale"] = "false"
-
-    if arguments["--schematic_simplify"]:
-        switches["schematic_simplify"] = "true"
-    else:
-        switches["schematic_simplify"] = "false"
-
-    if arguments["--net_only"]:
-        switches["net_only"] = "true"
-    else:
-        switches["net_only"] = "false"
-
-    if arguments["--top_lvl_pins"]:
-        switches["top_lvl_pins"] = "true"
-    else:
-        switches["top_lvl_pins"] = "false"
-
-    if arguments["--combine"]:
-        switches["combine"] = "true"
-    else:
-        switches["combine"] = "false"
-
-    if arguments["--purge"]:
-        switches["purge"] = "true"
-    else:
-        switches["purge"] = "false"
-
-    if arguments["--purge_nets"]:
-        switches["purge_nets"] = "true"
-    else:
-        switches["purge_nets"] = "false"
-
-    switches["topcell"] = get_run_top_cell_name(arguments, layout_path)
-    switches["input"] = os.path.abspath(layout_path)
-    switches["schematic"] = os.path.abspath(netlist_path)
+    switches = {
+        "no_net_names": "true" if arguments.get("--no_net_names") else "false",
+        "spice_comments": "true" if arguments.get("--spice_comments") else "false",
+        "net_only": "true" if arguments.get("--net_only") else "false",
+        "top_lvl_pins": "true" if arguments.get("--top_lvl_pins") else "false",
+        "no_simplify": "true" if arguments.get("--no_simplify") else "false",
+        "combine_devices": "true" if arguments.get("--combine_devices") else "false",
+        "purge": "true" if arguments.get("--purge") else "false",
+        "purge_nets": "true" if arguments.get("--purge_nets") else "false",
+        "verbose": "true" if arguments.get("--verbose") else "false",
+        "topcell": get_run_top_cell_name(arguments, layout_path),
+        "input": os.path.abspath(layout_path),
+        "schematic": os.path.abspath(netlist_path)
+    }
 
     return switches
 

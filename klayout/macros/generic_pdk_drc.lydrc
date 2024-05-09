@@ -32,29 +32,67 @@
  <doc/>
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>true</show-in-menu>
- <group-name/>
-  <menu-path>generic_menu&gt;end("Generic PDK").end</menu-path>
+ <group-name>Run Klayout DRC</group-name>
+ <menu-path>GenericPDK_menu&gt;end("GenericPDK").end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
  <text>
 
-require "yaml"
+require 'yaml'
 
-## Reading the loaded gds file path
+# Load DRC options from a YAML file
+#
+# yaml_file_path - The path to the YAML file
+#
+# Returns a hash containing the loaded options
+def load_options(yaml_file_path)
+  options = {}
+  if File.exist?(yaml_file_path)
+    begin
+      options = YAML.safe_load(File.read(yaml_file_path))
+    rescue => e
+      puts "Error loading options from YAML file: #{e.message}"
+    end
+  else
+    puts "YAML file not found at #{yaml_file_path}. Using default options."
+    options = set_default_options(yaml_file_path)
+  end
+  options
+end
+
+# Set default DRC options and save them to a YAML file
+#
+# yaml_file_path - The path to the YAML file
+#
+# Returns a hash containing the default options
+def set_default_options(yaml_file_path)
+  default_options = {
+    'netlist' => '',
+    'top_cell' => '',
+    'run_mode' => 'flat',
+    'offgrid' => false,
+    'verbose' => false,
+  }
+  default_options
+end
+
+dir_path = File.dirname(File.expand_path(__FILE__))
+
+## reading the loaded gds file path
 layout_path = Pathname.new(RBA::CellView.active.filename)
 
-## read saved options from yaml file
-dir_path = File.dirname(File.expand_path(__FILE__))
-options = YAML.load(File.read(dir_path + "/drc_options.yml"))
+options = {}
+yaml_file_path = "#{dir_path}/drc_options.yml"
+# Load options from YAML file
+options = load_options(yaml_file_path)
 
 ## reading the parent directory of the current file
 run_dir = File.expand_path("..", dir_path)
 
-# Read the log of drc run to get output lyrdb file paths if run_dir option is disables 
-gds_name = layout_path.split()[1].to_s.split(".")[0]
-
+# Prep out dir
 out_dir = "#{run_dir}/macros/run_drc_main"
 
 # Remove old logs
@@ -62,15 +100,18 @@ if Dir.exist?out_dir
   `rm -f #{out_dir}/drc_run*.log`
 end
 
-## pass options to main.drc
-$run_mode = options["run_mode"]
 
-$topcell = options["top_cell_name"]
+# input layout
+$input = (layout_path.realpath).to_s
 
-$verbose = options["verbose"]
+## passing options to drc run file
+$topcell = options['top_cell'].to_s
+$run_mode = options['run_mode'].to_s
+$offgrid = options['offgrid'].to_s
+$verbose = options['verbose'].to_s
 
-$offgrid = options["offgrid"]
 
+# Make sure we have main drc runset
 unless File.exist?"#{run_dir}/macros/run_drc_main/main.drc"
   STDERR.puts "#{run_dir}/macros/run_drc_main/main.drc doesn't exist"
   exit

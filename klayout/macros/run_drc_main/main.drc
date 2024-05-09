@@ -58,7 +58,7 @@ if $report
   report('DRC Run Report at', $report)
 else
   layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
-  report_path = layout_dir.join('gf180_drc.lyrdb').to_s
+  report_path = layout_dir.join('generic_pdk_drc.lyrdb').to_s
   logger.info("GenericPDK Klayout DRC runset output at default location: #{report_path}")
   report('DRC Run Report at', report_path)
 end

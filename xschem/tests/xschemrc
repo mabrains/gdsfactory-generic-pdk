@@ -19,7 +19,6 @@ append XSCHEM_LIBRARY_PATH :$USER_CONF_DIR/xschem_library
 #### hex code must be enclosed in braces
 array unset dircolor
 set dircolor(xschem_examples$) blue
-set dircolor(xschem_180MCU_PDK$) blue
 set dircolor(xschem_library$) red
 set dircolor(devices$) red
 

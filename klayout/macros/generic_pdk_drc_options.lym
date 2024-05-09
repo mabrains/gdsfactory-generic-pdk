@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# ===================================================================================
+# Copyright (c) 2024, Mabrains LLC
+# Licensed under the GNU Lesser General Public License, Version 3.0 (the "License");
+# you may not use this file except in compliance with the License.
+
+#                    GNU Lesser General Public License
+#                       Version 3, 29 June 2007
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: LGPL-3.0
+# ===================================================================================
+-->
+<klayout-macro>
+ <description>GenericPDK DRC Options</description>
+ <version>0.1</version>
+ <category>drc</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <priority>0</priority>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name>GenericPDK DRC Options</group-name>
+ <menu-path>GenericPDK_menu&gt;end("GenericPDK").end</menu-path>
+ <interpreter>ruby</interpreter>
+ <dsl-interpreter-name/>
+ <text>
+ module GenericPDKDRCOptions
+  require 'yaml'
+  include RBA
+
+  # Main function to manage DRC options
+  def self.main    
+    # Construct the absolute path to the YAML file
+    yaml_file_path = "#{__dir__}/drc_options.yml"
+
+    # Load options from YAML file
+    options = load_options(yaml_file_path)
+
+    # Create a dialog box for selecting options
+    dialog = create_options_dialog(options, yaml_file_path)
+  
+    # Show the dialog box and handle user input
+    if dialog.exec == 1 #RBA::QDialog::Accepted
+      # Get values from the dialog box
+      update_options_from_dialog(options, dialog)
+
+      # Save options to YAML file
+      if save_options(yaml_file_path, options)
+        puts "=========== DRC Options saved successfully. ==========="
+      else
+        puts "xxxxxxxxxxx Failed to save DRC options. xxxxxxxxxxx"
+      end
+    end
+  end
+
+  # Load DRC options from a YAML file
+  #
+  # yaml_file_path - The path to the YAML file
+  #
+  # Returns a hash containing the loaded options
+  def self.load_options(yaml_file_path)
+    options = {}
+    if File.exist?(yaml_file_path)
+      begin
+        options = YAML.safe_load(File.read(yaml_file_path))
+      rescue => e
+        puts "Error loading options from YAML file: #{e.message}"
+      end
+    else
+      puts "YAML file not found at #{yaml_file_path}. Using default options."
+      options = set_default_options(yaml_file_path)
+    end
+    options
+  end
+
+  # Set default DRC options and save them to a YAML file
+  #
+  # yaml_file_path - The path to the YAML file
+  #
+  # Returns a hash containing the default options
+  def self.set_default_options(yaml_file_path)
+    default_options = {
+      'top_cell' => '',
+      'run_mode' => 'flat',
+      'offgrid' => false,
+      'verbose' => false,
+    }
+    save_options(yaml_file_path, default_options)
+    default_options
+  end
+
+  # Get all names for top cells
+  #
+  # Returns a list contains all top cell names
+  def self.get_top_cell_names
+    top_cells = []
+    layout = RBA::Layout.new
+    layout.read(Pathname.new(RBA::CellView.active.filename))
+
+    layout.top_cells.each do |cell|
+      top_cells.push(cell.name)
+    end
+    top_cells
+  end
+
+  # Create a dialog box for selecting DRC options
+  #
+  # options        - A hash containing the current options
+  # yaml_file_path - The path to the YAML file
+  #
+  # Returns a QDialog instance representing the options dialog
+  def self.create_options_dialog(options, yaml_file_path)
+    dialog = RBA::QDialog.new
+    dialog.windowTitle = "DRC Options"
+
+    layout = RBA::QFormLayout.new(dialog)
+    
+    layout.addRow('Top Cell', create_combo_box(options['top_cell'], get_top_cell_names))
+    layout.addRow('Run Mode:', create_combo_box(options['run_mode'], ['deep', 'flat']))
+    layout.addRow('', create_check_box('Offgrid', options['offgrid']))
+    layout.addRow('', create_check_box('Verbose', options['verbose']))
+
+    layout.addRow('', create_buttons(dialog, yaml_file_path))
+
+    dialog
+  end
+
+  # Create a line edit widget
+  #
+  # text - The initial text for the line edit
+  #
+  # Returns a QLineEdit instance
+  def self.create_line_edit(text)
+    line_edit = RBA::QLineEdit.new
+    line_edit.text = text
+    line_edit
+  end
+ 
+  # Create a combo box widget
+  #
+  # current_index - The index of the currently selected item
+  # items         - An array containing the items for the combo box
+  #
+  # Returns a QComboBox instance
+  def self.create_combo_box(current_index, items)
+    combo_box = RBA::QComboBox.new
+    items.each { |item| combo_box.addItem(item) }
+    combo_box.currentIndex = items.index(current_index)
+    combo_box
+  end
+
+  # Create a file input widget
+  #
+  # text   - The initial text for the file input
+  # parent - The parent widget for the file input
+  #
+  # Returns a QWidget instance containing the file input
+  def self.create_file_input(text, parent)
+    file_input = RBA::QLineEdit.new
+    file_input.text = text
+  
+    browse_button = RBA::QPushButton.new('Browse')
+    browse_button.clicked.connect(Proc.new {
+      file_filter = 'CDL Files (*.cdl);;SPICE Files (*.spice);;Circuit Files (*.cir)'
+      netlist_path = RBA::FileDialog.get_open_file_name('Select File', '.', file_filter)
+      file_input.text = netlist_path.to_s
+    })
+
+    container = RBA::QWidget.new
+    layout = RBA::QHBoxLayout.new(container)
+    layout.addWidget(file_input)
+    layout.addWidget(browse_button)
+    
+    container
+  end
+
+  # Create a check box widget
+  #
+  # text    - The text for the check box
+  # checked - A boolean indicating whether the check box is checked
+  #
+  # Returns a QCheckBox instance
+  def self.create_check_box(text, checked)
+    check_box = RBA::QCheckBox.new(text)
+    check_box.checked = checked
+    check_box
+  end
+ 
+  # Create buttons for the options dialog
+  #
+  # dialog        - The options dialog
+  # yaml_file_path - The path to the YAML file
+  #
+  # Returns a QWidget instance containing the buttons
+  def self.create_buttons(dialog, yaml_file_path)
+    container = RBA::QWidget.new
+    layout = RBA::QHBoxLayout.new(container)
+  
+    ok_button = RBA::QPushButton.new('OK')
+    ok_button.clicked.connect(Proc.new { dialog.accept })
+
+    reset_button = RBA::QPushButton.new('Reset')
+    reset_button.clicked.connect(Proc.new { 
+      if set_default_options(yaml_file_path)
+        dialog.reject
+      else
+        puts "Failed to reset options."
+      end
+    })
+
+    cancel_button = RBA::QPushButton.new('Cancel')
+    cancel_button.clicked.connect(Proc.new { dialog.reject })
+  
+    layout.addWidget(ok_button)
+    layout.addWidget(reset_button)
+    layout.addWidget(cancel_button)
+  
+    container
+  end
+  
+  # Update options hash from the dialog
+  #
+  # options - The options hash to be updated
+  # dialog  - The dialog containing the updated options
+  def self.update_options_from_dialog(options, dialog)
+
+    options['top_cell'] = dialog.layout.itemAt(1).widget.currentText
+    options['run_mode'] = dialog.layout.itemAt(3).widget.currentText
+    options['offgrid'] = dialog.layout.itemAt(4).widget.checked
+    options['verbose'] = dialog.layout.itemAt(5).widget.checked
+  end
+
+  # Save options to a YAML file
+  #
+  # yaml_file_path - The path to the YAML file
+  # options        - The options hash to be saved
+  #
+  # Returns true if successful, false otherwise
+  def self.save_options(yaml_file_path, options)
+    begin
+      File.open(yaml_file_path, 'w') { |file| file.write(options.to_yaml) }
+      true
+    rescue => e
+      puts "Error saving options to YAML file: #{e.message}"
+      false
+    end
+  end
+end
+
+GenericPDKDRCOptions.main
+
+</text>
+</klayout-macro>

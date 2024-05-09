@@ -41,11 +41,3 @@ connect(via2, m3)
 # Attaching labels
 
 logger.info('Starting GENERIC TECH LVS connectivity setup (Global)')
-
-# Global
-connect_global(sub, substrate_name)
-
-logger.info('Starting GENERIC TECH LVS connectivity setup')
-
-# implicit connections for ports
-connect_implicit(substrate_name)

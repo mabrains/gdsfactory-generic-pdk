@@ -32,78 +32,103 @@
  <doc/>
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>true</show-in-menu>
- <group-name/>
- <menu-path>generic_menu&gt;end("Generic PDK").end</menu-path>
+ <group-name>Run Klayout LVS</group-name>
+ <menu-path>GenericPDK_menu&gt;end("GenericPDK").end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
  <text>
 
 require 'yaml'
 
-## reading the parent directory of the current file
+# Load LVS options from a YAML file
+#
+# yaml_file_path - The path to the YAML file
+#
+# Returns a hash containing the loaded options
+def load_options(yaml_file_path)
+  options = {}
+  if File.exist?(yaml_file_path)
+    begin
+      options = YAML.safe_load(File.read(yaml_file_path))
+    rescue => e
+      puts "Error loading options from YAML file: #{e.message}"
+    end
+  else
+    puts "YAML file not found at #{yaml_file_path}. Using default options."
+    options = set_default_options(yaml_file_path)
+  end
+  options
+end
+
+# Set default LVS options and save them to a YAML file
+#
+# yaml_file_path - The path to the YAML file
+#
+# Returns a hash containing the default options
+def set_default_options(yaml_file_path)
+  default_options = {
+    'netlist' => '',
+    'top_cell' => '',
+    'run_mode' => 'flat',
+    'no_net_names' => false,
+    'spice_comments' => false,
+    'net_only' => false,
+    'no_simplify' => false,
+    'combine_devices' => false,
+    'top_lvl_pins' => false,
+    'purge' => false,
+    'purge_nets' => false,
+    'verbose' => false,
+  }
+  default_options
+end
+
 dir_path = File.dirname(File.expand_path(__FILE__))
-run_dir = File.expand_path("..", dir_path)
 
 ## reading the loaded gds file path
 layout_path = Pathname.new(RBA::CellView.active.filename)
 
-## read saved options from yaml file
-options = YAML.load(File.read(dir_path + "/lvs_options.yml"))
+options = {}
+yaml_file_path = "#{dir_path}/lvs_options.yml"
+# Load options from YAML file
+options = load_options(yaml_file_path)
 
 ## reading netlist option to get netlist_path
-if options["netlist"] == ""
-    net_name = layout_path.split()[1].to_s().split(".")[0]
+if options['netlist'] == ''
+  net_name = layout_path.split[1].to_s.split('.')[0]
 
-    net_dir = "#{layout_path.split()[0]}/#{net_name}.cdl"
-    unless File.exist?net_dir
-      net_dir = "#{layout_path.split()[0]}/#{net_name}.spice"
-    end
-else  
-    net_dir = options["netlist"]
-
+  net_dir = "#{layout_path.split[0]}/#{net_name}.cir"
+  net_dir = "#{layout_path.split[0]}/#{net_name}.spice" unless File.exist? net_dir
+  net_dir = "#{layout_path.split[0]}/#{net_name}.cdl" unless File.exist? net_dir
+else
+  net_dir = options['netlist']
 end
 
-unless File.exist?net_dir
-  STDERR.puts "netlist file #{net_dir} doesn't exist"
-  exit
+if !options["net_only"]
+  unless File.exist?(net_dir)
+    raise StandardError, "The netlist path #{net_dir} doesn't exist, please recheck"
+  end
 end
 
-## read the log of lvs run to get output lydb file paths if run_dir option is disables 
-gds_name = layout_path.split()[1].to_s.split(".")[0]
-
+# input layout
+$input = (layout_path.realpath).to_s
 
 ## passing options to lvs run file
-$schematic = net_dir
-
-$lvs_sub = options["sub_name"]
-
-$run_mode = options["run_mode"]
-
-unless options["top_cell_name"] == "" 
-  $topcell = options["top_cell_name"]
-end
-
-$spice_net_names = options["spice_net"]
-
-$spice_comments = options["spice_comment"]
-
-$scale = options["scale"]
-
-$verbose = options["verbose"]
-
-$schematic_simplify = options["schematic_simple"]
-
-$net_only = options["net_only"]
-
-$top_lvl_pins = options["top_lvl_pins"]
-
-$combine = options["combine"]
-
-$purge = options["purge"]
-
-$purge_nets = options["purge_nets"]
+$schematic = net_dir.to_s
+$topcell = options['top_cell'].to_s
+$run_mode = options['run_mode'].to_s
+$no_net_names = options['no_net_names'].to_s
+$spice_comments = options['spice_comments'].to_s
+$net_only = options["net_only"].to_s
+$no_simplify = options['no_simplify'].to_s
+$combine_devices = options['combine_devices'].to_s
+$top_lvl_pins = options['top_lvl_pins'].to_s
+$purge = options['purge'].to_s
+$purge_nets = options['purge_nets'].to_s
+$verbose = options['verbose'].to_s
 
 ## include lvs run file
 #%include ../lvs/generic_tech.lvs

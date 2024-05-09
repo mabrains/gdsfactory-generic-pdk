@@ -59,47 +59,43 @@ The `run_lvs.py` script takes your gds and netlist files to run LVS rule decks w
 
 ```bash
     run_lvs.py (--help| -h)
-    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>) [--thr=<thr>] [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>] [--verbose] [--lvs_sub=<sub_name>] [--no_net_names] [--spice_comments] [--scale] [--schematic_simplify] [--net_only] [--top_lvl_pins] [--combine] [--purge] [--purge_nets]
+    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>)
+    [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>]
+    [--no_net_names] [--spice_comments] [--net_only] [--no_simplify]
+    [--combine_devices] [--top_lvl_pins] [--purge] [--purge_nets] [--verbose]
 ```
 
 #### Options
 
-- `--help -h`                           Print this help message.
+- `--help -h`                         Displays this help message.
 
-- `--layout=<layout_path>`              The input GDS file path.
+- `--layout=<layout_path>`            Specifies the file path of the input GDS file.
 
-- `--netlist=<netlist_path>`            The input netlist file path.
+- `--netlist=<netlist_path>`          Specifies the file path of the input netlist file.
 
-- `--thr=<thr>`                         The number of threads used in run.
+- `--run_dir=<run_dir_path>`          Run directory to save all the generated results [default: pwd]
 
-- `--run_dir=<run_dir_path>`            Run directory to save all the results [default: pwd]
+- `--topcell=<topcell_name>`          Specifies the name of the top cell to be used.
 
-- `--topcell=<topcell_name>`            Topcell name to use.
+- `--run_mode=<run_mode>`             Selects the allowed KLayout mode. (flat, deep). [default: flat]
 
-- `--run_mode=<run_mode>`               Select klayout mode Allowed modes (flat , deep, tiling). [default: flat]
+- `--no_net_names`                    Omits net names in the extracted netlist.
 
-- `--lvs_sub=<sub_name>`                Substrate name used in your design.
+- `--spice_comments`                  Includes netlist comments in the extracted netlist.
 
-- `--verbose`                           Detailed rule execution log for debugging.
+- `--net_only`                        Generates netlist objects only in the extracted netlist.
 
-- `--no_net_names`                      Discard net names in extracted netlist.
+- `--no_simplify`                     Disables simplification for both layout and schematic.
 
-- `--spice_comments`                    Enable netlist comments in extracted netlist.
+- `--combine_devices`                 Enables device combination for both layout and schematic netlists.
 
-- `--scale`                             Enable scale of 1e6 in extracted netlist.
+- `--top_lvl_pins`                    Creates pins for top-level circuits in both layout and schematic netlists.
 
-- `--schematic_simplify`                Enable schematic simplification in input netlist.
+- `--purge`                           Removes unused nets from both layout and schematic netlists.
 
-- `--net_only`                          Enable netlist object creation only in extracted netlist.
+- `--purge_nets`                      Purges floating nets from both layout and schematic netlists.
 
-- `--top_lvl_pins`                      Enable top level pins only in extracted netlist.
-
-- `--combine`                           Enable netlist combine only in extracted netlist.
-
-- `--purge`                             Enable netlist purge all only in extracted netlist.
-
-- `--purge_nets`                        Enable netlist purge nets only in extracted netlist.
-
+- `--verbose`                         Enables detailed rule execution logs for debugging purposes.
 
 #### LVS Outputs
 
@@ -114,39 +110,84 @@ You could find the run results at your run directory if you previously specified
  ┗ 📜 <your_design_name>.lvsdb
  ```
 
-The result is a database file (`<your_design_name>.lvsdb`) contains LVS extractions and comparison results.
-You could view it on your file using: `klayout <input_gds_file> -mn <resut_db_file> `, or you could view it on your gds file via netlist browser option in tools menu using klayout GUI as shown below.
+The outcome includes a database file for each device (`<device_name>.lvsdb`) containing LVS extractions and comparison results. You can view it by opening your gds file with: `klayout <device_name>.gds -mn <device_name>.lvsdb`. Alternatively, you can visualize it on your GDS file using the netlist browser option in the tools menu of the KLayout GUI as illustrated in the following figures.
 
 <p align="center">
-  <img src="../../images/lvs_marker.png" width="60%" >
+  <img src="../../images/lvs_marker_1.png" width="50%" >
 </p>
 <p align="center">
-  Fig. 1. Klayout GUI netlist browser
+  Fig. 1. Netlist Browser for Klayout-LVS
 </p>
 
 After selecting Netlist Browser option, you could load the database file and visualize the LVS results.
 
 <p align="center">
-  <img src="../../images/lvs_results.png" width="80%" >
+  <img src="../../images/lvs_marker_2.png" width="70%" >
 </p>
 <p align="center">
-  Fig. 2. Visualization of LVS results on Klayout-GUI
+  Fig. 2. Loading LVS Netlist/database file - 1
 </p>
 
-You can also locate the extracted netlist generated from your design at `<your_design_name>.cir` within the output directory of the run.
+<p align="center">
+  <img src="../../images/lvs_marker_3.png" width="70%" >
+</p>
+<p align="center">
+  Fig. 3. Loading LVS Netlist/database file - 2
+</p>
+
+<p align="center">
+  <img src="../../images/lvs_results.png" width="70%" >
+</p>
+<p align="center">
+  Fig. 4. Visualize LVS results
+</p>
+
+Additionally, you can find the extracted netlist generated from your design at (`<device_name>_extracted.cir`) in the output run directory.
 
 ### GUI
 
-The GenericPDK also facilitates LVS execution via Klayout menus, integrated with Klayout through the PDK [installation](../../README.md#installation) as depicted below:
+The GenericPDK also facilitates LVS execution via Klayout menus, integrated with Klayout through the PDK [installation](../../README.md#installation).
+
+Then, you will get the LVS menus for GenericPDK, you could set your desired options as shown below:
 
 <p align="center">
-  <img src="../../images/lvs_menus.png" width="60%" >
+  <img src="../../images/lvs_menus_1.png" width="70%" >
 </p>
 <p align="center">
-  Fig. 3. Visualization of LVS results on Klayout-GUI
+  Fig. 5. Setting up LVS Options-GUI - 1
 </p>
 
-Upon executing the LVS using the `Run Klayout LVS` option, the result database will appear on your layout interface, allowing you to verify the outcome of the run similarly as shown above in Fig. 2.
+<p align="center">
+  <img src="../../images/lvs_menus_2.png" width="40%" >
+</p>
+<p align="center">
+  Fig. 6. Setting up LVS Options-GUI - 2
+</p>
+
+---
+**NOTE**
+
+* To utilize the LVS options, an active cell must be present. The currently active cell is automatically chosen as the default for running LVS. You could change it using `Top Cell` option.
+<br/>
+
+* To conduct the LVS comparison, you must specify the path to the schematic netlist via `Netlist Path` option. If no path is provided, the tool will search for the netlist file automatically. It will look for files with extensions such as .cdl, .spice, or .cir in the same directory as the layout file, matching the name of the layout file.
+
+---
+
+For additional details on GUI options, please refer to the [CLI Options section](#cli).
+
+Finally, after setting your option, you could execute the LVS using `Run Klayout LVS` from the dropdown menu.
+
+<p align="center">
+  <img src="../../images/lvs_menus_3.png" width="70%" >
+</p>
+<p align="center">
+  Fig. 7. Running LVS using Klayout menus
+</p>
+
+Upon executing the LVS, the result database will appear on your layout interface, allowing you to verify the outcome of the run similarly as shown above in Fig. 4.
+
+Additionally, you can find the extracted netlist generated from your design at (`<layout_name>_extracted.cir`) in the same directory as the layout file.
 
 ## Demo-Example
 
@@ -244,4 +285,4 @@ Please refer to [Usage](#usage) section for more details.
 
 #### GUI
 
-You could also run the LVS using Klayout-Menus supported for GenericPDK as explained above in Fig. 3.
+You could also run the LVS using Klayout-Menus supported for GenericPDK as explained above in [GUI Section](#gui).
