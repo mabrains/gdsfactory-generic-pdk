@@ -55,7 +55,7 @@ At a minimum:
 
 - python 3.10+
 - python3-venv
-- klayout 0.28.14+
+- klayout 0.29.0+
 - xschem V3.1.0+
 
 ## Installation
